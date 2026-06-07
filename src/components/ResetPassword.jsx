@@ -1,0 +1,149 @@
+import { useState } from "react";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
+import { supabase } from "../supabaseClient";
+import { FiCheckCircle, FiLock } from "react-icons/fi";
+
+export default function ResetPassword() {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error: resetError } = await supabase.auth.updateUser({
+        password: password,
+      });
+
+      if (resetError) {
+        setError(resetError.message);
+      } else {
+        setSuccess(true);
+      }
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white min-h-screen text-[#0e1a30] flex flex-col relative overflow-hidden">
+      <Navbar />
+
+      {/* Background glow effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#c5a059]/5 blur-[130px] pointer-events-none" />
+
+      <div className="flex-grow flex items-center justify-center px-8 py-32 z-10 relative">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="w-full max-w-md bg-[#fbf9f4] border border-[#0e1a30]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
+        >
+          <div className="text-center mb-8 flex flex-col items-center">
+            <Logo size="md" variant="gold" showText={true} layout="vertical" />
+          </div>
+
+          {success ? (
+            <div className="text-center space-y-6">
+              <div className="flex justify-center text-[#c5a059]">
+                <FiCheckCircle size={56} />
+              </div>
+              <h3 className="text-2xl font-bold font-serif text-[#0e1a30]" style={{ fontFamily: "'Cinzel', serif" }}>
+                Password Reset Successful!
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
+                Your password has been successfully updated. You can now use your new password to sign in to your account.
+              </p>
+              <div className="pt-4">
+                <Link
+                  to="/login"
+                  className="inline-block px-8 py-3.5 bg-[#0e1a30] hover:bg-[#c5a059] text-white font-black rounded-xl transition shadow-md"
+                >
+                  Sign In
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <form className="space-y-6" onSubmit={handlePasswordReset}>
+              <div className="text-center mb-6">
+                <h2 className="text-xl font-bold font-serif text-[#0e1a30]" style={{ fontFamily: "'Cinzel', serif" }}>
+                  RESET PASSWORD
+                </h2>
+                <p className="text-gray-600 text-xs font-semibold mt-2">
+                  Please enter and confirm your new secure account password below.
+                </p>
+              </div>
+
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl p-3 text-center font-semibold">
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">New Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">Confirm New Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-[#0e1a30] text-white font-black rounded-xl hover:bg-[#c5a059] active:scale-[0.98] transition duration-200 disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
+              >
+                <FiLock size={16} />
+                <span>{loading ? "Updating password..." : "Reset Password"}</span>
+              </button>
+            </form>
+          )}
+        </motion.div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

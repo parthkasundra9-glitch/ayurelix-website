@@ -11,6 +11,8 @@ import ShippingDelivery from "./components/ShippingDelivery";
 import RefundPolicy from "./components/RefundPolicy";
 import TermsOfService from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 import { CartProvider } from "./context/CartContext";
 import CartDrawer from "./components/CartDrawer";
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
         <CartDrawer />
       </Router>
