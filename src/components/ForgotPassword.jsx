@@ -58,7 +58,7 @@ export default function ForgotPassword() {
     }
 
     if (!otp || otp.trim().length < 6) {
-      setError("Please enter a valid 6-digit OTP.");
+      setError("Please enter a valid OTP code.");
       return;
     }
 
@@ -143,7 +143,7 @@ export default function ForgotPassword() {
                       RESET PASSWORD
                     </h2>
                     <p className="text-gray-600 text-xs font-semibold mt-2">
-                      Enter your email address to receive a 6-digit OTP code to verify your identity.
+                      Enter your email address to receive an OTP code to verify your identity.
                     </p>
                   </div>
 
@@ -194,7 +194,7 @@ export default function ForgotPassword() {
                       VERIFY OTP
                     </h2>
                     <p className="text-gray-600 text-xs font-semibold mt-2">
-                      An OTP has been sent to <strong className="text-[#0e1a30]">{email}</strong>. Enter the 6-digit code and your new password.
+                      An OTP has been sent to <strong className="text-[#0e1a30]">{email}</strong>. Enter the code and your new password.
                     </p>
                   </div>
 
@@ -205,15 +205,15 @@ export default function ForgotPassword() {
                   )}
 
                   <div>
-                    <label className="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">6-Digit OTP Code</label>
+                    <label className="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">OTP Verification Code</label>
                     <input
                       type="text"
                       required
-                      maxLength="6"
+                      maxLength="8"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] font-mono text-center text-lg tracking-[0.5em] transition"
-                      placeholder="000000"
+                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] font-mono text-center text-lg tracking-[0.2em] transition"
+                      placeholder="00000000"
                     />
                   </div>
 
