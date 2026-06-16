@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
       {/* Decorative background glows */}
-      <div className="absolute w-[600px] h-[600px] rounded-full bg-[#c5a059]/4 blur-[130px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute w-[600px] h-[600px] rounded-full bg-[#B89355]/4 blur-[130px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#f4efe2]/60 blur-[130px] bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       <Navbar />
@@ -21,11 +21,11 @@ export default function PrivacyPolicy() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <span className="text-[#c5a059] uppercase tracking-[0.25em] text-xs font-bold block mb-2">
+          <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block mb-2">
             Store Policies
           </span>
           <h1
-            className="text-4xl md:text-5xl font-black text-[#0e1a30] font-serif"
+            className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             PRIVACY POLICY
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#0e1a30]/10 rounded-3xl shadow-sm"
+            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#3C5A44]/10 rounded-3xl shadow-sm"
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
@@ -53,10 +53,10 @@ export default function PrivacyPolicy() {
               </p>
             </div>
 
-            <hr className="border-[#0e1a30]/5" />
+            <hr className="border-[#3C5A44]/5" />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 1. Information We Collect
               </h2>
               <p>
@@ -67,16 +67,13 @@ export default function PrivacyPolicy() {
                   <strong>Personal Profile & Account Data:</strong> When you register an account, purchase products, or fill contact forms, we collect your name, email, billing address, shipping address, telephone number, and account passwords.
                 </li>
                 <li>
-                  <strong>Wellness Profile (Dosha Quiz):</strong> If you choose to take our Dosha Quiz to find personalized supplements, we store your quiz answers and resulting body constitution (Vata, Pitta, Kapha) in our secure database to tailor recommendations.
-                </li>
-                <li>
                   <strong>Device & Connection Data:</strong> We automatically record IP addresses, browser types, referral URLs, operating systems, and page navigation patterns using standard logging tools and cookies.
                 </li>
               </ul>
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 2. How We Use Your Information
               </h2>
               <p>
@@ -85,13 +82,12 @@ export default function PrivacyPolicy() {
               <ul className="list-disc list-inside space-y-2 pl-4">
                 <li>To fulfill and ship orders, process payments, and send invoices.</li>
                 <li>To send tracking updates, newsletters, and promotional offers (only if opted-in).</li>
-                <li>To calculate Dosha characteristics and present personalized herbal formulations.</li>
                 <li>To optimize website speed, detect fraudulent activities, and maintain site security.</li>
               </ul>
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 3. Third-Party Sharing Disclosures
               </h2>
               <p>
@@ -111,7 +107,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 4. Cookies & Analytics
               </h2>
               <p>
@@ -123,7 +119,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 5. Security of Your Personal Data
               </h2>
               <p>
@@ -132,7 +128,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 6. Your Data Rights (GDPR & CCPA Compliant)
               </h2>
               <p>
@@ -144,7 +140,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Deletion (Right to be Forgotten):</strong> You can request that we delete your personal and order history from our databases.</li>
               </ul>
               <p>
-                To exercise these rights, please contact us by writing to <a href="mailto:support@ayurelix.com" className="text-[#c5a059] font-bold underline">support@ayurelix.com</a>. We will process your requests within 30 days.
+                To exercise these rights, please contact us by writing to <a href="mailto:support@ayurelix.com" className="text-[#B89355] font-bold underline">support@ayurelix.com</a>. We will process your requests within 30 days.
               </p>
             </div>
           </motion.div>

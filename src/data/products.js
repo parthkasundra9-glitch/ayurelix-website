@@ -1,20 +1,20 @@
 export const products = [
   {
     id: 1,
-    name: "Ayurelix Immunity",
-    price: 999,
-    description: "Daily immunity booster."
+    name: "Kumkumadi Face Serum",
+    price: 799,
+    description: "Premium Kumkumadi Face Serum (15ml) for anti-aging, skin glow, and smoothness.",
+    image_url: "/src/assets/kumkumadi_serum.jpg",
+    category: "1",
+    stock: 100
   },
   {
     id: 2,
-    name: "Ayurelix Hair Care",
-    price: 1299,
-    description: "Natural hair nourishment."
-  },
-  {
-    id: 3,
-    name: "Ayurelix Detox",
-    price: 1499,
-    description: "Cleanse and rejuvenate."
+    name: "Anti Pigmentation Face Pack",
+    price: 499,
+    description: "Natural Anti Pigmentation Face Pack (50gm) for blemishes, dark spots, and acne.",
+    image_url: "/src/assets/anti_pigmentation.jpg",
+    category: "2",
+    stock: 100
   }
 ];

@@ -22,7 +22,8 @@ export default function AdminDashboard() {
     price: "",
     description: "",
     category: "1",
-    stock: "100"
+    stock: "100",
+    image_url: ""
   });
 
   const navigate = useNavigate();
@@ -106,6 +107,31 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 600;
+        const scale = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scale;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+        setNewProduct(prev => ({ ...prev, image_url: dataUrl }));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Add new product
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -115,7 +141,8 @@ export default function AdminDashboard() {
         price: parseFloat(newProduct.price),
         description: newProduct.description,
         category: newProduct.category,
-        stock: parseInt(newProduct.stock)
+        stock: parseInt(newProduct.stock),
+        image_url: newProduct.image_url
       }
     ]);
 
@@ -127,7 +154,8 @@ export default function AdminDashboard() {
         price: "",
         description: "",
         category: "1",
-        stock: "100"
+        stock: "100",
+        image_url: ""
       });
       alert("Product added successfully!");
       fetchData();
@@ -152,7 +180,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="bg-white min-h-screen text-[#0e1a30] flex items-center justify-center">
+      <div className="bg-white min-h-screen text-[#3C5A44] flex items-center justify-center">
         <p className="text-xl font-semibold">Verifying credentials...</p>
       </div>
     );
@@ -160,7 +188,7 @@ export default function AdminDashboard() {
 
   if (!isAdmin) {
     return (
-      <div className="bg-white min-h-screen text-[#0e1a30] flex flex-col items-center justify-center space-y-4">
+      <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col items-center justify-center space-y-4">
         <h2 className="text-3xl font-bold text-red-600 font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
           Access Denied
         </h2>
@@ -172,16 +200,16 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30] flex flex-col justify-between">
+    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between">
       <Navbar />
 
       <section className="max-w-7xl mx-auto py-32 px-8 w-full flex-grow">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-[#0e1a30]/10 pb-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-[#3C5A44]/10 pb-6 gap-4">
           <div>
-            <span className="text-[#c5a059] uppercase tracking-[0.25em] text-xs font-bold block">
+            <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
               Ayurelix Portal
             </span>
-            <h1 className="text-[#0e1a30] text-4xl font-black font-serif mt-1" style={{ fontFamily: "'Cinzel', serif" }}>
+            <h1 className="text-[#3C5A44] text-4xl font-black font-serif mt-1" style={{ fontFamily: "'Cinzel', serif" }}>
               Admin Dashboard
             </h1>
           </div>
@@ -190,7 +218,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("orders")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "orders" ? "bg-[#0e1a30] text-white" : "bg-white border border-[#0e1a30]/5 text-gray-600 hover:text-[#0e1a30]"
+                activeTab === "orders" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
               <FiShoppingBag />
@@ -199,7 +227,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("products")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "products" ? "bg-[#0e1a30] text-white" : "bg-white border border-[#0e1a30]/5 text-gray-600 hover:text-[#0e1a30]"
+                activeTab === "products" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
               <FiLayers />
@@ -208,7 +236,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("reviews")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "reviews" ? "bg-[#0e1a30] text-white" : "bg-white border border-[#0e1a30]/5 text-gray-600 hover:text-[#0e1a30]"
+                activeTab === "reviews" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
               <FiStar />
@@ -220,17 +248,17 @@ export default function AdminDashboard() {
         {/* Tab Contents */}
         {activeTab === "orders" && (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold font-serif text-[#0e1a30]">Customer Orders ({orders.length})</h2>
+            <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Customer Orders ({orders.length})</h2>
             {orders.length === 0 ? (
               <p className="text-gray-500 italic">No orders received yet.</p>
             ) : (
               <div className="grid gap-6">
                 {orders.map((order) => (
-                  <div key={order.id} className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-6 rounded-3xl space-y-4 shadow-sm">
-                    <div className="flex flex-wrap justify-between items-start border-b border-[#0e1a30]/5 pb-4 gap-2">
+                  <div key={order.id} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl space-y-4 shadow-sm">
+                    <div className="flex flex-wrap justify-between items-start border-b border-[#3C5A44]/5 pb-4 gap-2">
                       <div>
                         <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Order ID</p>
-                        <p className="text-xs text-[#c5a059] font-mono">{order.id}</p>
+                        <p className="text-xs text-[#B89355] font-mono">{order.id}</p>
                         <p className="text-xs text-gray-600 mt-1">
                           Placed on: {new Date(order.created_at).toLocaleString()}
                         </p>
@@ -248,7 +276,7 @@ export default function AdminDashboard() {
                         {order.status !== "delivered" && (
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, order.status)}
-                            className="bg-[#0e1a30] hover:bg-[#c5a059] text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition shadow-sm"
+                            className="bg-[#3C5A44] hover:bg-[#B89355] text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition shadow-sm"
                           >
                             <FiCheckCircle size={12} />
                             <span>Mark as {order.status === "paid" ? "Shipped" : "Delivered"}</span>
@@ -260,11 +288,11 @@ export default function AdminDashboard() {
                     <div className="grid md:grid-cols-2 gap-6">
                       {/* Shipping details */}
                       <div className="space-y-1.5 text-xs">
-                        <h4 className="font-bold text-[#c5a059] uppercase tracking-wider flex items-center gap-1">
+                        <h4 className="font-bold text-[#B89355] uppercase tracking-wider flex items-center gap-1">
                           <FiTruck />
                           <span>Shipping Details</span>
                         </h4>
-                        <p className="text-[#0e1a30] font-medium">{order.shipping_address.fullName}</p>
+                        <p className="text-[#3C5A44] font-medium">{order.shipping_address.fullName}</p>
                         <p className="text-gray-600">{order.shipping_address.address}</p>
                         <p className="text-gray-600">
                           {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.postalCode}
@@ -274,19 +302,19 @@ export default function AdminDashboard() {
 
                       {/* Order items */}
                       <div className="space-y-2 text-xs">
-                        <h4 className="font-bold text-[#c5a059] uppercase tracking-wider">Ordered Items</h4>
+                        <h4 className="font-bold text-[#B89355] uppercase tracking-wider">Ordered Items</h4>
                         <div className="space-y-1.5">
                           {order.order_items.map((item) => (
                             <div key={item.id} className="flex justify-between items-center text-gray-600">
                               <span>
                                 {item.products?.name || "Deleted Product"} (x{item.quantity})
                               </span>
-                              <span className="font-bold text-[#0e1a30]">₹{item.price * item.quantity}</span>
+                              <span className="font-bold text-[#3C5A44]">₹{item.price * item.quantity}</span>
                             </div>
                           ))}
-                          <div className="flex justify-between items-center border-t border-[#0e1a30]/5 pt-2 mt-2 font-bold">
+                          <div className="flex justify-between items-center border-t border-[#3C5A44]/5 pt-2 mt-2 font-bold">
                             <span className="text-gray-500 text-sm">Total Paid</span>
-                            <span className="text-[#c5a059] text-base">₹{order.total_amount}</span>
+                            <span className="text-[#B89355] text-base">₹{order.total_amount}</span>
                           </div>
                         </div>
                       </div>
@@ -302,12 +330,13 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-12 gap-8">
             {/* Products list */}
             <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-xl font-bold font-serif text-[#0e1a30]">Store Products ({products.length})</h2>
-              <div className="bg-white border border-[#0e1a30]/5 rounded-3xl overflow-hidden shadow-sm">
+              <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Store Products ({products.length})</h2>
+              <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-[#0e1a30]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                    <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
                       <th className="p-4">ID</th>
+                      <th className="p-4">Image</th>
                       <th className="p-4">Name</th>
                       <th className="p-4">Price</th>
                       <th className="p-4">Stock</th>
@@ -315,10 +344,21 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="text-xs">
                     {products.map((prod) => (
-                      <tr key={prod.id} className="border-b border-[#0e1a30]/5 hover:bg-[#fbf9f4]/50 transition">
+                      <tr key={prod.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
                         <td className="p-4 text-gray-500 font-mono">{prod.id}</td>
-                        <td className="p-4 text-[#0e1a30] font-medium">{prod.name}</td>
-                        <td className="p-4 text-[#c5a059] font-bold">₹{prod.price}</td>
+                        <td className="p-4">
+                          {prod.image_url ? (
+                            <img
+                              src={prod.image_url}
+                              alt={prod.name}
+                              className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#B89355] to-[#8F6E35]" />
+                          )}
+                        </td>
+                        <td className="p-4 text-[#3C5A44] font-medium">{prod.name}</td>
+                        <td className="p-4 text-[#B89355] font-bold">₹{prod.price}</td>
                         <td className="p-4 text-gray-600">{prod.stock} left</td>
                       </tr>
                     ))}
@@ -329,9 +369,9 @@ export default function AdminDashboard() {
 
             {/* Add product form */}
             <div className="lg:col-span-5">
-              <div className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
-                <h3 className="text-lg font-bold font-serif text-[#0e1a30] flex items-center gap-2">
-                  <FiPlus className="text-[#c5a059]" />
+              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
+                <h3 className="text-lg font-bold font-serif text-[#3C5A44] flex items-center gap-2">
+                  <FiPlus className="text-[#B89355]" />
                   <span>Add New Product</span>
                 </h3>
                 <form onSubmit={handleAddProduct} className="space-y-4 text-xs">
@@ -343,7 +383,7 @@ export default function AdminDashboard() {
                       value={newProduct.name}
                       onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                       placeholder="Ayurelix Energy Booster"
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-2.5 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -355,7 +395,7 @@ export default function AdminDashboard() {
                         value={newProduct.price}
                         onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                         placeholder="1199"
-                        className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-2.5 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
                     <div>
@@ -363,7 +403,7 @@ export default function AdminDashboard() {
                       <select
                         value={newProduct.category}
                         onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-                        className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-2.5 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       >
                         <option value="1">Immunity (1)</option>
                         <option value="2">Hair Care (2)</option>
@@ -379,8 +419,50 @@ export default function AdminDashboard() {
                       value={newProduct.stock}
                       onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
                       placeholder="100"
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-2.5 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                     />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Product Image</label>
+                    <div className="space-y-2.5">
+                      {newProduct.image_url && (
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#3C5A44]/10 bg-white">
+                          <img
+                            src={newProduct.image_url}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setNewProduct({ ...newProduct, image_url: "" })}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
+                            title="Remove Image"
+                          >
+                            <FiTrash2 size={10} />
+                          </button>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center gap-2">
+                        <label className="cursor-pointer bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
+                          Choose Image File
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                      
+                      <input
+                        type="text"
+                        value={newProduct.image_url}
+                        onChange={(e) => setNewProduct({ ...newProduct, image_url: e.target.value })}
+                        placeholder="Or paste image URL (e.g. https://...)"
+                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Description</label>
@@ -390,12 +472,12 @@ export default function AdminDashboard() {
                       value={newProduct.description}
                       onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                       placeholder="A premium wellness blend of..."
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl p-4 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl p-4 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-3 bg-[#0e1a30] text-white font-black rounded-xl hover:bg-[#c5a059] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
+                    className="w-full py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
                   >
                     Add Product to Shop
                   </button>
@@ -407,13 +489,13 @@ export default function AdminDashboard() {
 
         {activeTab === "reviews" && (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold font-serif text-[#0e1a30]">Product Reviews ({reviews.length})</h2>
+            <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Product Reviews ({reviews.length})</h2>
             {reviews.length === 0 ? (
               <p className="text-gray-500 italic">No reviews submitted yet.</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
                 {reviews.map((rev) => (
-                  <div key={rev.id} className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-5 rounded-3xl space-y-3 relative group shadow-sm">
+                  <div key={rev.id} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-5 rounded-3xl space-y-3 relative group shadow-sm">
                     <button
                       onClick={() => handleDeleteReview(rev.id)}
                       className="absolute right-4 top-4 p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 hover:bg-red-500 hover:text-white transition duration-200 opacity-0 group-hover:opacity-100"
@@ -422,21 +504,21 @@ export default function AdminDashboard() {
                     </button>
                     <div className="flex justify-between items-center text-xs">
                       <div>
-                        <p className="font-bold text-[#0e1a30]">{rev.user_name}</p>
+                        <p className="font-bold text-[#3C5A44]">{rev.user_name}</p>
                         <p className="text-gray-600 text-[10px] mt-0.5">
-                          On product: <span className="text-[#c5a059] font-semibold">{rev.products?.name || "Deleted"}</span>
+                          On product: <span className="text-[#B89355] font-semibold">{rev.products?.name || "Deleted"}</span>
                         </p>
                       </div>
                       <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
                         {new Date(rev.created_at).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="flex text-[#c5a059]">
+                    <div className="flex text-[#B89355]">
                       {[...Array(5)].map((_, i) => (
                         <FiStar
                           key={i}
                           size={12}
-                          className={i < rev.rating ? "fill-[#c5a059]" : ""}
+                          className={i < rev.rating ? "fill-[#B89355]" : ""}
                         />
                       ))}
                     </div>

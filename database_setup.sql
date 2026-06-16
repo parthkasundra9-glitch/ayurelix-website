@@ -62,8 +62,12 @@ create table if not exists public.products (
   description text,
   category text,
   stock integer default 100,
+  image_url text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Alter table to add image_url column if it doesn't exist for existing databases
+alter table public.products add column if not exists image_url text;
 
 -- Enable RLS on Products
 alter table public.products enable row level security;
@@ -80,16 +84,19 @@ create policy "Allow admin write access to products" on public.products
   for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
 
 -- Insert Default Products if they don't exist
-insert into public.products (id, name, price, description, category, stock)
+insert into public.products (id, name, price, description, category, stock, image_url)
 values 
-  (1, 'Ayurelix Immunity', 999, 'Daily immunity booster with Ashwagandha, Giloy, and Amla.', '1', 100),
-  (2, 'Ayurelix Hair Care', 1299, 'Natural hair nourishment with Bhringraj, Brahmi, and Amla.', '2', 100),
-  (3, 'Ayurelix Detox', 1499, 'Cleanse and rejuvenate with Triphala and Neem.', '3', 100)
+  (1, 'Kumkumadi Face Serum', 799, 'Premium Kumkumadi Face Serum (15ml) for anti-aging, glow, and smooth skin. Crafted with traditional Ayurvedic oils and saffron.', '1', 100, '/src/assets/kumkumadi_serum.jpg'),
+  (2, 'Anti Pigmentation Face Pack', 499, 'Natural Anti Pigmentation Face Pack (50gm) for reducing dark spots, blemishes, and acne scars. Intensively brightens skin.', '2', 100, '/src/assets/anti_pigmentation.jpg')
 on conflict (id) do update set
   name = excluded.name,
   price = excluded.price,
   description = excluded.description,
-  category = excluded.category;
+  category = excluded.category,
+  image_url = excluded.image_url;
+
+-- Remove product with ID 3 if it exists
+delete from public.products where id = 3;
 
 
 -- 3. Create Orders Table

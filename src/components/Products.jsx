@@ -46,7 +46,7 @@ export default function Products() {
     : productsList.filter(p => p.category === String(selectedCategory) || p.id === Number(selectedCategory));
 
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30]">
+    <div className="bg-white min-h-screen text-[#3C5A44]">
       {/* Navigation */}
       <Navbar />
 
@@ -59,10 +59,10 @@ export default function Products() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 space-y-4"
         >
-          <span className="text-[#c5a059] uppercase tracking-[0.25em] text-xs font-bold block">
+          <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
             Pure apothecary
           </span>
-          <h1 className="text-[#0e1a30] text-5xl md:text-6xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h1 className="text-[#3C5A44] text-5xl md:text-6xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             Our Formulations
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -79,8 +79,8 @@ export default function Products() {
               className={`
               px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300
               ${selectedCategory === cat.value
-                ? "bg-[#0e1a30] text-white shadow-sm"
-                : "bg-white border border-[#0e1a30]/5 text-gray-600 hover:text-[#0e1a30] hover:border-[#c5a059]/40 shadow-sm"
+                ? "bg-[#3C5A44] text-white shadow-sm"
+                : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44] hover:border-[#B89355]/40 shadow-sm"
               }
               `}
             >

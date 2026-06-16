@@ -87,20 +87,20 @@ export default function ProductReviews({ productId }) {
     : null;
 
   return (
-    <div className="mt-12 border-t border-[#0e1a30]/10 pt-8">
+    <div className="mt-12 border-t border-[#3C5A44]/10 pt-8">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-2xl font-serif text-[#0e1a30] font-bold" style={{ fontFamily: "'Cinzel', serif" }}>
+        <h3 className="text-2xl font-serif text-[#3C5A44] font-bold" style={{ fontFamily: "'Cinzel', serif" }}>
           Customer Reviews ({reviews.length})
         </h3>
         {averageRating && (
-          <div className="flex items-center gap-1.5 bg-[#fbf9f4] border border-[#c5a059]/30 px-3.5 py-1.5 rounded-full shadow-sm">
-            <span className="text-[#c5a059] font-bold text-sm">{averageRating}</span>
-            <div className="flex text-[#c5a059]">
+          <div className="flex items-center gap-1.5 bg-[#fbf9f4] border border-[#B89355]/30 px-3.5 py-1.5 rounded-full shadow-sm">
+            <span className="text-[#B89355] font-bold text-sm">{averageRating}</span>
+            <div className="flex text-[#B89355]">
               {[...Array(5)].map((_, i) => (
                 <FiStar
                   key={i}
                   size={12}
-                  className={i < Math.round(averageRating) ? "fill-[#c5a059]" : ""}
+                  className={i < Math.round(averageRating) ? "fill-[#B89355]" : ""}
                 />
               ))}
             </div>
@@ -110,7 +110,7 @@ export default function ProductReviews({ productId }) {
 
       {/* Review Form */}
       {user ? (
-        <form onSubmit={handleSubmitReview} className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-6 rounded-2xl mb-8 space-y-4 shadow-sm">
+        <form onSubmit={handleSubmitReview} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-2xl mb-8 space-y-4 shadow-sm">
           <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider">Write a Review</h4>
           
           {error && (
@@ -127,11 +127,11 @@ export default function ProductReviews({ productId }) {
                   type="button"
                   key={star}
                   onClick={() => setRating(star)}
-                  className="text-[#c5a059] hover:scale-110 transition"
+                  className="text-[#B89355] hover:scale-110 transition"
                 >
                   <FiStar
                     size={22}
-                    className={star <= rating ? "fill-[#c5a059]" : ""}
+                    className={star <= rating ? "fill-[#B89355]" : ""}
                   />
                 </button>
               ))}
@@ -145,22 +145,22 @@ export default function ProductReviews({ productId }) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Share your experience with this formulation..."
-              className="w-full bg-white border border-[#0e1a30]/10 rounded-xl p-4 text-sm text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+              className="w-full bg-white border border-[#3C5A44]/10 rounded-xl p-4 text-sm text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 bg-[#0e1a30] hover:bg-[#c5a059] text-white font-bold rounded-xl transition duration-200 disabled:opacity-50 text-xs uppercase tracking-wider"
+            className="px-6 py-2.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold rounded-xl transition duration-200 disabled:opacity-50 text-xs uppercase tracking-wider"
           >
             {loading ? "Submitting..." : "Submit Review"}
           </button>
         </form>
       ) : (
-        <div className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-6 rounded-2xl mb-8 text-center text-sm text-gray-500 font-medium shadow-sm">
+        <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-2xl mb-8 text-center text-sm text-gray-500 font-medium shadow-sm">
           Please{" "}
-          <Link to="/login" className="text-[#c5a059] hover:underline font-bold">
+          <Link to="/login" className="text-[#B89355] hover:underline font-bold">
             Login
           </Link>{" "}
           to write a customer review.
@@ -173,19 +173,19 @@ export default function ProductReviews({ productId }) {
           <p className="text-gray-500 text-sm italic py-4">No reviews yet for this product. Be the first to review!</p>
         ) : (
           reviews.map((rev) => (
-            <div key={rev.id} className="bg-[#fbf9f4] border border-[#0e1a30]/5 p-5 rounded-2xl space-y-2 shadow-sm">
+            <div key={rev.id} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-5 rounded-2xl space-y-2 shadow-sm">
               <div className="flex justify-between items-center">
-                <span className="font-bold text-sm text-[#0e1a30]">{rev.user_name}</span>
+                <span className="font-bold text-sm text-[#3C5A44]">{rev.user_name}</span>
                 <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
                   {new Date(rev.created_at).toLocaleDateString()}
                 </span>
               </div>
-              <div className="flex text-[#c5a059]">
+              <div className="flex text-[#B89355]">
                 {[...Array(5)].map((_, i) => (
                   <FiStar
                     key={i}
                     size={12}
-                    className={i < rev.rating ? "fill-[#c5a059]" : ""}
+                    className={i < rev.rating ? "fill-[#B89355]" : ""}
                   />
                 ))}
               </div>

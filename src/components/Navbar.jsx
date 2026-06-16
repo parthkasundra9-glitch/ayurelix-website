@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
 import { useCart } from "../context/CartContext";
-import { FiShoppingBag, FiUser, FiLogOut, FiShield } from "react-icons/fi";
+import { FiShoppingBag, FiUser, FiLogOut, FiShield, FiMenu, FiX } from "react-icons/fi";
 import { supabase } from "../supabaseClient";
 
 export default function Navbar() {
   const { setIsCartOpen, cartCount } = useCart();
   const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setIsMenuOpen(false);
     navigate("/");
   };
 
@@ -40,45 +42,45 @@ export default function Navbar() {
       animate={{ y: 0 }}
       className="
       fixed top-0 left-0 right-0 z-40
-      bg-white/80
+      bg-white/95 md:bg-white/80
       backdrop-blur-xl
-      border-b border-[#0e1a30]/5
+      border-b border-[#3C5A44]/5
       "
     >
-      <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-4 flex justify-between items-center">
         
         {/* Brand Logo */}
-        <Link to="/" className="outline-none">
+        <Link to="/" className="outline-none" onClick={() => setIsMenuOpen(false)}>
           <Logo size="sm" variant="gold" showText={true} />
         </Link>
 
-        {/* Links */}
-        <div className="flex gap-8 text-[#0e1a30] items-center">
+        {/* Desktop Links (hidden on mobile) */}
+        <div className="hidden md:flex gap-8 text-[#3C5A44] items-center">
           
           <Link
             to="/"
-            className="text-sm font-semibold tracking-wide hover:text-[#c5a059] transition duration-300"
+            className="text-sm font-semibold tracking-wide hover:text-[#B89355] transition duration-300"
           >
             Home
           </Link>
 
           <Link
             to="/products"
-            className="text-sm font-semibold tracking-wide hover:text-[#c5a059] transition duration-300"
+            className="text-sm font-semibold tracking-wide hover:text-[#B89355] transition duration-300"
           >
             Products
           </Link>
 
           <Link
             to="/about"
-            className="text-sm font-semibold tracking-wide hover:text-[#c5a059] transition duration-300"
+            className="text-sm font-semibold tracking-wide hover:text-[#B89355] transition duration-300"
           >
             About
           </Link>
 
           <Link
             to="/contact"
-            className="text-sm font-semibold tracking-wide hover:text-[#c5a059] transition duration-300"
+            className="text-sm font-semibold tracking-wide hover:text-[#B89355] transition duration-300"
           >
             Contact
           </Link>
@@ -86,7 +88,7 @@ export default function Navbar() {
           {/* Cart Icon Toggle Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 rounded-full hover:bg-black/5 text-[#0e1a30] hover:text-[#c5a059] transition duration-300 outline-none cursor-pointer"
+            className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] hover:text-[#B89355] transition duration-300 outline-none cursor-pointer"
           >
             <FiShoppingBag size={20} />
             {cartCount > 0 && (
@@ -95,7 +97,7 @@ export default function Navbar() {
                 animate={{ scale: 1 }}
                 className="
                 absolute -top-1 -right-1
-                bg-[#c5a059] text-white
+                bg-[#B89355] text-white
                 text-[10px] font-black
                 w-4 h-4 rounded-full
                 flex items-center justify-center
@@ -114,8 +116,8 @@ export default function Navbar() {
                   to="/admin"
                   className="
                   flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                  bg-[#c5a059]/10 border border-[#c5a059]/20 text-[#c5a059]
-                  hover:bg-[#c5a059]/20 transition duration-300 text-xs font-bold uppercase tracking-wider
+                  bg-[#B89355]/10 border border-[#B89355]/20 text-[#B89355]
+                  hover:bg-[#B89355]/20 transition duration-300 text-xs font-bold uppercase tracking-wider
                   "
                 >
                   <FiShield size={13} />
@@ -126,10 +128,10 @@ export default function Navbar() {
               <Link
                 to="/profile"
                 className="
-                flex items-center gap-1.5 text-gray-600 hover:text-[#0e1a30] transition duration-300 text-sm font-semibold
+                flex items-center gap-1.5 text-gray-600 hover:text-[#3C5A44] transition duration-300 text-sm font-semibold
                 "
               >
-                <FiUser size={16} className="text-[#c5a059]" />
+                <FiUser size={16} className="text-[#B89355]" />
                 <span className="max-w-[80px] truncate">
                   {user.user_metadata?.full_name || user.email.split("@")[0]}
                 </span>
@@ -151,7 +153,7 @@ export default function Navbar() {
               to="/login"
               className="
               px-5 py-2.5 rounded-full
-              bg-[#0e1a30] hover:bg-[#c5a059] text-white
+              bg-[#3C5A44] hover:bg-[#B89355] text-white
               font-bold text-sm
               transition duration-300
               "
@@ -161,7 +163,117 @@ export default function Navbar() {
           )}
 
         </div>
+
+        {/* Mobile controls (visible on mobile only) */}
+        <div className="flex md:hidden items-center gap-4">
+          {/* Cart Icon Toggle Button */}
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none cursor-pointer"
+          >
+            <FiShoppingBag size={22} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 bg-[#B89355] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          {/* Toggle Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 rounded-full hover:bg-black/5 text-[#3C5A44] transition"
+            aria-label="Toggle Menu"
+          >
+            {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Drawer/Dropdown */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-[#3C5A44]/5 bg-white px-6 py-4 flex flex-col gap-4 shadow-inner"
+          >
+            <Link
+              to="/"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-base font-bold text-[#3C5A44] hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+            >
+              Home
+            </Link>
+            <Link
+              to="/products"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-base font-bold text-[#3C5A44] hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+            >
+              Products
+            </Link>
+            <Link
+              to="/about"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-base font-bold text-[#3C5A44] hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-base font-bold text-[#3C5A44] hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+            >
+              Contact
+            </Link>
+
+            {user ? (
+              <div className="flex flex-col gap-4 pt-2">
+                <div className="flex items-center gap-3 text-[#3C5A44]">
+                  <FiUser size={18} className="text-[#B89355]" />
+                  <span className="font-semibold">{user.user_metadata?.full_name || user.email.split("@")[0]}</span>
+                </div>
+
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#B89355]/10 border border-[#B89355]/20 text-[#B89355] font-bold text-sm uppercase tracking-wider"
+                  >
+                    <FiShield size={16} />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                )}
+
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-3 rounded-xl border border-[#3C5A44]/10 text-[#3C5A44] font-bold text-sm"
+                >
+                  My Profile
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className="w-full py-3 bg-red-50 text-red-600 border border-red-100 font-bold rounded-xl text-sm flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <FiLogOut size={16} />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-center font-black rounded-xl text-sm uppercase tracking-wider transition"
+              >
+                Login / Register
+              </Link>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

@@ -19,16 +19,16 @@ export default function Logo({
   // Color theme definitions
   const colors = {
     gold: {
-      navy: "#0E1A30",
-      gold: "#C5A059",
+      navy: "#3C5A44",
+      gold: "#B89355",
       white: "#ffffff",
-      textClass: "text-[#0E1A30]"
+      textClass: "text-[#3C5A44]"
     },
     navy: {
-      navy: "#0E1A30",
-      gold: "#0E1A30",
-      white: "#0E1A30",
-      textClass: "text-[#0E1A30]"
+      navy: "#3C5A44",
+      gold: "#3C5A44",
+      white: "#3C5A44",
+      textClass: "text-[#3C5A44]"
     },
     white: {
       navy: "#ffffff",
@@ -37,10 +37,10 @@ export default function Logo({
       textClass: "text-white"
     }
   }[variant] || {
-    navy: "#0E1A30",
-    gold: "#C5A059",
+    navy: "#3C5A44",
+    gold: "#B89355",
     white: "#ffffff",
-    textClass: "text-[#0E1A30]"
+    textClass: "text-[#3C5A44]"
   };
 
   const svgContent = (
@@ -137,7 +137,7 @@ export default function Logo({
         >
           Ayurelix
         </span>
-        <span className="text-[10px] tracking-[0.3em] text-[#C5A059] uppercase mt-1">
+        <span className="text-[10px] tracking-[0.3em] text-[#B89355] uppercase mt-1">
           Ancient Ayurveda • Modern Wellness
         </span>
       </div>
@@ -155,7 +155,7 @@ export default function Logo({
         >
           Ayurelix
         </span>
-        <span className="text-[9px] tracking-[0.2em] text-[#C5A059] uppercase leading-none mt-1">
+        <span className="text-[9px] tracking-[0.2em] text-[#B89355] uppercase leading-none mt-1">
           Wellness
         </span>
       </div>

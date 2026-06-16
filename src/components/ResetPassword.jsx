@@ -92,18 +92,18 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30] flex flex-col relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col relative overflow-hidden">
       <Navbar />
 
       {/* Background glow effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#c5a059]/5 blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#B89355]/5 blur-[130px] pointer-events-none" />
 
       <div className="flex-grow flex items-center justify-center px-8 py-32 z-10 relative">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full max-w-md bg-[#fbf9f4] border border-[#0e1a30]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
+          className="w-full max-w-md bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
         >
           <div className="text-center mb-8 flex flex-col items-center">
             <Logo size="md" variant="gold" showText={true} layout="vertical" />
@@ -111,17 +111,17 @@ export default function ResetPassword() {
 
           {sessionLoading ? (
             <div className="text-center py-12 space-y-4">
-              <div className="w-12 h-12 border-4 border-[#c5a059] border-t-transparent rounded-full animate-spin mx-auto" />
+              <div className="w-12 h-12 border-4 border-[#B89355] border-t-transparent rounded-full animate-spin mx-auto" />
               <p className="text-sm text-gray-600 font-semibold">
                 Verifying recovery session...
               </p>
             </div>
           ) : success ? (
             <div className="text-center space-y-6">
-              <div className="flex justify-center text-[#c5a059]">
+              <div className="flex justify-center text-[#B89355]">
                 <FiCheckCircle size={56} />
               </div>
-              <h3 className="text-2xl font-bold font-serif text-[#0e1a30]" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h3 className="text-2xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
                 Password Updated!
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
@@ -130,7 +130,7 @@ export default function ResetPassword() {
               <div className="pt-4">
                 <button
                   onClick={() => navigate("/login")}
-                  className="w-full py-3.5 bg-[#0e1a30] hover:bg-[#c5a059] text-white font-black rounded-xl transition shadow-md"
+                  className="w-full py-3.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black rounded-xl transition shadow-md"
                 >
                   Sign In
                 </button>
@@ -139,7 +139,7 @@ export default function ResetPassword() {
           ) : (
             <form className="space-y-6" onSubmit={handlePasswordReset}>
               <div className="text-center mb-6">
-                <h2 className="text-xl font-bold font-serif text-[#0e1a30]" style={{ fontFamily: "'Cinzel', serif" }}>
+                <h2 className="text-xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
                   RESET PASSWORD
                 </h2>
                 <p className="text-gray-600 text-xs font-semibold mt-2">
@@ -164,7 +164,7 @@ export default function ResetPassword() {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       placeholder="••••••••"
                     />
                   </div>
@@ -176,7 +176,7 @@ export default function ResetPassword() {
                       required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] focus:outline-none focus:border-[#c5a059] transition"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       placeholder="••••••••"
                     />
                   </div>
@@ -184,7 +184,7 @@ export default function ResetPassword() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 bg-[#0e1a30] text-white font-black rounded-xl hover:bg-[#c5a059] active:scale-[0.98] transition duration-200 disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
                   >
                     <FiLock size={16} />
                     <span>{loading ? "Updating password..." : "Reset Password"}</span>
@@ -197,7 +197,7 @@ export default function ResetPassword() {
                   <button
                     type="button"
                     onClick={() => navigate("/forgot-password")}
-                    className="px-6 py-2.5 bg-[#0e1a30] hover:bg-[#c5a059] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
+                    className="px-6 py-2.5 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
                   >
                     Request New Link
                   </button>

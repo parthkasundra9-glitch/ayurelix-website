@@ -12,11 +12,11 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
       <Navbar />
 
       {/* Decorative background glow */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-[#c5a059]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-[#B89355]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full bg-[#f4efe2]/60 blur-[120px] pointer-events-none" />
 
       <section className="max-w-7xl mx-auto py-32 px-8 z-10 relative">
@@ -28,11 +28,11 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <span className="text-[#c5a059] uppercase tracking-[0.25em] text-xs font-bold block">
+            <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
               Consult with us
             </span>
             <h1
-              className="text-5xl md:text-6xl font-black text-[#0e1a30] font-serif"
+              className="text-5xl md:text-6xl font-black text-[#3C5A44] font-serif"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               GET IN TOUCH
@@ -43,16 +43,16 @@ export default function Contact() {
 
             <div className="space-y-6 text-slate-500 font-semibold pt-4">
               <div className="flex items-center gap-4">
-                <span className="text-[#c5a059] text-base font-bold uppercase tracking-wider w-20">Email:</span>
-                <span className="text-[#0e1a30]">support@ayurelix.com</span>
+                <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Email:</span>
+                <span className="text-[#3C5A44]">support@ayurelix.com</span>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-[#c5a059] text-base font-bold uppercase tracking-wider w-20">Phone:</span>
-                <span className="text-[#0e1a30]">+91 98765 43210</span>
+                <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Phone:</span>
+                <span className="text-[#3C5A44]">+91 98765 43210</span>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-[#c5a059] text-base font-bold uppercase tracking-wider w-20">Address:</span>
-                <span className="text-[#0e1a30]">A-12, Wellness Park, Bangalore, India</span>
+                <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Address:</span>
+                <span className="text-[#3C5A44]">A-12, Wellness Park, Bangalore, India</span>
               </div>
             </div>
           </motion.div>
@@ -61,7 +61,7 @@ export default function Contact() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="bg-[#fbf9f4]/80 border border-[#0e1a30]/10 rounded-3xl p-8 backdrop-blur-xl shadow-xl hover:shadow-2xl transition duration-300"
+            className="bg-[#fbf9f4]/80 border border-[#3C5A44]/10 rounded-3xl p-8 backdrop-blur-xl shadow-xl hover:shadow-2xl transition duration-300"
           >
             {submitted ? (
               <motion.div
@@ -69,13 +69,13 @@ export default function Contact() {
                 animate={{ scale: 1, opacity: 1 }}
                 className="text-center py-12 space-y-6"
               >
-                <h3 className="text-3xl font-bold text-[#c5a059] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>Thank You!</h3>
+                <h3 className="text-3xl font-bold text-[#B89355] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>Thank You!</h3>
                 <p className="text-slate-600 text-sm max-w-xs mx-auto leading-relaxed">
                   Your message has been received successfully. One of our Ayurvedic consultants will contact you shortly.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-8 py-3 bg-[#0e1a30] text-white font-black rounded-xl hover:bg-[#c5a059] transition duration-200"
+                  className="px-8 py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] transition duration-200"
                 >
                   Send another message
                 </button>
@@ -87,7 +87,7 @@ export default function Contact() {
                   <input
                     type="text"
                     required
-                    className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] placeholder-slate-400 focus:outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] transition"
+                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="John Doe"
                   />
                 </div>
@@ -97,7 +97,7 @@ export default function Contact() {
                   <input
                     type="email"
                     required
-                    className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] placeholder-slate-400 focus:outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] transition"
+                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -107,14 +107,14 @@ export default function Contact() {
                   <textarea
                     required
                     rows="4"
-                    className="w-full bg-white border border-[#0e1a30]/10 rounded-xl px-4 py-3 text-[#0e1a30] placeholder-slate-400 focus:outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] transition"
+                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="Your inquiry details..."
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#0e1a30] text-white font-black rounded-xl hover:bg-[#c5a059] active:scale-[0.98] transition duration-200"
+                  className="w-full py-4 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200"
                 >
                   Send Message
                 </button>

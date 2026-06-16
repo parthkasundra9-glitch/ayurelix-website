@@ -4,7 +4,6 @@ import Hero from "./Hero";
 import ProductCard from "./ProductCard";
 import Certifications from "./Certifications";
 import IngredientsShowcase from "./IngredientsShowcase";
-import DoshaQuiz from "./DoshaQuiz";
 import Footer from "./Footer";
 import ProductDetailsModal from "./ProductDetailsModal";
 
@@ -18,7 +17,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#0e1a30]">
+    <div className="bg-white min-h-screen text-[#3C5A44]">
       
       {/* Navigation */}
       <Navbar />
@@ -34,13 +33,13 @@ export default function Home() {
 
       {/* Best Sellers Shopping Grid */}
       <section id="best-sellers-section" className="max-w-7xl mx-auto py-24 px-8 relative scroll-mt-12 bg-white">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#c5a059]/3 blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#B89355]/3 blur-[120px] pointer-events-none" />
 
         <div className="text-center mb-16 z-10 relative">
-          <span className="text-[#c5a059] uppercase tracking-[0.25em] text-xs font-bold block mb-3">
+          <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block mb-3">
             Handcrafted Formulations
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-[#0e1a30] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             The Best Sellers
           </h2>
           <p className="text-gray-600 text-base max-w-xl mx-auto mt-4">
@@ -48,7 +47,9 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 z-10 relative">
+        <div className={`grid gap-8 z-10 relative justify-center ${
+          products.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
+        }`}>
           {products.map(product => (
             <ProductCard
               key={product.id}
@@ -58,11 +59,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* Interactive Ayurvedic Quiz Section */}
-      <div id="dosha-quiz-section" className="scroll-mt-12">
-        <DoshaQuiz onSelectProduct={handleOpenDetails} />
-      </div>
 
       {/* Brand Footer */}
       <Footer />
