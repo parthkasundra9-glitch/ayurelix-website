@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { FiShoppingBag, FiEye } from "react-icons/fi";
+import { getProductImage } from "../data/products";
 
 export default function ProductCard({ product, onView }) {
   const { addToCart, setIsCartOpen } = useCart();
@@ -45,7 +46,7 @@ export default function ProductCard({ product, onView }) {
         <div className="h-56 rounded-2xl bg-[#fbf9f4] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
           {product.image_url ? (
             <img
-              src={product.image_url}
+              src={getProductImage(product.image_url)}
               alt={product.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />

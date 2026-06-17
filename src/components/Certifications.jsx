@@ -24,16 +24,6 @@ export default function Certifications() {
       )
     },
     {
-      title: "GMP Certified",
-      subtitle: "Pure & Safe",
-      icon: (
-        <svg className="w-10 h-10 text-[#B89355]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" opacity="0.2" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      )
-    },
-    {
       title: "Heavy Metal Free",
       subtitle: "Lab Tested",
       icon: (
@@ -62,7 +52,7 @@ export default function Certifications() {
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B89355]/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center text-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center text-center">
           {certs.map((cert, index) => (
             <motion.div
               key={index}

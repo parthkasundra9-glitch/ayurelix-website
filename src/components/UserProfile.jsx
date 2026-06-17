@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { FiUser, FiMapPin, FiPhone, FiMail, FiCalendar, FiPackage, FiCheck, FiEdit2, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { getProductImage } from "../data/products";
 
 export default function UserProfile() {
   const [user, setUser] = useState(null);
@@ -439,7 +440,7 @@ export default function UserProfile() {
                                         <div className="flex items-center gap-3">
                                           {item.products?.image_url ? (
                                             <img
-                                              src={item.products.image_url}
+                                              src={getProductImage(item.products.image_url)}
                                               alt={item.products.name || "Product"}
                                               className="w-10 h-10 rounded-lg object-cover shrink-0 border border-[#3C5A44]/5"
                                             />

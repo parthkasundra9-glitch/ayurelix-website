@@ -47,7 +47,7 @@ export default function Navbar() {
       border-b border-[#3C5A44]/5
       "
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
         
         {/* Brand Logo */}
         <Link to="/" className="outline-none" onClick={() => setIsMenuOpen(false)}>
@@ -165,15 +165,15 @@ export default function Navbar() {
         </div>
 
         {/* Mobile controls (visible on mobile only) */}
-        <div className="flex md:hidden items-center gap-4">
+        <div className="flex md:hidden items-center gap-2">
           {/* Cart Icon Toggle Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none cursor-pointer"
+            className="relative p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none cursor-pointer"
           >
-            <FiShoppingBag size={22} />
+            <FiShoppingBag size={20} />
             {cartCount > 0 && (
-              <span className="absolute top-0 right-0 bg-[#B89355] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
+              <span className="absolute top-0 right-0 bg-[#B89355] text-white text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center animate-pulse">
                 {cartCount}
               </span>
             )}
@@ -182,10 +182,10 @@ export default function Navbar() {
           {/* Toggle Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 rounded-full hover:bg-black/5 text-[#3C5A44] transition"
+            className="p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition"
             aria-label="Toggle Menu"
           >
-            {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
         </div>
       </div>

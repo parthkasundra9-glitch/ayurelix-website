@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { FiX, FiPlus, FiMinus, FiShoppingBag, FiCheck } from "react-icons/fi";
 import ProductReviews from "./ProductReviews";
+import { getProductImage } from "../data/products";
 
 const productDetailsMap = {
   1: {
@@ -74,22 +75,22 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               initial={{ scale: 0.95, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 30 }}
-              className="relative w-full max-w-4xl bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+              className="relative w-full max-w-3xl bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh]"
             >
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute right-6 top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#3C5A44] transition z-10"
+                className="absolute right-4 top-4 md:right-6 md:top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#3C5A44] transition z-20"
               >
                 <FiX size={20} />
               </button>
 
               {/* Product Visual Area */}
-              <div className="w-full md:w-5/12 p-8 flex flex-col justify-between relative overflow-hidden min-h-[300px] md:min-h-auto border-r border-[#3C5A44]/5 bg-[#fbf9f4]">
+              <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-48 md:h-auto border-b md:border-b-0 md:border-r border-[#3C5A44]/5 bg-[#fbf9f4] shrink-0">
                 {product.image_url ? (
                   <div className="absolute inset-0 z-0">
                     <img
-                      src={product.image_url}
+                      src={getProductImage(product.image_url)}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
@@ -121,7 +122,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               </div>
 
               {/* Product Details Section */}
-              <div className="w-full md:w-7/12 p-8 md:p-10 flex flex-col justify-between max-h-[85vh] md:max-h-none overflow-y-auto">
+              <div className="w-full md:w-7/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[calc(90vh-12rem)] md:max-h-none">
 
                 <div className="space-y-6">
                   {/* Ingredients */}

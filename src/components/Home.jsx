@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import ProductCard from "./ProductCard";
@@ -6,11 +6,32 @@ import Certifications from "./Certifications";
 import IngredientsShowcase from "./IngredientsShowcase";
 import Footer from "./Footer";
 import ProductDetailsModal from "./ProductDetailsModal";
-
-import { products } from "../data/products";
+import { products as fallbackProducts } from "../data/products";
+import { supabase } from "../supabaseClient";
 
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productsList, setProductsList] = useState(fallbackProducts);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("Error fetching products from database:", error.message);
+        } else if (data && data.length > 0) {
+          setProductsList(data);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   const handleOpenDetails = (product) => {
     setSelectedProduct(product);
@@ -48,9 +69,9 @@ export default function Home() {
         </div>
 
         <div className={`grid gap-8 z-10 relative justify-center ${
-          products.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
+          productsList.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
         }`}>
-          {products.map(product => (
+          {productsList.map(product => (
             <ProductCard
               key={product.id}
               product={product}

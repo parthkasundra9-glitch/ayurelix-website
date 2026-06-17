@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { FiShoppingBag, FiLayers, FiStar, FiTruck, FiPlus, FiTrash2, FiCheckCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { getProductImage } from "../data/products";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'products' | 'reviews'
@@ -159,6 +160,23 @@ export default function AdminDashboard() {
       });
       alert("Product added successfully!");
       fetchData();
+    }
+  };
+
+  // Delete product
+  const handleDeleteProduct = async (productId) => {
+    if (confirm("Are you sure you want to delete this product?")) {
+      const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", productId);
+
+      if (error) {
+        alert("Error deleting product: " + error.message);
+      } else {
+        alert("Product deleted successfully!");
+        fetchData();
+      }
     }
   };
 
@@ -340,6 +358,7 @@ export default function AdminDashboard() {
                       <th className="p-4">Name</th>
                       <th className="p-4">Price</th>
                       <th className="p-4">Stock</th>
+                      <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="text-xs">
@@ -349,7 +368,7 @@ export default function AdminDashboard() {
                         <td className="p-4">
                           {prod.image_url ? (
                             <img
-                              src={prod.image_url}
+                              src={getProductImage(prod.image_url)}
                               alt={prod.name}
                               className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
                             />
@@ -360,6 +379,15 @@ export default function AdminDashboard() {
                         <td className="p-4 text-[#3C5A44] font-medium">{prod.name}</td>
                         <td className="p-4 text-[#B89355] font-bold">₹{prod.price}</td>
                         <td className="p-4 text-gray-600">{prod.stock} left</td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => handleDeleteProduct(prod.id)}
+                            className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition"
+                            title="Delete Product"
+                          >
+                            <FiTrash2 size={14} />
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

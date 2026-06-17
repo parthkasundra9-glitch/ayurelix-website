@@ -42,7 +42,7 @@ export default function PolicySidebar({ active }) {
           </div>
           <div className="flex flex-col gap-1 border-b border-[#3C5A44]/5 pb-2">
             <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">AYUSH Manufacturing Lic.</span>
-            <span className="font-mono text-slate-700">AYU-GMP/KA-48201</span>
+            <span className="font-mono text-slate-700">AYU-MFG/KA-48201</span>
           </div>
           <div className="flex flex-col gap-1 border-b border-[#3C5A44]/5 pb-2">
             <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">FSSAI License No.</span>

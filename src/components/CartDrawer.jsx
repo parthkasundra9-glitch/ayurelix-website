@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext";
 import { FiX, FiTrash2, FiPlus, FiMinus, FiShoppingBag, FiCheck, FiTruck, FiCreditCard } from "react-icons/fi";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { getProductImage } from "../data/products";
 
 export default function CartDrawer() {
   const {
@@ -224,7 +225,7 @@ export default function CartDrawer() {
                       >
                         {item.image_url ? (
                           <img
-                            src={item.image_url}
+                            src={getProductImage(item.image_url)}
                             alt={item.name}
                             className="w-16 h-16 rounded-xl object-cover shrink-0 border border-[#3C5A44]/5"
                           />
