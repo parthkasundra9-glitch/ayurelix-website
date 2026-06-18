@@ -65,6 +65,38 @@ export function CartProvider({ children }) {
   const clearCart = () => {
     setCartItems([]);
   };
+  const [wishlistItems, setWishlistItems] = useState(() => {
+    try {
+      const localData = localStorage.getItem("ayurelix_wishlist");
+      return localData ? JSON.parse(localData) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("ayurelix_wishlist", JSON.stringify(wishlistItems));
+    } catch (error) {
+      console.error("Failed to save wishlist items:", error);
+    }
+  }, [wishlistItems]);
+
+  const wishlistCount = wishlistItems.length;
+
+  const toggleWishlist = (product) => {
+    setWishlistItems((prev) => {
+      const exists = prev.find((item) => item.id === product.id);
+      if (exists) {
+        return prev.filter((item) => item.id !== product.id);
+      }
+      return [...prev, product];
+    });
+  };
+
+  const isInWishlist = (productId) => {
+    return wishlistItems.some((item) => item.id === productId);
+  };
 
   return (
     <CartContext.Provider
@@ -77,7 +109,11 @@ export function CartProvider({ children }) {
         addToCart,
         removeFromCart,
         updateQuantity,
-        clearCart
+        clearCart,
+        wishlistItems,
+        wishlistCount,
+        toggleWishlist,
+        isInWishlist
       }}
     >
       {children}

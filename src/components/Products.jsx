@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import ProductCard from "./ProductCard";
 import Footer from "./Footer";
@@ -10,6 +11,8 @@ import { supabase } from "../supabaseClient";
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productsList, setProductsList] = useState(fallbackProducts);
+  const [searchParams] = useSearchParams();
+  const searchVal = (searchParams.get("search") || "").toLowerCase();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -42,7 +45,12 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-
+  const displayedProducts = productsList.filter(product => {
+    return (
+      product.name.toLowerCase().includes(searchVal) ||
+      product.description.toLowerCase().includes(searchVal)
+    );
+  });
 
   return (
     <div className="bg-white min-h-screen text-[#3C5A44]">
@@ -76,10 +84,10 @@ export default function Products() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
           className={`grid gap-8 z-10 relative justify-center ${
-            productsList.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
+            displayedProducts.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
           }`}
         >
-          {productsList.map(product => (
+          {displayedProducts.map(product => (
             <ProductCard
               key={product.id}
               product={product}
