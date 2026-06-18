@@ -45,9 +45,8 @@ export default function Certifications() {
       )
     }
   ];
-
   return (
-    <section className="bg-[#fbf9f4] py-12 border-y border-[#B89355]/10 relative overflow-hidden">
+    <section id="certifications-section" className="bg-[#fbf9f4] py-12 border-y border-[#B89355]/10 relative overflow-hidden">
       {/* Dynamic line glow */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B89355]/30 to-transparent" />
 
