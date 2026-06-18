@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { supabase } from "../supabaseClient";
 
 export default function Products() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productsList, setProductsList] = useState(fallbackProducts);
 
@@ -23,7 +22,18 @@ export default function Products() {
         if (error) {
           console.error("Error fetching products from database:", error.message);
         } else if (data && data.length > 0) {
-          setProductsList(data);
+          const filtered = data
+            .filter(p => p.id === 1 || p.id === 2 || p.name.toLowerCase().includes('kumkumadi') || p.name.toLowerCase().includes('pigmentation'))
+            .map(p => {
+              if (p.id === 1 || p.name.toLowerCase().includes('kumkumadi')) {
+                return { ...p, name: "Kumkumadi Oil" };
+              }
+              if (p.id === 2 || p.name.toLowerCase().includes('pigmentation')) {
+                return { ...p, name: "Anti Pigmentation Cream" };
+              }
+              return p;
+            });
+          setProductsList(filtered);
         }
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -32,18 +42,7 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-  // Map category values to product IDs or attributes
-  // 1: Immunity, 2: Hair Care, 3: Detox
-  const categories = [
-    { name: "All Remedies", value: "all" },
-    { name: "Immunity", value: 1 },
-    { name: "Hair Care", value: 2 },
-    { name: "Detoxification", value: 3 }
-  ];
 
-  const filteredProducts = selectedCategory === "all"
-    ? productsList
-    : productsList.filter(p => p.category === String(selectedCategory) || p.id === Number(selectedCategory));
 
   return (
     <div className="bg-white min-h-screen text-[#3C5A44]">
@@ -70,34 +69,17 @@ export default function Products() {
           </p>
         </motion.div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-          {categories.map((cat, idx) => (
-            <button
-              key={idx}
-              onClick={() => setSelectedCategory(cat.value)}
-              className={`
-              px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300
-              ${selectedCategory === cat.value
-                ? "bg-[#3C5A44] text-white shadow-sm"
-                : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44] hover:border-[#B89355]/40 shadow-sm"
-              }
-              `}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
         {/* Products Grid */}
         <motion.div
           layout
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="grid md:grid-cols-3 gap-8 min-h-[300px]"
+          className={`grid gap-8 z-10 relative justify-center ${
+            productsList.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
+          }`}
         >
-          {filteredProducts.map(product => (
+          {productsList.map(product => (
             <ProductCard
               key={product.id}
               product={product}

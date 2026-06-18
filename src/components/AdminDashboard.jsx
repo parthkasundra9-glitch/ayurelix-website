@@ -366,9 +366,9 @@ export default function AdminDashboard() {
                       <tr key={prod.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
                         <td className="p-4 text-gray-500 font-mono">{prod.id}</td>
                         <td className="p-4">
-                          {prod.image_url ? (
+                          {getProductImage(prod.image_url, prod.id, prod.name) ? (
                             <img
-                              src={getProductImage(prod.image_url)}
+                              src={getProductImage(prod.image_url, prod.id, prod.name)}
                               alt={prod.name}
                               className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
                             />

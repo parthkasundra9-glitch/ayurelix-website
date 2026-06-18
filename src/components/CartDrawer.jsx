@@ -223,14 +223,14 @@ export default function CartDrawer() {
                         key={item.id}
                         className="flex gap-4 p-4 rounded-2xl bg-[#fbf9f4] border border-[#3C5A44]/5 items-center justify-between shadow-sm"
                       >
-                        {item.image_url ? (
+                        {getProductImage(item.image_url, item.id, item.name) ? (
                           <img
-                            src={getProductImage(item.image_url)}
+                            src={getProductImage(item.image_url, item.id, item.name)}
                             alt={item.name}
                             className="w-16 h-16 rounded-xl object-cover shrink-0 border border-[#3C5A44]/5"
                           />
                         ) : (
-                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#B89355] to-[#8F6E35] shrink-0" />
+                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#B89355] to-[#8F6E35] shrink-0 animate-pulse" />
                         )}
                         <div className="flex-grow min-w-0">
                           <h4 className="text-sm font-bold text-[#3C5A44] truncate">{item.name}</h4>

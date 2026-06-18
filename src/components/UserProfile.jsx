@@ -438,9 +438,9 @@ export default function UserProfile() {
                                     {order.order_items?.map((item) => (
                                       <div key={item.id} className="flex justify-between items-center">
                                         <div className="flex items-center gap-3">
-                                          {item.products?.image_url ? (
+                                          {getProductImage(item.products?.image_url, item.products?.id, item.products?.name) ? (
                                             <img
-                                              src={getProductImage(item.products.image_url)}
+                                              src={getProductImage(item.products.image_url, item.products.id, item.products.name)}
                                               alt={item.products.name || "Product"}
                                               className="w-10 h-10 rounded-lg object-cover shrink-0 border border-[#3C5A44]/5"
                                             />

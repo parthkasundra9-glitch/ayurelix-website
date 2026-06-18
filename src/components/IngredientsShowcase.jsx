@@ -6,10 +6,10 @@ import gotukolaImg from "../assets/gotu_kola.png";
 
 const ingredients = [
   {
-    name: "Ashwagandha",
-    sanskrit: "Withania somnifera",
-    description: "Known as 'Indian Ginseng', this powerful adaptogen has been used for over 3,000 years to relieve stress, increase energy levels, and improve concentration.",
-    benefits: ["Calms the nervous system & lowers cortisol", "Enhances strength, stamina, & physical recovery", "Supports cognitive function and memory recall"],
+    name: "Saffron",
+    sanskrit: "Crocus sativus",
+    description: "The precious golden thread of Ayurveda, Saffron is the star botanical of Kumkumadi Oil, celebrated for its legendary skin-brightening and complexion-evening properties.",
+    benefits: ["Fades dark spots, blemishes, & pigmentation", "Rich in carotenoids and powerful antioxidants", "Enhances cell regeneration for a youthful glow"],
     image: ashwagandhaImg,
     glowColor: "group-hover:shadow-[0_0_30px_rgba(197,160,89,0.15)]"
   },
@@ -24,8 +24,8 @@ const ingredients = [
   {
     name: "Gotu Kola",
     sanskrit: "Centella asiatica",
-    description: "Revered as the 'Herb of Longevity' and 'Student Herb', it is celebrated for its capacity to revitalize brain cells and support skin microcirculation.",
-    benefits: ["Sharpens mental focus and concentration", "Supports natural collagen synthesis & tissue repair", "Promotes healthy, stress-free capillary circulation"],
+    description: "Revered as the 'Herb of Longevity' in Ayurvedic scriptures, Gotu Kola is celebrated for its legendary capacity to revitalize skin cells, promote microcirculation, and accelerate healing.",
+    benefits: ["Supports natural collagen synthesis & skin elasticity", "Promotes cellular repair and reduces skin inflammation", "Enhances healthy capillary circulation for a radiant glow"],
     image: gotukolaImg,
     glowColor: "group-hover:shadow-[0_0_30px_rgba(72,187,120,0.15)]"
   }

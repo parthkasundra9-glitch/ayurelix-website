@@ -24,7 +24,18 @@ export default function Home() {
         if (error) {
           console.error("Error fetching products from database:", error.message);
         } else if (data && data.length > 0) {
-          setProductsList(data);
+          const filtered = data
+            .filter(p => p.id === 1 || p.id === 2 || p.name.toLowerCase().includes('kumkumadi') || p.name.toLowerCase().includes('pigmentation'))
+            .map(p => {
+              if (p.id === 1 || p.name.toLowerCase().includes('kumkumadi')) {
+                return { ...p, name: "Kumkumadi Oil" };
+              }
+              if (p.id === 2 || p.name.toLowerCase().includes('pigmentation')) {
+                return { ...p, name: "Anti Pigmentation Cream" };
+              }
+              return p;
+            });
+          setProductsList(filtered);
         }
       } catch (err) {
         console.error("Error fetching products:", err);

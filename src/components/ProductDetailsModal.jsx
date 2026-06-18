@@ -87,10 +87,10 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
 
               {/* Product Visual Area */}
               <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-48 md:h-auto border-b md:border-b-0 md:border-r border-[#3C5A44]/5 bg-[#fbf9f4] shrink-0">
-                {product.image_url ? (
+                {getProductImage(product.image_url, product.id, product.name) ? (
                   <div className="absolute inset-0 z-0">
                     <img
-                      src={getProductImage(product.image_url)}
+                      src={getProductImage(product.image_url, product.id, product.name)}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
@@ -106,7 +106,6 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                     </div>
                   </>
                 )}
-
                 <div className="z-10 relative">
                   <span className="text-[11px] tracking-[0.2em] font-serif uppercase text-white bg-white/15 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
                     Pure Formulation

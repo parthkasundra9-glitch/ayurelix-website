@@ -41,12 +41,10 @@ export default function ProductCard({ product, onView }) {
       "
     >
       <div>
-        {/* Product Visual */}
-        {/* Product Visual */}
         <div className="h-56 rounded-2xl bg-[#fbf9f4] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
-          {product.image_url ? (
+          {getProductImage(product.image_url, product.id, product.name) ? (
             <img
-              src={getProductImage(product.image_url)}
+              src={getProductImage(product.image_url, product.id, product.name)}
               alt={product.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
@@ -63,7 +61,6 @@ export default function ProductCard({ product, onView }) {
               </div>
             </div>
           )}
-
           {/* Quick Hover Overlay */}
           <div className="absolute inset-0 bg-white/70 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition duration-300">
             <motion.button

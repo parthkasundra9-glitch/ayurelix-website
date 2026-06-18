@@ -86,8 +86,8 @@ create policy "Allow admin write access to products" on public.products
 -- Insert Default Products if they don't exist
 insert into public.products (id, name, price, description, category, stock, image_url)
 values 
-  (1, 'Kumkumadi Face Serum', 799, 'Premium Kumkumadi Face Serum (15ml) for anti-aging, glow, and smooth skin. Crafted with traditional Ayurvedic oils and saffron.', '1', 100, '/src/assets/kumkumadi_serum.jpg'),
-  (2, 'Anti Pigmentation Face Pack', 499, 'Natural Anti Pigmentation Face Pack (50gm) for reducing dark spots, blemishes, and acne scars. Intensively brightens skin.', '2', 100, '/src/assets/anti_pigmentation.jpg')
+  (1, 'Kumkumadi Oil', 799, 'Premium Kumkumadi Oil (15ml) for anti-aging, glow, and smooth skin. Crafted with traditional Ayurvedic oils and saffron.', '1', 100, '/src/assets/kumkumadi_serum.jpg'),
+  (2, 'Anti Pigmentation Cream', 499, 'Natural Anti Pigmentation Cream (50gm) for reducing dark spots, blemishes, and acne scars. Intensively brightens skin.', '2', 100, '/src/assets/anti_pigmentation.jpg')
 on conflict (id) do update set
   name = excluded.name,
   price = excluded.price,
@@ -95,8 +95,8 @@ on conflict (id) do update set
   category = excluded.category,
   image_url = excluded.image_url;
 
--- Remove product with ID 3 if it exists
-delete from public.products where id = 3;
+-- Remove other products to ensure only these two are present
+delete from public.products where id not in (1, 2);
 
 
 -- 3. Create Orders Table
