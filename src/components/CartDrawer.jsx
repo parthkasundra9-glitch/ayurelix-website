@@ -22,6 +22,11 @@ export default function CartDrawer() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const SHIPPING_THRESHOLD = 599;
+  const SHIPPING_COST = 49;
+  const shippingFee = cartTotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const grandTotal = cartTotal > 0 ? cartTotal + shippingFee : 0;
+
   // Shipping details state
   const [shippingDetails, setShippingDetails] = useState({
     fullName: "",
@@ -37,6 +42,32 @@ export default function CartDrawer() {
       setUser(user);
     });
   }, [isCartOpen]);
+
+  // Pincode lookup API integration
+  useEffect(() => {
+    const fetchCityState = async () => {
+      const pin = shippingDetails.postalCode.trim();
+      if (/^\d{6}$/.test(pin)) {
+        try {
+          const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+          const data = await res.json();
+          if (data && data[0] && data[0].Status === "Success") {
+            const postOffice = data[0].PostOffice[0];
+            if (postOffice) {
+              setShippingDetails(prev => ({
+                ...prev,
+                city: postOffice.District || prev.city,
+                state: postOffice.State || prev.state
+              }));
+            }
+          }
+        } catch (err) {
+          console.error("Pincode API lookup failed:", err);
+        }
+      }
+    };
+    fetchCityState();
+  }, [shippingDetails.postalCode]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +105,7 @@ export default function CartDrawer() {
         .insert([
           {
             user_id: user.id,
-            total_amount: cartTotal,
+            total_amount: grandTotal,
             status: "paid",
             payment_id: paymentId,
             shipping_address: shippingDetails
@@ -119,9 +150,15 @@ export default function CartDrawer() {
 
     const keyId = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_fallback_key";
 
+    if (keyId === "rzp_test_fallback_key") {
+      console.warn("Using Razorpay fallback key. Simulating payment.");
+      await saveOrder("simulated_" + Math.random().toString(36).substr(2, 9));
+      return;
+    }
+
     const options = {
       key: keyId,
-      amount: cartTotal * 100, // in paisa (₹100 = 10000 paisa)
+      amount: grandTotal * 100, // in paisa (₹100 = 10000 paisa)
       currency: "INR",
       name: "Ayurelix Ltd.",
       description: "Ancient Ayurveda. Modern Wellness.",
@@ -146,10 +183,6 @@ export default function CartDrawer() {
       console.warn("Razorpay failed, running simulated payment.");
       await saveOrder("simulated_" + Math.random().toString(36).substr(2, 9));
     }
-  };
-
-  const handleSimulatedPayment = async () => {
-    await saveOrder("simulated_" + Math.random().toString(36).substr(2, 9));
   };
 
   const handleClose = () => {
@@ -201,6 +234,28 @@ export default function CartDrawer() {
             <div className="flex-grow overflow-y-auto p-6">
               {checkoutStep === "cart" && (
                 <div className="space-y-4">
+                  {/* Free Shipping Progress Indicator */}
+                  {cartItems.length > 0 && (
+                    <div className="bg-[#B89355]/5 border border-[#B89355]/15 rounded-2xl p-4 mb-2">
+                      {SHIPPING_THRESHOLD - cartTotal > 0 ? (
+                        <p className="text-xs text-[#3C5A44] font-medium mb-2">
+                          Add <span className="font-bold text-[#B89355]">₹{SHIPPING_THRESHOLD - cartTotal}</span> more for <span className="font-bold">Free Shipping</span>!
+                        </p>
+                      ) : (
+                        <p className="text-xs text-[#3C5A44] font-bold mb-2 flex items-center gap-1">
+                          <FiCheck className="text-green-600 animate-pulse" />
+                          <span>Congratulations! You qualify for <span className="text-[#B89355]">Free Shipping</span>!</span>
+                        </p>
+                      )}
+                      <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                        <div
+                          className="bg-[#B89355] h-full transition-all duration-500 ease-out"
+                          style={{ width: `${Math.min((cartTotal / SHIPPING_THRESHOLD) * 100, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {cartItems.length === 0 ? (
                     <div className="h-full py-20 flex flex-col items-center justify-center text-center space-y-4">
                       <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 mb-2">
@@ -324,7 +379,7 @@ export default function CartDrawer() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Postal Code</label>
+                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Postal Code (Auto-fills City/State)</label>
                       <input
                         type="text"
                         name="postalCode"
@@ -332,6 +387,7 @@ export default function CartDrawer() {
                         value={shippingDetails.postalCode}
                         onChange={handleInputChange}
                         placeholder="380001"
+                        maxLength="6"
                         className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-sm text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
@@ -364,7 +420,7 @@ export default function CartDrawer() {
                   </p>
                   <button
                     onClick={handleClose}
-                    className="px-6 py-2.5 bg-[#3C5A44] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 shadow-md"
+                    className="px-6 py-2.5 bg-[#3C5A44] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 shadow-md cursor-pointer"
                   >
                     Continue Shopping
                   </button>
@@ -374,37 +430,36 @@ export default function CartDrawer() {
 
             {/* Footer Summary */}
             {checkoutStep !== "success" && cartItems.length > 0 && (
-              <div className="p-6 border-t border-[#3C5A44]/10 bg-[#fbf9f4] space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Total Amount</span>
-                  <span className="text-2xl font-bold text-[#B89355]">₹{cartTotal}</span>
+              <div className="p-6 border-t border-[#3C5A44]/10 bg-[#fbf9f4] space-y-3">
+                <div className="flex justify-between items-center text-sm text-gray-600">
+                  <span>Subtotal</span>
+                  <span>₹{cartTotal}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm text-gray-600">
+                  <span>Shipping Fee</span>
+                  <span>{shippingFee === 0 ? "FREE" : `₹${shippingFee}`}</span>
+                </div>
+                <div className="flex justify-between items-center border-t border-[#3C5A44]/5 pt-2">
+                  <span className="font-bold text-[#3C5A44]">Grand Total</span>
+                  <span className="text-2xl font-black text-[#B89355]">₹{grandTotal}</span>
                 </div>
 
                 {checkoutStep === "cart" ? (
                   <button
                     onClick={handleProceedToCheckout}
-                    className="w-full py-3.5 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 shadow-md"
+                    className="w-full py-3.5 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 shadow-md cursor-pointer"
                   >
                     Proceed to Checkout
                   </button>
                 ) : (
-                  <div className="space-y-3">
-                    <button
-                      onClick={handleRazorpayPayment}
-                      disabled={loading || !shippingDetails.fullName || !shippingDetails.address || !shippingDetails.phone}
-                      className="w-full py-3.5 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
-                    >
-                      <FiCreditCard size={18} />
-                      <span>{loading ? "Processing..." : "Pay with Razorpay"}</span>
-                    </button>
-                    <button
-                      onClick={handleSimulatedPayment}
-                      disabled={loading || !shippingDetails.fullName || !shippingDetails.address || !shippingDetails.phone}
-                      className="w-full py-2 bg-transparent text-gray-600 border border-[#3C5A44]/10 hover:text-[#3C5A44] rounded-xl text-xs font-semibold hover:bg-[#3C5A44]/5 transition duration-200 disabled:opacity-50"
-                    >
-                      Simulated Fast Checkout (Testing)
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleRazorpayPayment}
+                    disabled={loading || !shippingDetails.fullName || !shippingDetails.address || !shippingDetails.phone}
+                    className="w-full py-3.5 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                  >
+                    <FiCreditCard size={18} />
+                    <span>{loading ? "Processing..." : "Pay Online (Razorpay)"}</span>
+                  </button>
                 )}
               </div>
             )}
