@@ -22,19 +22,8 @@ export default function FeaturedProducts() {
 
         if (error) {
           console.error("Error fetching products from database:", error.message);
-        } else if (data && data.length > 0) {
-          const filtered = data
-            .filter(p => p.id === 1 || p.id === 2 || p.name.toLowerCase().includes('kumkumadi') || p.name.toLowerCase().includes('pigmentation'))
-            .map(p => {
-              if (p.id === 1 || p.name.toLowerCase().includes('kumkumadi')) {
-                return { ...p, name: "Kumkumadi Oil" };
-              }
-              if (p.id === 2 || p.name.toLowerCase().includes('pigmentation')) {
-                return { ...p, name: "Anti Pigmentation Cream" };
-              }
-              return p;
-            });
-          setProductsList(filtered);
+        } else if (data) {
+          setProductsList(data);
         }
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -70,8 +59,14 @@ export default function FeaturedProducts() {
         </p>
       </div>
 
-      {/* Grid Layout - 2 Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      {/* Grid Layout */}
+      <div className={`grid gap-8 justify-center ${
+        productsList.length === 1
+          ? "grid-cols-1 max-w-sm mx-auto"
+          : productsList.length === 2
+          ? "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto"
+          : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto"
+      }`}>
         {productsList.map((product) => {
           const isWishlisted = isInWishlist(product.id);
           const imageSrc = getProductImage(product.image_url, product.id, product.name);

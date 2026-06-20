@@ -90,7 +90,7 @@ export default function Navbar() {
           <div className="flex items-center gap-6">
             {/* Wishlist Icon Button */}
             <Link
-              to="/profile?tab=wishlist"
+              to="/wishlist"
               className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] hover:text-red-500 transition duration-300 outline-none"
               title="My Wishlist"
             >
@@ -191,7 +191,7 @@ export default function Navbar() {
           
           {/* Wishlist Link */}
           <Link
-            to="/profile?tab=wishlist"
+            to="/wishlist"
             className="relative p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none"
             title="Wishlist"
           >

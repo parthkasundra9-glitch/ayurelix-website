@@ -13,6 +13,7 @@ import TermsOfService from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import Favorites from "./components/Favorites";
 import { CartProvider } from "./context/CartContext";
 import CartDrawer from "./components/CartDrawer";
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/wishlist" element={<Favorites />} />
         </Routes>
         <CartDrawer />
       </Router>

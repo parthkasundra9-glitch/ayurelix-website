@@ -1,60 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiShoppingBag, FiHeart } from "react-icons/fi";
 import { FaStar } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import { supabase } from "../supabaseClient";
+import { getProductImage } from "../data/products";
 import ProductDetailsModal from "./ProductDetailsModal";
-
-const bestSellersData = [
-  {
-    id: 101,
-    name: "Rose Water Face Mist",
-    price: 299,
-    description: "Pure steam-distilled rose water for instant hydration and skin toning.",
-    image_url: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=600&auto=format&fit=crop",
-    rating: 4.8,
-    reviews: 24,
-    category: "Mist",
-    stock: 50
-  },
-  {
-    id: 102,
-    name: "Sandalwood Cleanser",
-    price: 399,
-    description: "Gentle foaming cleanser with active Sandalwood to purify and bright skin.",
-    image_url: "https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?q=80&w=600&auto=format&fit=crop",
-    rating: 4.7,
-    reviews: 19,
-    category: "Cleanser",
-    stock: 40
-  },
-  {
-    id: 103,
-    name: "Aloe Vera Gel",
-    price: 199,
-    description: "100% organic cold-pressed aloe vera gel for soothing and moisturizing.",
-    image_url: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600&auto=format&fit=crop",
-    rating: 4.9,
-    reviews: 32,
-    category: "Gel",
-    stock: 80
-  },
-  {
-    id: 104,
-    name: "Kumkumadi Night Cream",
-    price: 699,
-    description: "Rich, intensive overnight repair cream infused with saffron oils.",
-    image_url: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?q=80&w=600&auto=format&fit=crop",
-    rating: 5.0,
-    reviews: 15,
-    category: "Night Cream",
-    stock: 25
-  }
-];
 
 export default function BestSellers() {
   const { addToCart, setIsCartOpen, toggleWishlist, isInWishlist } = useCart();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [bestsellers, setBestsellers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBestsellers() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("is_bestseller", true)
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("Error fetching bestsellers:", error.message);
+        } else if (data) {
+          setBestsellers(data);
+        }
+      } catch (err) {
+        console.error("Error fetching bestsellers:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBestsellers();
+  }, []);
 
   const handleQuickAdd = (e, product) => {
     e.stopPropagation();
@@ -66,6 +46,18 @@ export default function BestSellers() {
     e.stopPropagation();
     toggleWishlist(product);
   };
+
+  if (loading) {
+    return (
+      <div className="bg-white py-20 text-center">
+        <p className="text-[#3C5A44] font-semibold">Loading best sellers...</p>
+      </div>
+    );
+  }
+
+  if (bestsellers.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-white py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden">
@@ -84,9 +76,12 @@ export default function BestSellers() {
       </div>
 
       {/* Grid Layout - 4 Columns Desktop, 2 Tablet, 1 Mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {bestSellersData.map((product) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
+        {bestsellers.map((product) => {
           const isWishlisted = isInWishlist(product.id);
+          const productImg = getProductImage(product.image_url, product.id, product.name);
+          const rating = product.rating || 5.0;
+          const reviewsCount = product.reviews || 18;
           
           return (
             <motion.div
@@ -98,11 +93,17 @@ export default function BestSellers() {
               <div>
                 {/* Visual Image */}
                 <div className="h-56 rounded-2xl bg-white relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {productImg ? (
+                    <img
+                      src={productImg}
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#B89355] via-[#8F6E35] to-[#3C5A44] flex items-center justify-center text-white/30 text-5xl font-serif">
+                      A
+                    </div>
+                  )}
 
                   {/* Wishlist Button Overlay */}
                   <button
@@ -125,7 +126,7 @@ export default function BestSellers() {
                     <FaStar key={i} size={12} className="text-[#B89355]" />
                   ))}
                   <span className="text-[10px] text-gray-500 font-bold ml-1 uppercase tracking-wider">
-                    {product.rating} ({product.reviews})
+                    {rating} ({reviewsCount})
                   </span>
                 </div>
 

@@ -10,9 +10,11 @@ import { supabase } from "../supabaseClient";
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productsList, setProductsList] = useState(fallbackProducts);
+  const [productsList, setProductsList] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
   const [searchParams] = useSearchParams();
   const searchVal = (searchParams.get("search") || "").toLowerCase();
+  const categoryIdParam = searchParams.get("category");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -24,19 +26,8 @@ export default function Products() {
 
         if (error) {
           console.error("Error fetching products from database:", error.message);
-        } else if (data && data.length > 0) {
-          const filtered = data
-            .filter(p => p.id === 1 || p.id === 2 || p.name.toLowerCase().includes('kumkumadi') || p.name.toLowerCase().includes('pigmentation'))
-            .map(p => {
-              if (p.id === 1 || p.name.toLowerCase().includes('kumkumadi')) {
-                return { ...p, name: "Kumkumadi Oil" };
-              }
-              if (p.id === 2 || p.name.toLowerCase().includes('pigmentation')) {
-                return { ...p, name: "Anti Pigmentation Cream" };
-              }
-              return p;
-            });
-          setProductsList(filtered);
+        } else if (data) {
+          setProductsList(data);
         }
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -45,11 +36,35 @@ export default function Products() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    async function fetchCategoryName() {
+      if (categoryIdParam) {
+        try {
+          const { data, error } = await supabase
+            .from("categories")
+            .select("name")
+            .eq("id", parseInt(categoryIdParam))
+            .single();
+          if (error) {
+            console.error("Error fetching category name:", error.message);
+          } else if (data) {
+            setCategoryName(data.name);
+          }
+        } catch (err) {
+          console.error("Error fetching category name:", err);
+        }
+      } else {
+        setCategoryName("");
+      }
+    }
+    fetchCategoryName();
+  }, [categoryIdParam]);
+
   const displayedProducts = productsList.filter(product => {
-    return (
-      product.name.toLowerCase().includes(searchVal) ||
-      product.description.toLowerCase().includes(searchVal)
-    );
+    const matchesSearch = product.name.toLowerCase().includes(searchVal) ||
+                          product.description.toLowerCase().includes(searchVal);
+    const matchesCategory = categoryIdParam ? String(product.category_id) === categoryIdParam : true;
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -70,7 +85,7 @@ export default function Products() {
             Pure apothecary
           </span>
           <h1 className="text-[#3C5A44] text-5xl md:text-6xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-            Our Formulations
+            {categoryName ? `Our ${categoryName}` : "Our Formulations"}
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Discover our carefully crafted range of premium Ayurvedic wellness formulations designed for modern life.
@@ -84,7 +99,11 @@ export default function Products() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
           className={`grid gap-8 z-10 relative justify-center ${
-            displayedProducts.length === 2 ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"
+            displayedProducts.length === 1
+              ? "grid-cols-1 max-w-sm mx-auto"
+              : displayedProducts.length === 2
+              ? "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto"
+              : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto"
           }`}
         >
           {displayedProducts.map(product => (

@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../supabaseClient";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { FiShoppingBag, FiLayers, FiStar, FiTruck, FiPlus, FiTrash2, FiCheckCircle } from "react-icons/fi";
+import { FiShoppingBag, FiLayers, FiStar, FiTruck, FiPlus, FiTrash2, FiCheckCircle, FiGrid, FiEdit2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { getProductImage } from "../data/products";
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'products' | 'reviews'
+  const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'products' | 'categories' | 'reviews'
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   // Data lists
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [reviews, setReviews] = useState([]);
 
   // New product form state
@@ -22,10 +23,20 @@ export default function AdminDashboard() {
     name: "",
     price: "",
     description: "",
-    category: "1",
+    category_id: "",
     stock: "100",
+    image_url: "",
+    is_bestseller: false
+  });
+
+  // New category form state
+  const [newCategory, setNewCategory] = useState({
+    name: "",
+    subtitle: "",
     image_url: ""
   });
+
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const navigate = useNavigate();
 
@@ -38,7 +49,6 @@ export default function AdminDashboard() {
         // Wait 3 seconds and redirect if not admin
         setTimeout(() => navigate("/login"), 3000);
       } else {
-
         setIsAdmin(true);
         setLoading(false);
       }
@@ -66,10 +76,24 @@ export default function AdminDashboard() {
     } else if (activeTab === "products") {
       const { data: productsData } = await supabase
         .from("products")
-        .select("*")
+        .select("*, categories(*)")
         .order("id", { ascending: true });
 
       setProducts(productsData || []);
+
+      const { data: categoriesData } = await supabase
+        .from("categories")
+        .select("*")
+        .order("name", { ascending: true });
+
+      setCategories(categoriesData || []);
+    } else if (activeTab === "categories") {
+      const { data: categoriesData } = await supabase
+        .from("categories")
+        .select("*")
+        .order("name", { ascending: true });
+
+      setCategories(categoriesData || []);
     } else if (activeTab === "reviews") {
       const { data: reviewsData } = await supabase
         .from("reviews")
@@ -133,6 +157,35 @@ export default function AdminDashboard() {
     reader.readAsDataURL(file);
   };
 
+  const handleCategoryImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 600;
+        const scale = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scale;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+        if (editingCategory) {
+          setEditingCategory(prev => ({ ...prev, image_url: dataUrl }));
+        } else {
+          setNewCategory(prev => ({ ...prev, image_url: dataUrl }));
+        }
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Add new product
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -141,9 +194,10 @@ export default function AdminDashboard() {
         name: newProduct.name,
         price: parseFloat(newProduct.price),
         description: newProduct.description,
-        category: newProduct.category,
+        category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
-        image_url: newProduct.image_url
+        image_url: newProduct.image_url,
+        is_bestseller: newProduct.is_bestseller
       }
     ]);
 
@@ -154,9 +208,10 @@ export default function AdminDashboard() {
         name: "",
         price: "",
         description: "",
-        category: "1",
+        category_id: "",
         stock: "100",
-        image_url: ""
+        image_url: "",
+        is_bestseller: false
       });
       alert("Product added successfully!");
       fetchData();
@@ -175,6 +230,68 @@ export default function AdminDashboard() {
         alert("Error deleting product: " + error.message);
       } else {
         alert("Product deleted successfully!");
+        fetchData();
+      }
+    }
+  };
+
+  // Add category
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    const { error } = await supabase.from("categories").insert([
+      {
+        name: newCategory.name,
+        subtitle: newCategory.subtitle,
+        image_url: newCategory.image_url
+      }
+    ]);
+
+    if (error) {
+      alert("Error adding category: " + error.message);
+    } else {
+      setNewCategory({
+        name: "",
+        subtitle: "",
+        image_url: ""
+      });
+      alert("Category added successfully!");
+      fetchData();
+    }
+  };
+
+  // Update category
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+    const { error } = await supabase
+      .from("categories")
+      .update({
+        name: editingCategory.name,
+        subtitle: editingCategory.subtitle,
+        image_url: editingCategory.image_url
+      })
+      .eq("id", editingCategory.id);
+
+    if (error) {
+      alert("Error updating category: " + error.message);
+    } else {
+      setEditingCategory(null);
+      alert("Category updated successfully!");
+      fetchData();
+    }
+  };
+
+  // Delete category
+  const handleDeleteCategory = async (categoryId) => {
+    if (confirm("Are you sure you want to delete this category? All products assigned to this category will have their category unassigned.")) {
+      const { error } = await supabase
+        .from("categories")
+        .delete()
+        .eq("id", categoryId);
+
+      if (error) {
+        alert("Error deleting category: " + error.message);
+      } else {
+        alert("Category deleted successfully!");
         fetchData();
       }
     }
@@ -235,7 +352,7 @@ export default function AdminDashboard() {
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab("orders")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
                 activeTab === "orders" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
@@ -244,7 +361,7 @@ export default function AdminDashboard() {
             </button>
             <button
               onClick={() => setActiveTab("products")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
                 activeTab === "products" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
@@ -252,8 +369,17 @@ export default function AdminDashboard() {
               <span>Products</span>
             </button>
             <button
+              onClick={() => setActiveTab("categories")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
+                activeTab === "categories" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+              }`}
+            >
+              <FiGrid />
+              <span>Categories</span>
+            </button>
+            <button
               onClick={() => setActiveTab("reviews")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
                 activeTab === "reviews" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
               }`}
             >
@@ -356,6 +482,8 @@ export default function AdminDashboard() {
                       <th className="p-4">ID</th>
                       <th className="p-4">Image</th>
                       <th className="p-4">Name</th>
+                      <th className="p-4">Category</th>
+                      <th className="p-4">Bestseller</th>
                       <th className="p-4">Price</th>
                       <th className="p-4">Stock</th>
                       <th className="p-4 text-right">Actions</th>
@@ -377,6 +505,14 @@ export default function AdminDashboard() {
                           )}
                         </td>
                         <td className="p-4 text-[#3C5A44] font-medium">{prod.name}</td>
+                        <td className="p-4 text-gray-600">{prod.categories?.name || "Unassigned"}</td>
+                        <td className="p-4 text-gray-600">
+                          {prod.is_bestseller ? (
+                            <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-[10px] font-bold">Yes</span>
+                          ) : (
+                            <span className="text-gray-400">No</span>
+                          )}
+                        </td>
                         <td className="p-4 text-[#B89355] font-bold">₹{prod.price}</td>
                         <td className="p-4 text-gray-600">{prod.stock} left</td>
                         <td className="p-4 text-right">
@@ -427,28 +563,45 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category Code</label>
+                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category</label>
                       <select
-                        value={newProduct.category}
-                        onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                        value={newProduct.category_id}
+                        onChange={(e) => setNewProduct({ ...newProduct, category_id: e.target.value })}
                         className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                       >
-                        <option value="1">Immunity (1)</option>
-                        <option value="2">Hair Care (2)</option>
-                        <option value="3">Detox (3)</option>
+                        <option value="">Select Category</option>
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Initial Stock</label>
-                    <input
-                      type="number"
-                      required
-                      value={newProduct.stock}
-                      onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-                      placeholder="100"
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
-                    />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Initial Stock</label>
+                      <input
+                        type="number"
+                        required
+                        value={newProduct.stock}
+                        onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+                        placeholder="100"
+                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      />
+                    </div>
+                    <div className="flex items-center mt-6">
+                      <input
+                        type="checkbox"
+                        id="is_bestseller"
+                        checked={newProduct.is_bestseller}
+                        onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
+                        className="w-4 h-4 text-[#3C5A44] border-gray-300 rounded focus:ring-[#3C5A44]"
+                      />
+                      <label htmlFor="is_bestseller" className="ml-2 block text-xs font-bold text-gray-600 uppercase">
+                        Bestseller Product
+                      </label>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Product Image</label>
@@ -509,6 +662,184 @@ export default function AdminDashboard() {
                   >
                     Add Product to Shop
                   </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "categories" && (
+          <div className="grid lg:grid-cols-12 gap-8">
+            {/* Categories list */}
+            <div className="lg:col-span-7 space-y-6">
+              <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Store Categories ({categories.length})</h2>
+              <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                      <th className="p-4">ID</th>
+                      <th className="p-4">Image</th>
+                      <th className="p-4">Name</th>
+                      <th className="p-4">Subtitle</th>
+                      <th className="p-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-xs">
+                    {categories.map((cat) => (
+                      <tr key={cat.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
+                        <td className="p-4 text-gray-500 font-mono">{cat.id}</td>
+                        <td className="p-4">
+                          {cat.image_url ? (
+                            <img
+                              src={cat.image_url}
+                              alt={cat.name}
+                              className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#3C5A44] to-[#B89355] flex items-center justify-center text-white text-[8px] font-bold">
+                              No Img
+                            </div>
+                          )}
+                        </td>
+                        <td className="p-4 text-[#3C5A44] font-medium">{cat.name}</td>
+                        <td className="p-4 text-gray-600">{cat.subtitle || "No subtitle"}</td>
+                        <td className="p-4 text-right">
+                          <div className="flex justify-end gap-2 items-center">
+                            <button
+                              onClick={() => setEditingCategory(cat)}
+                              className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                              title="Edit Category"
+                            >
+                              <FiEdit2 size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCategory(cat.id)}
+                              className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition"
+                              title="Delete Category"
+                            >
+                              <FiTrash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Add / Edit Category form */}
+            <div className="lg:col-span-5">
+              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
+                <h3 className="text-lg font-bold font-serif text-[#3C5A44] flex items-center gap-2">
+                  <FiPlus className="text-[#B89355]" />
+                  <span>{editingCategory ? "Edit Category" : "Add New Category"}</span>
+                </h3>
+                <form onSubmit={editingCategory ? handleUpdateCategory : handleAddCategory} className="space-y-4 text-xs">
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={editingCategory ? editingCategory.name : newCategory.name}
+                      onChange={(e) => {
+                        if (editingCategory) {
+                          setEditingCategory({ ...editingCategory, name: e.target.value });
+                        } else {
+                          setNewCategory({ ...newCategory, name: e.target.value });
+                        }
+                      }}
+                      placeholder="e.g. Skin Care"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Subtitle</label>
+                    <input
+                      type="text"
+                      value={editingCategory ? (editingCategory.subtitle || "") : newCategory.subtitle}
+                      onChange={(e) => {
+                        if (editingCategory) {
+                          setEditingCategory({ ...editingCategory, subtitle: e.target.value });
+                        } else {
+                          setNewCategory({ ...newCategory, subtitle: e.target.value });
+                        }
+                      }}
+                      placeholder="e.g. Pure Ayurvedic Skincare"
+                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category Banner Image</label>
+                    <div className="space-y-2.5">
+                      {(editingCategory ? editingCategory.image_url : newCategory.image_url) && (
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#3C5A44]/10 bg-white">
+                          <img
+                            src={editingCategory ? editingCategory.image_url : newCategory.image_url}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (editingCategory) {
+                                setEditingCategory({ ...editingCategory, image_url: "" });
+                              } else {
+                                setNewCategory({ ...newCategory, image_url: "" });
+                              }
+                            }}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
+                            title="Remove Image"
+                          >
+                            <FiTrash2 size={10} />
+                          </button>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center gap-2">
+                        <label className="cursor-pointer bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
+                          Choose Image File
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleCategoryImageChange}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                      
+                      <input
+                        type="text"
+                        value={editingCategory ? (editingCategory.image_url || "") : newCategory.image_url}
+                        onChange={(e) => {
+                          if (editingCategory) {
+                            setEditingCategory({ ...editingCategory, image_url: e.target.value });
+                          } else {
+                            setNewCategory({ ...newCategory, image_url: e.target.value });
+                          }
+                        }}
+                        placeholder="Or paste image URL (e.g. https://...)"
+                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      className="flex-grow py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
+                    >
+                      {editingCategory ? "Update Category" : "Add Category"}
+                    </button>
+                    {editingCategory && (
+                      <button
+                        type="button"
+                        onClick={() => setEditingCategory(null)}
+                        className="py-3 px-4 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition duration-200 uppercase tracking-wider"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
