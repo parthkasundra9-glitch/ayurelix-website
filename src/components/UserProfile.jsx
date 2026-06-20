@@ -140,43 +140,43 @@ export default function UserProfile() {
     return (
       <div className="flex items-center justify-between w-full max-w-md mx-auto py-6">
         {/* Step 1: Placed */}
-        <div className="flex flex-col items-center relative z-10">
+        <div className="flex flex-col items-center relative z-10 w-20">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
             currentIdx >= 0 ? "bg-[#B89355] text-white shadow-sm" : "bg-gray-200 text-gray-400"
           }`}>
             {currentIdx >= 0 ? <FiCheck /> : "1"}
           </div>
-          <span className="text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600">Order Placed</span>
+          <span className="text-[8px] sm:text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600 text-center leading-tight">Order Placed</span>
         </div>
 
         {/* Line 1 */}
-        <div className="flex-grow h-[2px] bg-gray-200 mx-2 relative -mt-5">
+        <div className="flex-grow h-[2px] bg-gray-200 mx-1 relative -mt-5">
           <div className={`absolute inset-0 bg-[#B89355] transition-all duration-500`} style={{ width: currentIdx >= 1 ? "100%" : "0%" }} />
         </div>
 
         {/* Step 2: Shipped */}
-        <div className="flex flex-col items-center relative z-10">
+        <div className="flex flex-col items-center relative z-10 w-20">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
             currentIdx >= 1 ? "bg-[#B89355] text-white shadow-sm" : "bg-gray-200 text-gray-400"
           }`}>
             {currentIdx >= 1 ? <FiCheck /> : "2"}
           </div>
-          <span className="text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600">Shipped</span>
+          <span className="text-[8px] sm:text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600 text-center leading-tight">Shipped</span>
         </div>
 
         {/* Line 2 */}
-        <div className="flex-grow h-[2px] bg-gray-200 mx-2 relative -mt-5">
+        <div className="flex-grow h-[2px] bg-gray-200 mx-1 relative -mt-5">
           <div className={`absolute inset-0 bg-[#B89355] transition-all duration-500`} style={{ width: currentIdx >= 2 ? "100%" : "0%" }} />
         </div>
 
         {/* Step 3: Delivered */}
-        <div className="flex flex-col items-center relative z-10">
+        <div className="flex flex-col items-center relative z-10 w-20">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
             currentIdx >= 2 ? "bg-[#B89355] text-white shadow-sm" : "bg-gray-200 text-gray-400"
           }`}>
             {currentIdx >= 2 ? <FiCheck /> : "3"}
           </div>
-          <span className="text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600">Delivered</span>
+          <span className="text-[8px] sm:text-[10px] uppercase tracking-wider font-bold mt-2 text-gray-600 text-center leading-tight">Delivered</span>
         </div>
       </div>
     );
@@ -191,10 +191,10 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between">
+    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between overflow-x-hidden">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto py-32 px-8 w-full flex-grow">
+      <section className="max-w-7xl mx-auto py-20 sm:py-32 px-4 sm:px-8 w-full flex-grow relative">
         {/* Glow decoration */}
         <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[#B89355]/3 blur-[120px] pointer-events-none" />
 
@@ -203,7 +203,7 @@ export default function UserProfile() {
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block mb-1">
             Welcome Back
           </span>
-          <h1 className="text-[#3C5A44] text-4xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h1 className="text-[#3C5A44] text-2xl sm:text-4xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             {profile.fullName || user.email.split("@")[0]}'s Dashboard
           </h1>
         </div>
@@ -211,7 +211,7 @@ export default function UserProfile() {
         <div className="grid lg:grid-cols-12 gap-8 items-start relative z-10">
           
           {/* LEFT PANEL: PROFILE CARD */}
-          <div className="lg:col-span-4 bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl space-y-6">
+          <div className="lg:col-span-4 bg-[#fbf9f4] border border-[#3C5A44]/5 p-4 sm:p-6 rounded-3xl shadow-xl space-y-6">
             <div className="flex items-center gap-4 border-b border-[#3C5A44]/5 pb-5">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#B89355] to-[#8F6E35] flex items-center justify-center text-white text-2xl font-black">
                 {profile.fullName ? profile.fullName[0].toUpperCase() : user.email[0].toUpperCase()}
@@ -387,7 +387,7 @@ export default function UserProfile() {
                       {/* Accordion Trigger Header */}
                       <button
                         onClick={() => handleToggleOrder(order.id)}
-                        className="w-full text-left p-6 flex flex-wrap justify-between items-center gap-4 hover:bg-[#f4efe2]/40 transition"
+                        className="w-full text-left p-4 sm:p-6 flex flex-wrap justify-between items-center gap-4 hover:bg-[#f4efe2]/40 transition"
                       >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2.5">
@@ -430,16 +430,16 @@ export default function UserProfile() {
                             exit={{ height: 0 }}
                             className="overflow-hidden border-t border-[#3C5A44]/5 bg-white/80"
                           >
-                            <div className="p-6 space-y-6">
+                            <div className="p-4 sm:p-6 space-y-6">
                               {/* Visual Status Stepper */}
-                              <div className="border-b border-[#3C5A44]/5 pb-6">
-                                <h4 className="text-[10px] uppercase tracking-wider font-bold text-[#B89355] mb-2 text-center">
+                              <div className="border-b border-[#3C5A44]/5 pb-6 text-center">
+                                <h4 className="text-[10px] uppercase tracking-wider font-bold text-[#B89355] mb-2">
                                   Delivery Progress
                                 </h4>
                                 {renderStatusStepper(order.status)}
                               </div>
 
-                              <div className="grid md:grid-cols-2 gap-8 text-xs">
+                              <div className="grid md:grid-cols-2 gap-6 sm:gap-8 text-xs">
                                 {/* Order items */}
                                 <div className="space-y-3">
                                   <h4 className="text-[10px] uppercase tracking-wider font-bold text-[#B89355]">Items Ordered</h4>
