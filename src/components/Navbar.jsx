@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
 import { useCart } from "../context/CartContext";
-import { FiShoppingBag, FiHeart, FiUser, FiLogOut, FiShield, FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { FiShoppingBag, FiHeart, FiUser, FiShield, FiMenu, FiX, FiSearch, FiChevronDown } from "react-icons/fi";
 import { supabase } from "../supabaseClient";
 
 export default function Navbar() {
@@ -11,6 +11,9 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,27 +31,28 @@ export default function Navbar() {
     };
   }, []);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsMenuOpen(false);
-    navigate("/");
-  };
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const { data, error } = await supabase
+          .from("categories")
+          .select("*")
+          .order("name", { ascending: true });
+        if (data) {
+          setCategories(data);
+        }
+      } catch (err) {
+        console.error("Error fetching categories for navbar:", err);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setIsMenuOpen(false);
-    }
-  };
-
-  const handleCategoryClick = () => {
-    setIsMenuOpen(false);
-    const section = document.getElementById("category-section") || document.getElementById("featured-products-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    } else {
-      navigate("/#featured-products-section");
     }
   };
 
@@ -138,14 +142,6 @@ export default function Navbar() {
                     {user.user_metadata?.full_name || user.email.split("@")[0]}
                   </span>
                 </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="p-2 rounded-full hover:bg-red-500/10 text-gray-500 hover:text-red-600 transition duration-300 cursor-pointer"
-                  title="Sign Out"
-                >
-                  <FiLogOut size={16} />
-                </button>
               </div>
             ) : (
               <Link
@@ -166,9 +162,43 @@ export default function Navbar() {
           <Link to="/products" className="hover:text-[#B89355] transition duration-300">
             Products
           </Link>
-          <button onClick={handleCategoryClick} className="hover:text-[#B89355] transition duration-300 cursor-pointer uppercase font-bold text-sm">
-            Categories
-          </button>
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
+            onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
+          >
+            <button className="hover:text-[#B89355] transition duration-300 cursor-pointer uppercase font-bold text-sm flex items-center gap-1">
+              <span>Categories</span>
+              <FiChevronDown size={14} className={`transition-transform duration-300 ${isCategoriesDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+            
+            <AnimatePresence>
+              {isCategoriesDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-[#3C5A44]/10 rounded-2xl shadow-xl py-3 z-50 overflow-hidden text-left"
+                >
+                  {categories.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      to={`/products?category=${cat.id}`}
+                      onClick={() => setIsCategoriesDropdownOpen(false)}
+                      className="block px-6 py-2.5 text-xs text-gray-700 hover:bg-[#FAF8F5] hover:text-[#B89355] transition duration-150 font-bold normal-case"
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
+                  {categories.length === 0 && (
+                    <span className="block px-6 py-2.5 text-xs text-gray-400 italic">
+                      No categories found
+                    </span>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           <Link to="/about" className="hover:text-[#B89355] transition duration-300">
             About
           </Link>
@@ -264,12 +294,44 @@ export default function Navbar() {
               >
                 Products
               </Link>
-              <button
-                onClick={handleCategoryClick}
-                className="text-left font-bold text-base hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition bg-transparent cursor-pointer"
-              >
-                Categories
-              </button>
+              <div>
+                <button
+                  onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
+                  className="w-full text-left font-bold text-base hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition bg-transparent cursor-pointer flex justify-between items-center"
+                >
+                  <span>Categories</span>
+                  <FiChevronDown size={16} className={`transition-transform duration-300 ${isMobileCategoriesOpen ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {isMobileCategoriesOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden pl-4 flex flex-col gap-2.5 mt-2.5 border-l border-[#3C5A44]/10"
+                    >
+                      {categories.map((cat) => (
+                        <Link
+                          key={cat.id}
+                          to={`/products?category=${cat.id}`}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setIsMobileCategoriesOpen(false);
+                          }}
+                          className="text-sm text-gray-600 hover:text-[#B89355] py-1 transition font-bold"
+                        >
+                          {cat.name}
+                        </Link>
+                      ))}
+                      {categories.length === 0 && (
+                        <span className="text-sm text-gray-400 italic py-1">
+                          No categories found
+                        </span>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <Link
                 to="/about"
                 onClick={() => setIsMenuOpen(false)}
@@ -312,14 +374,6 @@ export default function Navbar() {
                 >
                   My Profile
                 </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="w-full py-3 bg-red-50 text-red-600 border border-red-100 font-bold rounded-xl text-sm flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FiLogOut size={16} />
-                  <span>Sign Out</span>
-                </button>
               </div>
             ) : (
               <Link

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../supabaseClient";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { FiUser, FiMapPin, FiPhone, FiMail, FiCalendar, FiPackage, FiCheck, FiEdit2, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiUser, FiMapPin, FiPhone, FiMail, FiCalendar, FiPackage, FiCheck, FiEdit2, FiChevronDown, FiChevronUp, FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getProductImage } from "../data/products";
@@ -100,8 +100,7 @@ export default function UserProfile() {
     try {
       const { error } = await supabase
         .from("profiles")
-        .upsert({
-          id: user.id,
+        .update({
           full_name: editForm.fullName,
           phone: editForm.phone,
           address: editForm.address,
@@ -110,7 +109,8 @@ export default function UserProfile() {
           postal_code: editForm.postalCode,
           email: user.email,
           updated_at: new Date().toISOString()
-        });
+        })
+        .eq("id", user.id);
 
       if (error) throw error;
 
@@ -121,6 +121,15 @@ export default function UserProfile() {
       setMessage({ text: "Error updating profile: " + err.message, type: "error" });
     } finally {
       setSaveLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/");
+    } catch (err) {
+      console.error("Error signing out:", err.message);
     }
   };
 
@@ -491,6 +500,17 @@ export default function UserProfile() {
             )}
           </div>
 
+        </div>
+
+        {/* Center-aligned red styled Sign Out button */}
+        <div className="mt-16 flex justify-center border-t border-[#3C5A44]/10 pt-8 relative z-10">
+          <button
+            onClick={handleLogout}
+            className="px-8 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 hover:border-red-300 font-black rounded-xl text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition duration-300 active:scale-95 cursor-pointer"
+          >
+            <FiLogOut size={14} />
+            <span>Sign Out</span>
+          </button>
         </div>
       </section>
 
