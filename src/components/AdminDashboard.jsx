@@ -37,6 +37,7 @@ export default function AdminDashboard() {
   });
 
   const [editingCategory, setEditingCategory] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const navigate = useNavigate();
 
@@ -232,6 +233,40 @@ export default function AdminDashboard() {
         alert("Product deleted successfully!");
         fetchData();
       }
+    }
+  };
+
+  // Update product
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    const { error } = await supabase
+      .from("products")
+      .update({
+        name: newProduct.name,
+        price: parseFloat(newProduct.price),
+        description: newProduct.description,
+        category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
+        stock: parseInt(newProduct.stock),
+        image_url: newProduct.image_url,
+        is_bestseller: newProduct.is_bestseller
+      })
+      .eq("id", editingProduct.id);
+
+    if (error) {
+      alert("Error updating product: " + error.message);
+    } else {
+      setNewProduct({
+        name: "",
+        price: "",
+        description: "",
+        category_id: "",
+        stock: "100",
+        image_url: "",
+        is_bestseller: false
+      });
+      setEditingProduct(null);
+      alert("Product updated successfully!");
+      fetchData();
     }
   };
 
@@ -516,13 +551,33 @@ export default function AdminDashboard() {
                         <td className="p-4 text-[#B89355] font-bold">₹{prod.price}</td>
                         <td className="p-4 text-gray-600">{prod.stock} left</td>
                         <td className="p-4 text-right">
-                          <button
-                            onClick={() => handleDeleteProduct(prod.id)}
-                            className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition"
-                            title="Delete Product"
-                          >
-                            <FiTrash2 size={14} />
-                          </button>
+                          <div className="flex justify-end gap-2 items-center">
+                            <button
+                              onClick={() => {
+                                setEditingProduct(prod);
+                                setNewProduct({
+                                  name: prod.name,
+                                  price: String(prod.price),
+                                  description: prod.description || "",
+                                  category_id: prod.category_id ? String(prod.category_id) : "",
+                                  stock: String(prod.stock),
+                                  image_url: prod.image_url || "",
+                                  is_bestseller: prod.is_bestseller || false
+                                });
+                              }}
+                              className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                              title="Edit Product"
+                            >
+                              <FiEdit2 size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteProduct(prod.id)}
+                              className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition"
+                              title="Delete Product"
+                            >
+                              <FiTrash2 size={14} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -536,9 +591,9 @@ export default function AdminDashboard() {
               <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
                 <h3 className="text-lg font-bold font-serif text-[#3C5A44] flex items-center gap-2">
                   <FiPlus className="text-[#B89355]" />
-                  <span>Add New Product</span>
+                  <span>{editingProduct ? `Edit Product: ${editingProduct.name}` : "Add New Product"}</span>
                 </h3>
-                <form onSubmit={handleAddProduct} className="space-y-4 text-xs">
+                <form onSubmit={editingProduct ? handleUpdateProduct : handleAddProduct} className="space-y-4 text-xs">
                   <div>
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Product Name</label>
                     <input
@@ -656,12 +711,34 @@ export default function AdminDashboard() {
                       className="w-full bg-white border border-[#3C5A44]/10 rounded-xl p-4 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
-                  <button
-                    type="submit"
-                    className="w-full py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
-                  >
-                    Add Product to Shop
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      className="flex-grow py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
+                    >
+                      {editingProduct ? "Update Product" : "Add Product to Shop"}
+                    </button>
+                    {editingProduct && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingProduct(null);
+                          setNewProduct({
+                            name: "",
+                            price: "",
+                            description: "",
+                            category_id: "",
+                            stock: "100",
+                            image_url: "",
+                            is_bestseller: false
+                          });
+                        }}
+                        className="py-3 px-4 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition duration-200 uppercase tracking-wider"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
