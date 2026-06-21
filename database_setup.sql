@@ -263,3 +263,27 @@ on conflict (id) do update set
 update public.products set category_id = 1, is_bestseller = true where id = 1;
 update public.products set category_id = 2, is_bestseller = true where id = 2;
 
+
+-- 10. Stock and Inventory Policies/Triggers
+-- A. Update policy to allow authenticated users to update products (specifically for stock decrement client-side fallback)
+drop policy if exists "Allow authenticated users to update product stock" on public.products;
+create policy "Allow authenticated users to update product stock" on public.products
+  for update using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+-- B. Automate stock decrement using database trigger (Recommended, running as security definer)
+create or replace function public.decrement_product_stock()
+returns trigger as $$
+begin
+  update public.products
+  set stock = greatest(0, stock - new.quantity)
+  where id = new.product_id;
+  return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+drop trigger if exists tr_decrement_product_stock on public.order_items;
+create trigger tr_decrement_product_stock
+  after insert on public.order_items
+  for each row execute procedure public.decrement_product_stock();
+
+

@@ -130,7 +130,33 @@ export default function CartDrawer() {
 
       if (itemsError) throw itemsError;
 
-      // 3. Clear cart and show success
+      // 3. Decrement stock counts in the products table
+      for (const item of cartItems) {
+        try {
+          const { data: prodData, error: fetchError } = await supabase
+            .from("products")
+            .select("stock")
+            .eq("id", item.id)
+            .single();
+
+          if (fetchError) throw fetchError;
+
+          if (prodData) {
+            const currentStock = prodData.stock !== null && prodData.stock !== undefined ? prodData.stock : 100;
+            const newStock = Math.max(0, currentStock - item.quantity);
+            const { error: updateError } = await supabase
+              .from("products")
+              .update({ stock: newStock })
+              .eq("id", item.id);
+
+            if (updateError) throw updateError;
+          }
+        } catch (stockErr) {
+          console.error(`Failed to decrement stock for product ${item.id}:`, stockErr);
+        }
+      }
+
+      // 4. Clear cart and show success
       clearCart();
       setCheckoutStep("success");
     } catch (err) {

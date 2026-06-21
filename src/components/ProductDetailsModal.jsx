@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { FiX, FiPlus, FiMinus, FiShoppingBag, FiCheck } from "react-icons/fi";
@@ -33,6 +33,12 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
+  useEffect(() => {
+    if (product) {
+      setQuantity(product.stock <= 0 ? 0 : 1);
+    }
+  }, [product, isOpen]);
+
   if (!product) return null;
 
   const info = productDetailsMap[product.id] || {
@@ -43,6 +49,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
   };
 
   const handleAddToCart = () => {
+    if (product.stock <= 0) return;
     addToCart(product, quantity);
     setAdded(true);
     setTimeout(() => {
@@ -171,14 +178,16 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   <div className="flex items-center bg-[#fbf9f4] border border-[#3C5A44]/10 rounded-xl p-1">
                     <button
                       onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      className="p-2 hover:text-[#B89355] text-gray-500 transition"
+                      disabled={product.stock <= 0}
+                      className="p-2 hover:text-[#B89355] text-gray-500 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <FiMinus size={14} />
                     </button>
                     <span className="px-4 text-base font-bold text-[#3C5A44]">{quantity}</span>
                     <button
-                      onClick={() => setQuantity(q => q + 1)}
-                      className="p-2 hover:text-[#B89355] text-gray-500 transition"
+                      onClick={() => setQuantity(q => Math.min(product.stock || 999, q + 1))}
+                      disabled={product.stock <= 0 || quantity >= (product.stock || 999)}
+                      className="p-2 hover:text-[#B89355] text-gray-500 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <FiPlus size={14} />
                     </button>
@@ -186,10 +195,12 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
 
                   <button
                     onClick={handleAddToCart}
-                    disabled={added}
-                    className="flex-grow py-3 px-8 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition duration-200"
+                    disabled={added || product.stock <= 0}
+                    className="flex-grow py-3 px-8 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
                   >
-                    {added ? (
+                    {product.stock <= 0 ? (
+                      <span>Out of Stock</span>
+                    ) : added ? (
                       <>
                         <FiCheck className="text-lg" />
                         <span>Added to Cart</span>

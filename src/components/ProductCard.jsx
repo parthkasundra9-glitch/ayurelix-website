@@ -15,6 +15,7 @@ export default function ProductCard({ product, onView }) {
 
   const handleQuickAdd = (e) => {
     e.stopPropagation();
+    if (product.stock <= 0) return;
     addToCart(product, 1);
     setIsCartOpen(true);
   };
@@ -42,11 +43,18 @@ export default function ProductCard({ product, onView }) {
     >
       <div>
         <div className="h-56 rounded-2xl bg-[#fbf9f4] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
+          {product.stock <= 0 && (
+            <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
+              Out of Stock
+            </div>
+          )}
           {getProductImage(product.image_url, product.id, product.name) ? (
             <img
               src={getProductImage(product.image_url, product.id, product.name)}
               alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                product.stock <= 0 ? "opacity-60 grayscale-[40%]" : ""
+              }`}
             />
           ) : (
             <div className={`w-full h-full bg-gradient-to-br ${gradients} flex items-center justify-center`}>
@@ -74,14 +82,16 @@ export default function ProductCard({ product, onView }) {
             >
               <FiEye size={18} />
             </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleQuickAdd}
-              className="w-12 h-12 rounded-full bg-[#B89355] text-white flex items-center justify-center shadow-lg font-bold"
-            >
-              <FiShoppingBag size={18} />
-            </motion.button>
+            {product.stock > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleQuickAdd}
+                className="w-12 h-12 rounded-full bg-[#B89355] text-white flex items-center justify-center shadow-lg font-bold"
+              >
+                <FiShoppingBag size={18} />
+              </motion.button>
+            )}
           </div>
         </div>
 
@@ -120,6 +130,7 @@ export default function ProductCard({ product, onView }) {
           </button>
           <button
             onClick={handleQuickAdd}
+            disabled={product.stock <= 0}
             className="
             col-span-2
             py-3
@@ -129,10 +140,17 @@ export default function ProductCard({ product, onView }) {
             font-black text-sm
             flex items-center justify-center gap-1.5
             transition duration-300
+            disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed
             "
           >
-            <FiShoppingBag size={14} />
-            <span>Add</span>
+            {product.stock <= 0 ? (
+              <span>Out</span>
+            ) : (
+              <>
+                <FiShoppingBag size={14} />
+                <span>Add</span>
+              </>
+            )}
           </button>
         </div>
       </div>
