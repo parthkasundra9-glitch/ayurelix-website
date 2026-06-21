@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import bannerHerbs from "../assets/banner_herbs.png";
 
 const slides = [
   {
@@ -9,7 +10,7 @@ const slides = [
     subtitle: "Pure Botanical Formulations",
     description: "Discover our handcrafted range of face pack remedies and serums derived from ancient scriptures and modern science.",
     cta: "Explore Shop",
-    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=1600&auto=format&fit=crop"
+    image: bannerHerbs
   },
   {
     id: 2,
