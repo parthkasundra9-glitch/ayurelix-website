@@ -10,7 +10,8 @@ const slides = [
     subtitle: "Pure Botanical Formulations",
     description: "Discover our handcrafted range of face pack remedies and serums derived from ancient scriptures and modern science.",
     cta: "Explore Shop",
-    image: bannerHerbs
+    image: bannerHerbs,
+    align: "right"
   },
   {
     id: 2,
@@ -18,7 +19,8 @@ const slides = [
     subtitle: "Authentic Kumkumadi Oil",
     description: "Infused with pure Saffron and Sandalwood to reduce fine lines, erase blemishes, and reveal your skin's inner radiance.",
     cta: "View Serum",
-    image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=1600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=1600&auto=format&fit=crop",
+    align: "left"
   },
   {
     id: 3,
@@ -26,7 +28,8 @@ const slides = [
     subtitle: "Pure Organic Face Pack",
     description: "Crafted with Lodhra, Neem, and Turmeric to combat pigmentation, acne scars, and restore clean, balanced skin tone.",
     cta: "View Cream",
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=1600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=1600&auto=format&fit=crop",
+    align: "left"
   },
   {
     id: 4,
@@ -34,7 +37,8 @@ const slides = [
     subtitle: "Daily Skincare Rituals",
     description: "Transform your daily skincare routine with chemical-free formulations safe for all skin types. 100% natural, active wellness.",
     cta: "Shop Now",
-    image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1600&auto=format&fit=crop",
+    align: "left"
   }
 ];
 
@@ -110,11 +114,11 @@ export default function HeroSlider() {
               className="w-full h-full object-cover object-center"
             />
             {/* Ambient Overlay to make text legible */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent max-md:bg-black/55 z-10" />
+            <div className={`absolute inset-0 bg-gradient-to-${slides[current].align === "right" ? "l" : "r"} from-black/50 via-black/20 to-transparent max-md:bg-black/60 z-10`} />
 
             {/* Content Card Panel */}
-            <div className="absolute inset-0 max-w-7xl mx-auto px-6 sm:px-8 md:px-12 flex flex-col justify-center items-start z-20 text-white select-none">
-              <div className="max-w-xl space-y-4 md:space-y-6">
+            <div className={`absolute inset-0 max-w-7xl mx-auto px-6 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white select-none`}>
+              <div className={`max-w-xl space-y-4 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
                 <motion.span
                   initial={{ opacity: 0, y: -15 }}
                   animate={{ opacity: 1, y: 0 }}
