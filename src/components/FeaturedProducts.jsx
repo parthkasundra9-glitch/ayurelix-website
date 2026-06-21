@@ -34,6 +34,7 @@ export default function FeaturedProducts() {
 
   const handleQuickAdd = (e, product) => {
     e.stopPropagation();
+    if (product.stock <= 0) return;
     addToCart(product, 1);
     setIsCartOpen(true);
   };
@@ -81,11 +82,18 @@ export default function FeaturedProducts() {
               <div>
                 {/* Visual Image */}
                 <div className="h-64 sm:h-72 rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
+                  {product.stock <= 0 && (
+                    <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
+                      Out of Stock
+                    </div>
+                  )}
                   {imageSrc ? (
                     <img
                       src={imageSrc}
                       alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                        product.stock <= 0 ? "opacity-60 grayscale-[40%]" : ""
+                      }`}
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[#B89355] to-[#3C5A44] flex items-center justify-center text-white text-3xl font-bold">
@@ -136,10 +144,17 @@ export default function FeaturedProducts() {
 
                 <button
                   onClick={(e) => handleQuickAdd(e, product)}
-                  className="flex items-center gap-2 px-5 py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md active:scale-95 cursor-pointer"
+                  disabled={product.stock <= 0}
+                  className="flex items-center gap-2 px-5 py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md active:scale-95 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  <FiShoppingBag size={14} />
-                  <span>Add To Cart</span>
+                  {product.stock <= 0 ? (
+                    <span>Out of Stock</span>
+                  ) : (
+                    <>
+                      <FiShoppingBag size={14} />
+                      <span>Add To Cart</span>
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>
