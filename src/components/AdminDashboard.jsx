@@ -1017,7 +1017,7 @@ export default function AdminDashboard() {
         {activeTab === "users" && (
           <div className="space-y-8">
             {/* Header / Stats Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-[#B89355]/10 text-[#B89355] flex items-center justify-center">
                   <FiUser size={24} />
@@ -1025,17 +1025,6 @@ export default function AdminDashboard() {
                 <div>
                   <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Registered</p>
                   <h3 className="text-3xl font-black text-[#3C5A44] font-serif">{users.length}</h3>
-                </div>
-              </div>
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center">
-                  <FiCheckCircle size={24} />
-                </div>
-                <div>
-                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Active Accounts</p>
-                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">
-                    {users.filter(u => u.is_active !== false).length}
-                  </h3>
                 </div>
               </div>
               <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
@@ -1059,7 +1048,7 @@ export default function AdminDashboard() {
             {/* Filters Bar */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-[#fbf9f4] border border-[#3C5A44]/5 p-4 rounded-2xl shadow-sm">
               {/* Search */}
-              <div className="relative w-full sm:max-w-xs">
+              <div className="relative w-full sm:max-w-md">
                 <input
                   type="text"
                   placeholder="Search by name, email or ID..."
@@ -1071,25 +1060,6 @@ export default function AdminDashboard() {
                   className="w-full bg-white border border-[#3C5A44]/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
                 />
                 <FiSearch className="absolute left-3 top-3.5 text-gray-400" size={14} />
-              </div>
-
-              {/* Filter */}
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <span className="text-[10px] uppercase font-bold text-gray-500 flex items-center gap-1 shrink-0">
-                  <FiFilter /> Status:
-                </span>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => {
-                    setStatusFilter(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                  className="w-full sm:w-36 bg-white border border-[#3C5A44]/10 rounded-xl px-3 py-2 text-xs text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition cursor-pointer"
-                >
-                  <option value="all">All Users</option>
-                  <option value="active">Active Only</option>
-                  <option value="inactive">Inactive Only</option>
-                </select>
               </div>
             </div>
 
@@ -1106,7 +1076,6 @@ export default function AdminDashboard() {
                         <th className="p-4">User ID</th>
                         <th className="p-4">Registered Date</th>
                         <th className="p-4">Last Login</th>
-                        <th className="p-4">Status</th>
                         <th className="p-4 text-right">Actions</th>
                       </tr>
                     </thead>
@@ -1116,9 +1085,7 @@ export default function AdminDashboard() {
                           const name = (u.full_name || "").toLowerCase();
                           const email = (u.email || "").toLowerCase();
                           const search = userSearch.toLowerCase();
-                          const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
-                          const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
-                          return matchesSearch && matchesStatus;
+                          return name.includes(search) || email.includes(search) || u.id.includes(search);
                         })
                         .slice((currentPage - 1) * USERS_PER_PAGE, currentPage * USERS_PER_PAGE)
                         .map((u) => (
@@ -1134,13 +1101,6 @@ export default function AdminDashboard() {
                             <td className="p-4 text-gray-600">
                               {u.last_login_at ? new Date(u.last_login_at).toLocaleString() : "Never logged in"}
                             </td>
-                            <td className="p-4">
-                              {u.is_active !== false ? (
-                                <span className="bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
-                              ) : (
-                                <span className="bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">Inactive</span>
-                              )}
-                            </td>
                             <td className="p-4 text-right">
                               <div className="flex justify-end gap-2 items-center">
                                 <button
@@ -1149,17 +1109,6 @@ export default function AdminDashboard() {
                                   title="View User Details"
                                 >
                                   <FiEye size={14} />
-                                </button>
-                                <button
-                                  onClick={() => handleToggleUserStatus(u)}
-                                  className={`p-2 rounded-lg transition ${
-                                    u.is_active !== false
-                                      ? "text-red-500 hover:text-red-700 hover:bg-red-50"
-                                      : "text-green-500 hover:text-green-700 hover:bg-green-50"
-                                  }`}
-                                  title={u.is_active !== false ? "Deactivate User" : "Activate User"}
-                                >
-                                  {u.is_active !== false ? <FiX size={14} /> : <FiCheck size={14} />}
                                 </button>
                               </div>
                             </td>
@@ -1177,9 +1126,7 @@ export default function AdminDashboard() {
                 const name = (u.full_name || "").toLowerCase();
                 const email = (u.email || "").toLowerCase();
                 const search = userSearch.toLowerCase();
-                const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
-                const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
-                return matchesSearch && matchesStatus;
+                return name.includes(search) || email.includes(search) || u.id.includes(search);
               }).length / USERS_PER_PAGE
             ) > 1 && (
               <div className="flex justify-center items-center gap-3 mt-4">
@@ -1196,9 +1143,7 @@ export default function AdminDashboard() {
                       const name = (u.full_name || "").toLowerCase();
                       const email = (u.email || "").toLowerCase();
                       const search = userSearch.toLowerCase();
-                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
-                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
-                      return matchesSearch && matchesStatus;
+                      return name.includes(search) || email.includes(search) || u.id.includes(search);
                     }).length / USERS_PER_PAGE
                   )}
                 </span>
@@ -1208,9 +1153,7 @@ export default function AdminDashboard() {
                       const name = (u.full_name || "").toLowerCase();
                       const email = (u.email || "").toLowerCase();
                       const search = userSearch.toLowerCase();
-                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
-                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
-                      return matchesSearch && matchesStatus;
+                      return name.includes(search) || email.includes(search) || u.id.includes(search);
                     }).length / USERS_PER_PAGE
                   ), prev + 1))}
                   disabled={currentPage === Math.ceil(
@@ -1218,9 +1161,7 @@ export default function AdminDashboard() {
                       const name = (u.full_name || "").toLowerCase();
                       const email = (u.email || "").toLowerCase();
                       const search = userSearch.toLowerCase();
-                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
-                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
-                      return matchesSearch && matchesStatus;
+                      return name.includes(search) || email.includes(search) || u.id.includes(search);
                     }).length / USERS_PER_PAGE
                   )}
                   className="p-2 border border-[#3C5A44]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
@@ -1276,17 +1217,9 @@ export default function AdminDashboard() {
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Email Address</p>
                           <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.email}</p>
                         </div>
-                        <div>
+                        <div className="col-span-2">
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Phone Number</p>
                           <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.phone || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Status</p>
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold inline-block mt-0.5 ${
-                            selectedUserDetails.is_active !== false ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                          }`}>
-                            {selectedUserDetails.is_active !== false ? "Active Account" : "Suspended"}
-                          </span>
                         </div>
                         <div className="col-span-2">
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Delivery Address</p>
@@ -1312,18 +1245,8 @@ export default function AdminDashboard() {
 
                       <div className="pt-4 border-t border-[#3C5A44]/10 flex gap-3 justify-end">
                         <button
-                          onClick={() => handleToggleUserStatus(selectedUserDetails)}
-                          className={`px-5 py-2.5 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition ${
-                            selectedUserDetails.is_active !== false
-                              ? "bg-red-600 hover:bg-red-700"
-                              : "bg-green-600 hover:bg-green-700"
-                          }`}
-                        >
-                          {selectedUserDetails.is_active !== false ? "Suspend Account" : "Activate Account"}
-                        </button>
-                        <button
                           onClick={() => setSelectedUserDetails(null)}
-                          className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-wider transition"
+                          className="px-5 py-2.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition shadow-sm"
                         >
                           Close Details
                         </button>
