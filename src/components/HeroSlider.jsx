@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import bannerHerbs from "../assets/banner_herbs.png";
+import bannerHerbs from "../assets/banner_herbs.jpg";
 
 const slides = [
   {
