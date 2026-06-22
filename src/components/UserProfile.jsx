@@ -39,6 +39,14 @@ export default function UserProfile() {
       if (profileError) throw profileError;
 
       if (profileData) {
+        // If the account is deactivated by an admin:
+        if (profileData.is_active === false) {
+          alert("Your account is deactivated. Please contact support.");
+          await supabase.auth.signOut();
+          navigate("/login");
+          return;
+        }
+
         const loadedProfile = {
           fullName: profileData.full_name || "",
           phone: profileData.phone || "",

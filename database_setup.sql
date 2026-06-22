@@ -287,3 +287,38 @@ create trigger tr_decrement_product_stock
   for each row execute procedure public.decrement_product_stock();
 
 
+-- 11. User Management Schema (Columns, Triggers & Policies)
+-- A. Add missing user management fields to profiles table
+alter table public.profiles add column if not exists created_at timestamp with time zone default timezone('utc'::text, now()) not null;
+alter table public.profiles add column if not exists last_login_at timestamp with time zone;
+alter table public.profiles add column if not exists is_active boolean default true not null;
+
+-- B. Create trigger function to mirror auth.users sign-in updates inside public.profiles
+create or replace function public.handle_user_login()
+returns trigger as $$
+begin
+  update public.profiles
+  set last_login_at = new.last_sign_in_at
+  where id = new.id;
+  return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+-- C. Create trigger on update of last_sign_in_at inside auth.users table
+drop trigger if exists on_auth_user_login on auth.users;
+create trigger on_auth_user_login
+  after update of last_sign_in_at on auth.users
+  for each row
+  execute procedure public.handle_user_login();
+
+-- D. Add RLS policies allowing admins to view and edit all user profiles
+drop policy if exists "Admins can view all profiles" on public.profiles;
+create policy "Admins can view all profiles" on public.profiles
+  for select using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+
+drop policy if exists "Admins can update all profiles" on public.profiles;
+create policy "Admins can update all profiles" on public.profiles
+  for update using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+
+
+

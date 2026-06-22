@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../supabaseClient";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { FiShoppingBag, FiLayers, FiStar, FiTruck, FiPlus, FiTrash2, FiCheckCircle, FiGrid, FiEdit2 } from "react-icons/fi";
+import { FiShoppingBag, FiLayers, FiStar, FiTruck, FiPlus, FiTrash2, FiCheckCircle, FiGrid, FiEdit2, FiUser, FiSearch, FiFilter, FiChevronLeft, FiChevronRight, FiActivity, FiX, FiCheck, FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { getProductImage } from "../data/products";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'products' | 'categories' | 'reviews'
@@ -38,6 +39,14 @@ export default function AdminDashboard() {
 
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
+
+  // Users state, search, filter, and pagination
+  const [users, setUsers] = useState([]);
+  const [userSearch, setUserSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedUserDetails, setSelectedUserDetails] = useState(null);
+  const USERS_PER_PAGE = 5;
 
   const navigate = useNavigate();
 
@@ -105,6 +114,17 @@ export default function AdminDashboard() {
         .order("created_at", { ascending: false });
 
       setReviews(reviewsData || []);
+    } else if (activeTab === "users") {
+      const { data: usersData, error: usersError } = await supabase
+        .from("profiles")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (usersError) {
+        console.error("Error fetching users:", usersError.message);
+      } else {
+        setUsers(usersData || []);
+      }
     }
   }, [activeTab]);
 
@@ -348,6 +368,25 @@ export default function AdminDashboard() {
     }
   };
 
+  // Toggle user active status
+  const handleToggleUserStatus = async (userProfile) => {
+    const nextStatus = userProfile.is_active !== false ? false : true;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ is_active: nextStatus })
+      .eq("id", userProfile.id);
+
+    if (error) {
+      alert("Error updating user status: " + error.message);
+    } else {
+      alert(`User account ${nextStatus ? "activated" : "deactivated"} successfully!`);
+      fetchData();
+      if (selectedUserDetails && selectedUserDetails.id === userProfile.id) {
+        setSelectedUserDetails(prev => ({ ...prev, is_active: nextStatus }));
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="bg-white min-h-screen text-[#3C5A44] flex items-center justify-center">
@@ -420,6 +459,15 @@ export default function AdminDashboard() {
             >
               <FiStar />
               <span>Reviews</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("users")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
+                activeTab === "users" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+              }`}
+            >
+              <FiUser />
+              <span>Users</span>
             </button>
           </div>
         </div>
@@ -963,6 +1011,328 @@ export default function AdminDashboard() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "users" && (
+          <div className="space-y-8">
+            {/* Header / Stats Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-[#B89355]/10 text-[#B89355] flex items-center justify-center">
+                  <FiUser size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Registered</p>
+                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">{users.length}</h3>
+                </div>
+              </div>
+              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center">
+                  <FiCheckCircle size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Active Accounts</p>
+                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">
+                    {users.filter(u => u.is_active !== false).length}
+                  </h3>
+                </div>
+              </div>
+              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-500/10 text-blue-600 flex items-center justify-center">
+                  <FiActivity size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">New This Week</p>
+                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">
+                    {users.filter(u => {
+                      const regDate = new Date(u.created_at || u.updated_at);
+                      const sevenDaysAgo = new Date();
+                      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                      return regDate >= sevenDaysAgo;
+                    }).length}
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            {/* Filters Bar */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-[#fbf9f4] border border-[#3C5A44]/5 p-4 rounded-2xl shadow-sm">
+              {/* Search */}
+              <div className="relative w-full sm:max-w-xs">
+                <input
+                  type="text"
+                  placeholder="Search by name, email or ID..."
+                  value={userSearch}
+                  onChange={(e) => {
+                    setUserSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                />
+                <FiSearch className="absolute left-3 top-3.5 text-gray-400" size={14} />
+              </div>
+
+              {/* Filter */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <span className="text-[10px] uppercase font-bold text-gray-500 flex items-center gap-1 shrink-0">
+                  <FiFilter /> Status:
+                </span>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => {
+                    setStatusFilter(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full sm:w-36 bg-white border border-[#3C5A44]/10 rounded-xl px-3 py-2 text-xs text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition cursor-pointer"
+                >
+                  <option value="all">All Users</option>
+                  <option value="active">Active Only</option>
+                  <option value="inactive">Inactive Only</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Users Table */}
+            <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
+              {users.length === 0 ? (
+                <div className="py-12 text-center text-gray-500 italic">No users found.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                        <th className="p-4">Name & Email</th>
+                        <th className="p-4">User ID</th>
+                        <th className="p-4">Registered Date</th>
+                        <th className="p-4">Last Login</th>
+                        <th className="p-4">Status</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {users
+                        .filter(u => {
+                          const name = (u.full_name || "").toLowerCase();
+                          const email = (u.email || "").toLowerCase();
+                          const search = userSearch.toLowerCase();
+                          const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
+                          const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
+                          return matchesSearch && matchesStatus;
+                        })
+                        .slice((currentPage - 1) * USERS_PER_PAGE, currentPage * USERS_PER_PAGE)
+                        .map((u) => (
+                          <tr key={u.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
+                            <td className="p-4">
+                              <p className="font-semibold text-[#3C5A44]">{u.full_name || "N/A"}</p>
+                              <p className="text-[10px] text-gray-500 mt-0.5">{u.email}</p>
+                            </td>
+                            <td className="p-4 text-gray-500 font-mono text-[10px]">{u.id}</td>
+                            <td className="p-4 text-gray-600">
+                              {u.created_at ? new Date(u.created_at).toLocaleDateString() : "N/A"}
+                            </td>
+                            <td className="p-4 text-gray-600">
+                              {u.last_login_at ? new Date(u.last_login_at).toLocaleString() : "Never logged in"}
+                            </td>
+                            <td className="p-4">
+                              {u.is_active !== false ? (
+                                <span className="bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
+                              ) : (
+                                <span className="bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded text-[10px] font-bold">Inactive</span>
+                              )}
+                            </td>
+                            <td className="p-4 text-right">
+                              <div className="flex justify-end gap-2 items-center">
+                                <button
+                                  onClick={() => setSelectedUserDetails(u)}
+                                  className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                                  title="View User Details"
+                                >
+                                  <FiEye size={14} />
+                                </button>
+                                <button
+                                  onClick={() => handleToggleUserStatus(u)}
+                                  className={`p-2 rounded-lg transition ${
+                                    u.is_active !== false
+                                      ? "text-red-500 hover:text-red-700 hover:bg-red-50"
+                                      : "text-green-500 hover:text-green-700 hover:bg-green-50"
+                                  }`}
+                                  title={u.is_active !== false ? "Deactivate User" : "Activate User"}
+                                >
+                                  {u.is_active !== false ? <FiX size={14} /> : <FiCheck size={14} />}
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Pagination Controls */}
+            {Math.ceil(
+              users.filter(u => {
+                const name = (u.full_name || "").toLowerCase();
+                const email = (u.email || "").toLowerCase();
+                const search = userSearch.toLowerCase();
+                const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
+                const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
+                return matchesSearch && matchesStatus;
+              }).length / USERS_PER_PAGE
+            ) > 1 && (
+              <div className="flex justify-center items-center gap-3 mt-4">
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                  className="p-2 border border-[#3C5A44]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                >
+                  <FiChevronLeft size={16} />
+                </button>
+                <span className="text-xs text-gray-600 font-bold">
+                  Page {currentPage} of {Math.ceil(
+                    users.filter(u => {
+                      const name = (u.full_name || "").toLowerCase();
+                      const email = (u.email || "").toLowerCase();
+                      const search = userSearch.toLowerCase();
+                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
+                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
+                      return matchesSearch && matchesStatus;
+                    }).length / USERS_PER_PAGE
+                  )}
+                </span>
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(Math.ceil(
+                    users.filter(u => {
+                      const name = (u.full_name || "").toLowerCase();
+                      const email = (u.email || "").toLowerCase();
+                      const search = userSearch.toLowerCase();
+                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
+                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
+                      return matchesSearch && matchesStatus;
+                    }).length / USERS_PER_PAGE
+                  ), prev + 1))}
+                  disabled={currentPage === Math.ceil(
+                    users.filter(u => {
+                      const name = (u.full_name || "").toLowerCase();
+                      const email = (u.email || "").toLowerCase();
+                      const search = userSearch.toLowerCase();
+                      const matchesSearch = name.includes(search) || email.includes(search) || u.id.includes(search);
+                      const matchesStatus = statusFilter === "all" ? true : statusFilter === "active" ? u.is_active !== false : u.is_active === false;
+                      return matchesSearch && matchesStatus;
+                    }).length / USERS_PER_PAGE
+                  )}
+                  className="p-2 border border-[#3C5A44]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                >
+                  <FiChevronRight size={16} />
+                </button>
+              </div>
+            )}
+
+            {/* Details Modal */}
+            <AnimatePresence>
+              {selectedUserDetails && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.5 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setSelectedUserDetails(null)}
+                    className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+                  />
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.95, opacity: 0 }}
+                      className="bg-white rounded-3xl border border-[#3C5A44]/5 p-6 w-full max-w-lg shadow-2xl relative space-y-6 z-50"
+                    >
+                      <button
+                        onClick={() => setSelectedUserDetails(null)}
+                        className="absolute right-4 top-4 p-2 rounded-full bg-black/5 text-gray-500 hover:text-black transition"
+                      >
+                        <FiX size={18} />
+                      </button>
+
+                      <div className="flex items-center gap-3 pb-4 border-b border-[#3C5A44]/10">
+                        <div className="w-12 h-12 rounded-full bg-[#B89355]/10 text-[#B89355] flex items-center justify-center">
+                          <FiUser size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
+                            User Detail Profile
+                          </h3>
+                          <p className="text-[10px] text-gray-500 font-mono">{selectedUserDetails.id}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Full Name</p>
+                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.full_name || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Email Address</p>
+                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.email}</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Phone Number</p>
+                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.phone || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Status</p>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold inline-block mt-0.5 ${
+                            selectedUserDetails.is_active !== false ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          }`}>
+                            {selectedUserDetails.is_active !== false ? "Active Account" : "Suspended"}
+                          </span>
+                        </div>
+                        <div className="col-span-2">
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Delivery Address</p>
+                          <p className="text-gray-700 leading-relaxed">
+                            {selectedUserDetails.address ? (
+                              <>
+                                {selectedUserDetails.address}, {selectedUserDetails.city}, {selectedUserDetails.state} - {selectedUserDetails.postal_code}
+                              </>
+                            ) : (
+                              "No address configured yet."
+                            )}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Registered Date</p>
+                          <p className="text-gray-700">{selectedUserDetails.created_at ? new Date(selectedUserDetails.created_at).toLocaleString() : "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Last Login Time</p>
+                          <p className="text-gray-700">{selectedUserDetails.last_login_at ? new Date(selectedUserDetails.last_login_at).toLocaleString() : "Never logged in"}</p>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-[#3C5A44]/10 flex gap-3 justify-end">
+                        <button
+                          onClick={() => handleToggleUserStatus(selectedUserDetails)}
+                          className={`px-5 py-2.5 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition ${
+                            selectedUserDetails.is_active !== false
+                              ? "bg-red-600 hover:bg-red-700"
+                              : "bg-green-600 hover:bg-green-700"
+                          }`}
+                        >
+                          {selectedUserDetails.is_active !== false ? "Suspend Account" : "Activate Account"}
+                        </button>
+                        <button
+                          onClick={() => setSelectedUserDetails(null)}
+                          className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-wider transition"
+                        >
+                          Close Details
+                        </button>
+                      </div>
+                    </motion.div>
+                  </div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </section>

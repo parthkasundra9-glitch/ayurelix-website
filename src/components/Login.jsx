@@ -18,19 +18,31 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data: { session }, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (authError) {
         setError(authError.message);
-      } else {
-        // Direct admin user to Admin Dashboard, others to home page
-        if (email === "admin@ayurelix.com") {
-          navigate("/admin");
+      } else if (session) {
+        // Fetch user profile status
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("is_active")
+          .eq("id", session.user.id)
+          .maybeSingle();
+
+        if (profileData && profileData.is_active === false) {
+          setError("Your account is deactivated. Please contact support.");
+          await supabase.auth.signOut();
         } else {
-          navigate("/");
+          // Direct admin user to Admin Dashboard, others to home page
+          if (email === "admin@ayurelix.com") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         }
       }
     } catch {
