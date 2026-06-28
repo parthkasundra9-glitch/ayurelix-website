@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import bannerHerbs from "../assets/banner_herbs.jpg";
+import premiumSkincare from "../assets/premium_skincare.png";
 import ancientBeauty from "../assets/ancient_beauty.png";
 import glowingSkin from "../assets/glowing_skin.jpg";
 
@@ -12,8 +12,9 @@ const slides = [
     subtitle: "Pure Botanical Formulations",
     description: "Discover our handcrafted range of face pack remedies and serums derived from ancient scriptures and modern science.",
     cta: "Explore Shop",
-    image: bannerHerbs,
-    align: "right"
+    image: premiumSkincare,
+    align: "right",
+    layout: "full"
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ const slides = [
     description: "Infused with pure Saffron and Sandalwood to reduce fine lines, erase blemishes, and reveal your skin's inner radiance.",
     cta: "View Serum",
     image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=1600&auto=format&fit=crop",
-    align: "left"
+    align: "left",
+    layout: "full"
   },
   {
     id: 3,
@@ -31,7 +33,8 @@ const slides = [
     description: "Crafted with Lodhra, Neem, and Turmeric to combat pigmentation, acne scars, and restore clean, balanced skin tone.",
     cta: "View Cream",
     image: ancientBeauty,
-    align: "left"
+    align: "left",
+    layout: "split"
   },
   {
     id: 4,
@@ -40,7 +43,8 @@ const slides = [
     description: "Transform your daily skincare routine with chemical-free formulations safe for all skin types. 100% natural, active wellness.",
     cta: "Shop Now",
     image: glowingSkin,
-    align: "left"
+    align: "left",
+    layout: "split"
   }
 ];
 
@@ -109,57 +113,107 @@ export default function HeroSlider() {
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full"
           >
-            {/* Background Image */}
-            <img
-              src={slides[current].image}
-              alt={slides[current].title}
-              className="w-full h-full object-cover object-center"
-            />
-            {/* Ambient Overlay to make text legible */}
-            <div className={`absolute inset-0 bg-gradient-to-${slides[current].align === "right" ? "l" : "r"} from-black/50 via-black/20 to-transparent max-md:bg-black/60 z-10`} />
+            {slides[current].layout === "split" ? (
+              <div className="w-full h-full flex flex-col md:flex-row relative">
+                {/* Text Content (Left on Desktop, Overlay on Mobile) */}
+                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#3C5A44] bg-black/60 md:bg-[#FAF8F5]">
+                  <div className="max-w-xl space-y-2 md:space-y-6 flex flex-col items-start text-left">
+                    <motion.span
+                      initial={{ opacity: 0, y: -15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] md:text-[#B89355] uppercase block"
+                    >
+                      {slides[current].subtitle}
+                    </motion.span>
+                    <motion.h1
+                      initial={{ opacity: 0, y: 25 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-serif tracking-wide leading-tight text-white md:text-[#3C5A44]"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
+                      {slides[current].title}
+                    </motion.h1>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-[10px] sm:text-sm md:text-base text-white/90 md:text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
+                    >
+                      {slides[current].description}
+                    </motion.p>
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <button
+                        onClick={handleScrollToProducts}
+                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
+                      >
+                        {slides[current].cta}
+                      </button>
+                    </motion.div>
+                  </div>
+                </div>
 
-            {/* Content Card Panel */}
-            <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white select-none`}>
-              <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
-                <motion.span
-                  initial={{ opacity: 0, y: -15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] uppercase block"
-                >
-                  {slides[current].subtitle}
-                </motion.span>
-                <motion.h1
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-xl sm:text-4xl md:text-6xl font-black font-serif tracking-wide leading-tight"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  {slides[current].title}
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="text-[10px] sm:text-sm md:text-base text-white/95 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
-                >
-                  {slides[current].description}
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <button
-                    onClick={handleScrollToProducts}
-                    className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
-                  >
-                    {slides[current].cta}
-                  </button>
-                </motion.div>
+                {/* Image (Right on Desktop, Background on Mobile) */}
+                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-0 md:z-10 overflow-hidden">
+                  <img
+                    src={slides[current].image}
+                    alt={slides[current].title}
+                    className="w-full h-full object-cover object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]"
+                  />
+                  {/* Subtle right-to-left gradient on desktop to blend the edge of the image */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/40 via-transparent to-transparent md:block hidden z-10 pointer-events-none" />
+                </div>
               </div>
-            </div>
+            ) : (
+              /* Full Bleed Standard Layout (For Slide 1 and Slide 2) */
+              <div className="relative w-full h-full">
+                <img
+                  src={slides[current].image}
+                  alt={slides[current].title}
+                  className="w-full h-full object-cover object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-${slides[current].align === "right" ? "l" : "r"} from-black/50 via-black/20 to-transparent max-md:bg-black/60 z-10`} />
+
+                <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white select-none`}>
+                  <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
+                    <motion.span
+                      initial={{ opacity: 0, y: -15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] uppercase block"
+                    >
+                      {slides[current].subtitle}
+                    </motion.span>
+                    <motion.h1
+                      initial={{ opacity: 0, y: 25 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xl sm:text-4xl md:text-6xl font-black font-serif tracking-wide leading-tight"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
+                      {slides[current].title}
+                    </motion.h1>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-[10px] sm:text-sm md:text-base text-white/95 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
+                    >
+                      {slides[current].description}
+                    </motion.p>
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <button
+                        onClick={handleScrollToProducts}
+                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
+                      >
+                        {slides[current].cta}
+                      </button>
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>

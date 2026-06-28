@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import { supabase } from "../supabaseClient";
 
 const CartContext = createContext();
 
@@ -22,6 +23,18 @@ export function CartProvider({ children }) {
       console.error("Failed to save cart items to localStorage:", error);
     }
   }, [cartItems]);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        setCartItems([]);
+        setWishlistItems([]);
+      }
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   // Recalculate count and total whenever cartItems changes
   const cartCount = useMemo(() => {
