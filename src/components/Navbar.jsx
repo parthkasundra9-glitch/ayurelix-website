@@ -65,13 +65,13 @@ export default function Navbar() {
       className="
       fixed top-0 left-0 right-0 z-40
       bg-white/95 shadow-sm backdrop-blur-md
-      border-b border-[#3C5A44]/5
+      border-b border-[#1A2B49]/5
       "
     >
       {/* ---------------- DESKTOP HEADER (Double Row) ---------------- */}
       <div className="hidden lg:block">
         {/* Upper Row: Logo, Search, Action Buttons */}
-        <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center border-b border-[#3C5A44]/5">
+        <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center border-b border-[#1A2B49]/5">
           {/* Left: Brand Logo */}
           <Link to="/" className="outline-none">
             <Logo size="sm" variant="gold" showText={true} />
@@ -84,7 +84,7 @@ export default function Navbar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search premium Ayurvedic formulations..."
-              className="w-full bg-[#FAF8F5] border border-[#3C5A44]/10 rounded-full px-5 py-2.5 pl-11 text-sm text-[#3C5A44] focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] shadow-inner transition duration-300"
+              className="w-full bg-[#FAF8F5] border border-[#1A2B49]/10 rounded-full px-5 py-2.5 pl-11 text-sm text-[#1A2B49] focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] shadow-inner transition duration-300"
             />
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-base" />
             <button type="submit" className="hidden">Search</button>
@@ -95,7 +95,7 @@ export default function Navbar() {
             {/* Wishlist Icon Button */}
             <Link
               to="/wishlist"
-              className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] hover:text-red-500 transition duration-300 outline-none"
+              className="relative p-2 rounded-full hover:bg-black/5 text-[#1A2B49] hover:text-red-500 transition duration-300 outline-none"
               title="My Wishlist"
             >
               <FiHeart size={20} />
@@ -109,7 +109,7 @@ export default function Navbar() {
             {/* Cart Icon Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 rounded-full hover:bg-black/5 text-[#3C5A44] hover:text-[#B89355] transition duration-300 outline-none cursor-pointer"
+              className="relative p-2 rounded-full hover:bg-black/5 text-[#1A2B49] hover:text-[#B89355] transition duration-300 outline-none cursor-pointer"
               title="Shopping Cart"
             >
               <FiShoppingBag size={20} />
@@ -135,7 +135,7 @@ export default function Navbar() {
                 
                 <Link
                   to="/profile"
-                  className="flex items-center gap-1.5 text-gray-600 hover:text-[#3C5A44] transition duration-300 text-sm font-semibold"
+                  className="flex items-center gap-1.5 text-gray-600 hover:text-[#1A2B49] transition duration-300 text-sm font-semibold"
                 >
                   <FiUser size={16} className="text-[#B89355]" />
                   <span className="max-w-[80px] truncate">
@@ -146,7 +146,7 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="px-5 py-2.5 rounded-full bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold text-sm transition duration-300 shadow-md"
+                className="px-5 py-2.5 rounded-full bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold text-sm transition duration-300 shadow-md"
               >
                 Login
               </Link>
@@ -155,7 +155,7 @@ export default function Navbar() {
         </div>
 
         {/* Lower Row: Centered Navigation Links */}
-        <div className="max-w-7xl mx-auto px-8 py-3 flex justify-center gap-10 text-[#3C5A44] text-sm font-bold uppercase tracking-wider">
+        <div className="max-w-7xl mx-auto px-8 py-3 flex justify-center gap-10 text-[#1A2B49] text-sm font-bold uppercase tracking-wider">
           <Link to="/" className="hover:text-[#B89355] transition duration-300">
             Home
           </Link>
@@ -178,7 +178,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-[#3C5A44]/10 rounded-2xl shadow-xl py-3 z-50 overflow-hidden text-left"
+                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-[#1A2B49]/10 rounded-2xl shadow-xl py-3 z-50 overflow-hidden text-left"
                 >
                   {categories.map((cat) => (
                     <Link
@@ -222,7 +222,7 @@ export default function Navbar() {
           {/* Wishlist Link */}
           <Link
             to="/wishlist"
-            className="relative p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none"
+            className="relative p-1.5 rounded-full hover:bg-black/5 text-[#1A2B49] transition outline-none"
             title="Wishlist"
           >
             <FiHeart size={20} />
@@ -236,7 +236,7 @@ export default function Navbar() {
           {/* Cart Icon Toggle */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition outline-none cursor-pointer"
+            className="relative p-1.5 rounded-full hover:bg-black/5 text-[#1A2B49] transition outline-none cursor-pointer"
           >
             <FiShoppingBag size={20} />
             {cartCount > 0 && (
@@ -249,7 +249,7 @@ export default function Navbar() {
           {/* Toggle Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-1.5 rounded-full hover:bg-black/5 text-[#3C5A44] transition cursor-pointer"
+            className="p-1.5 rounded-full hover:bg-black/5 text-[#1A2B49] transition cursor-pointer"
             aria-label="Toggle Menu"
           >
             {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
@@ -264,7 +264,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-[#3C5A44]/5 bg-white px-6 py-6 flex flex-col gap-6 shadow-inner"
+            className="lg:hidden border-t border-[#1A2B49]/5 bg-white px-6 py-6 flex flex-col gap-6 shadow-inner"
           >
             {/* Mobile Search input */}
             <form onSubmit={handleSearchSubmit} className="relative w-full">
@@ -273,31 +273,31 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full bg-[#FAF8F5] border border-[#3C5A44]/10 rounded-full px-5 py-2.5 pl-11 text-sm text-[#3C5A44] focus:outline-none focus:border-[#B89355]"
+                className="w-full bg-[#FAF8F5] border border-[#1A2B49]/10 rounded-full px-5 py-2.5 pl-11 text-sm text-[#1A2B49] focus:outline-none focus:border-[#B89355]"
               />
               <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-base" />
             </form>
 
             {/* Mobile Nav Links */}
-            <div className="flex flex-col gap-4 text-base font-bold text-[#3C5A44]">
+            <div className="flex flex-col gap-4 text-base font-bold text-[#1A2B49]">
               <Link
                 to="/"
                 onClick={() => setIsMenuOpen(false)}
-                className="hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+                className="hover:text-[#B89355] py-2 border-b border-[#1A2B49]/5 transition"
               >
                 Home
               </Link>
               <Link
                 to="/products"
                 onClick={() => setIsMenuOpen(false)}
-                className="hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+                className="hover:text-[#B89355] py-2 border-b border-[#1A2B49]/5 transition"
               >
                 Products
               </Link>
               <div>
                 <button
                   onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
-                  className="w-full text-left font-bold text-base hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition bg-transparent cursor-pointer flex justify-between items-center"
+                  className="w-full text-left font-bold text-base hover:text-[#B89355] py-2 border-b border-[#1A2B49]/5 transition bg-transparent cursor-pointer flex justify-between items-center"
                 >
                   <span>Categories</span>
                   <FiChevronDown size={16} className={`transition-transform duration-300 ${isMobileCategoriesOpen ? "rotate-180" : ""}`} />
@@ -308,7 +308,7 @@ export default function Navbar() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden pl-4 flex flex-col gap-2.5 mt-2.5 border-l border-[#3C5A44]/10"
+                      className="overflow-hidden pl-4 flex flex-col gap-2.5 mt-2.5 border-l border-[#1A2B49]/10"
                     >
                       {categories.map((cat) => (
                         <Link
@@ -335,14 +335,14 @@ export default function Navbar() {
               <Link
                 to="/about"
                 onClick={() => setIsMenuOpen(false)}
-                className="hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+                className="hover:text-[#B89355] py-2 border-b border-[#1A2B49]/5 transition"
               >
                 About
               </Link>
               <Link
                 to="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="hover:text-[#B89355] py-2 border-b border-[#3C5A44]/5 transition"
+                className="hover:text-[#B89355] py-2 border-b border-[#1A2B49]/5 transition"
               >
                 Contact
               </Link>
@@ -351,7 +351,7 @@ export default function Navbar() {
             {/* Auth & Account actions in mobile drawer */}
             {user ? (
               <div className="flex flex-col gap-4 pt-2">
-                <div className="flex items-center gap-3 text-[#3C5A44]">
+                <div className="flex items-center gap-3 text-[#1A2B49]">
                   <FiUser size={18} className="text-[#B89355]" />
                   <span className="font-semibold">{user.user_metadata?.full_name || user.email.split("@")[0]}</span>
                 </div>
@@ -370,7 +370,7 @@ export default function Navbar() {
                 <Link
                   to="/profile"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-3 rounded-xl border border-[#3C5A44]/10 text-[#3C5A44] font-bold text-sm"
+                  className="flex items-center justify-center gap-2 py-3 rounded-xl border border-[#1A2B49]/10 text-[#1A2B49] font-bold text-sm"
                 >
                   My Profile
                 </Link>
@@ -379,7 +379,7 @@ export default function Navbar() {
               <Link
                 to="/login"
                 onClick={() => setIsMenuOpen(false)}
-                className="w-full py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-center font-black rounded-xl text-sm uppercase tracking-wider transition shadow-md"
+                className="w-full py-3 bg-[#1A2B49] hover:bg-[#B89355] text-white text-center font-black rounded-xl text-sm uppercase tracking-wider transition shadow-md"
               >
                 Login / Register
               </Link>

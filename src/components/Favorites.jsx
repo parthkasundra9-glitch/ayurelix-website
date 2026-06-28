@@ -13,7 +13,7 @@ export default function Favorites() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between relative overflow-hidden">
       <Navbar />
 
       {/* Decorative background glow */}
@@ -32,7 +32,7 @@ export default function Favorites() {
             Your sacred selections
           </span>
           <h1
-            className="text-[#3C5A44] text-5xl md:text-6xl font-black font-serif flex items-center justify-center gap-3"
+            className="text-[#1A2B49] text-5xl md:text-6xl font-black font-serif flex items-center justify-center gap-3"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             <FiHeart className="text-red-500 fill-red-500 animate-pulse" size={40} />
@@ -52,13 +52,13 @@ export default function Favorites() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.5 }}
-              className="text-center py-20 bg-[#fbf9f4]/80 border border-[#3C5A44]/5 rounded-3xl max-w-lg mx-auto shadow-sm backdrop-blur-sm space-y-6"
+              className="text-center py-20 bg-[#fbf9f4]/80 border border-[#1A2B49]/5 rounded-3xl max-w-lg mx-auto shadow-sm backdrop-blur-sm space-y-6"
             >
               <div className="w-16 h-16 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto shadow-inner">
                 <FiHeart size={28} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                <h3 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                   Your Wishlist is Empty
                 </h3>
                 <p className="text-gray-500 text-sm max-w-xs mx-auto mt-2 leading-relaxed">
@@ -67,7 +67,7 @@ export default function Favorites() {
               </div>
               <Link
                 to="/products"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md hover:shadow-lg"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A2B49] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md hover:shadow-lg"
               >
                 <span>Browse Products</span>
                 <FiArrowRight size={14} />

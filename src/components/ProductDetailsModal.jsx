@@ -82,18 +82,18 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               initial={{ scale: 0.95, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 30 }}
-              className="relative w-full max-w-3xl bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh]"
+              className="relative w-full max-w-3xl bg-white border border-[#1A2B49]/5 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh]"
             >
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute right-4 top-4 md:right-6 md:top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#3C5A44] transition z-20"
+                className="absolute right-4 top-4 md:right-6 md:top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#1A2B49] transition z-20"
               >
                 <FiX size={20} />
               </button>
 
               {/* Product Visual Area */}
-              <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-48 md:h-auto border-b md:border-b-0 md:border-r border-[#3C5A44]/5 bg-[#fbf9f4] shrink-0">
+              <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-48 md:h-auto border-b md:border-b-0 md:border-r border-[#1A2B49]/5 bg-[#fbf9f4] shrink-0">
                 {getProductImage(product.image_url, product.id, product.name) ? (
                   <div className="absolute inset-0 z-0">
                     <img
@@ -105,7 +105,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   </div>
                 ) : (
                   <>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#B89355] via-[#8F6E35] to-[#3C5A44] z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#B89355] via-[#8F6E35] to-[#1A2B49] z-0" />
                     <div className="absolute inset-0 opacity-10 flex items-center justify-center scale-150 pointer-events-none z-0">
                       <svg width="200" height="200" viewBox="0 0 100 100" fill="none">
                         <circle cx="50" cy="50" r="40" stroke="#fbf9f4" strokeWidth="2" />
@@ -136,7 +136,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                     <h4 className="text-xs uppercase tracking-[0.2em] text-[#B89355] font-bold mb-2">Key Ingredients</h4>
                     <div className="flex flex-wrap gap-2">
                       {info.ingredients.map((ing, i) => (
-                        <span key={i} className="text-xs bg-[#fbf9f4] text-[#3C5A44] px-3 py-1.5 rounded-lg border border-[#3C5A44]/5">
+                        <span key={i} className="text-xs bg-[#fbf9f4] text-[#1A2B49] px-3 py-1.5 rounded-lg border border-[#1A2B49]/5">
                           {ing}
                         </span>
                       ))}
@@ -159,7 +159,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   {/* How to use */}
                   <div>
                     <h4 className="text-xs uppercase tracking-[0.2em] text-[#B89355] font-bold mb-1.5">How To Use</h4>
-                    <p className="text-sm text-gray-600 leading-relaxed bg-[#fbf9f4] p-3 rounded-xl border border-[#3C5A44]/5">
+                    <p className="text-sm text-gray-600 leading-relaxed bg-[#fbf9f4] p-3 rounded-xl border border-[#1A2B49]/5">
                       {info.usage}
                     </p>
                   </div>
@@ -174,8 +174,8 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                 </div>
 
                 {/* Purchase Area */}
-                <div className="mt-8 pt-6 border-t border-[#3C5A44]/10 flex flex-wrap gap-4 items-center justify-between">
-                  <div className="flex items-center bg-[#fbf9f4] border border-[#3C5A44]/10 rounded-xl p-1">
+                <div className="mt-8 pt-6 border-t border-[#1A2B49]/10 flex flex-wrap gap-4 items-center justify-between">
+                  <div className="flex items-center bg-[#fbf9f4] border border-[#1A2B49]/10 rounded-xl p-1">
                     <button
                       onClick={() => setQuantity(q => Math.max(1, q - 1))}
                       disabled={product.stock <= 0}
@@ -183,7 +183,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                     >
                       <FiMinus size={14} />
                     </button>
-                    <span className="px-4 text-base font-bold text-[#3C5A44]">{quantity}</span>
+                    <span className="px-4 text-base font-bold text-[#1A2B49]">{quantity}</span>
                     <button
                       onClick={() => setQuantity(q => Math.min(product.stock || 999, q + 1))}
                       disabled={product.stock <= 0 || quantity >= (product.stock || 999)}
@@ -196,7 +196,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   <button
                     onClick={handleAddToCart}
                     disabled={added || product.stock <= 0}
-                    className="flex-grow py-3 px-8 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="flex-grow py-3 px-8 bg-[#1A2B49] hover:bg-[#B89355] text-white font-black rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
                   >
                     {product.stock <= 0 ? (
                       <span>Out of Stock</span>

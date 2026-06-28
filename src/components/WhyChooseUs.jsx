@@ -71,7 +71,7 @@ export default function WhyChooseUs() {
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
             Pure Trust & Transparency
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             The Ayurelix Promise
           </h2>
           <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
@@ -85,16 +85,16 @@ export default function WhyChooseUs() {
             <motion.div
               key={idx}
               whileHover={{ y: -6 }}
-              className="bg-white border border-[#3C5A44]/5 hover:border-[#B89355]/30 rounded-3xl p-6 sm:p-8 hover:shadow-[0_12px_40px_rgba(60,90,68,0.05)] transition-all duration-300 flex items-start gap-4"
+              className="bg-white border border-[#1A2B49]/5 hover:border-[#B89355]/30 rounded-3xl p-6 sm:p-8 hover:shadow-[0_12px_40px_rgba(26,43,73,0.05)] transition-all duration-300 flex items-start gap-4"
             >
               {/* Icon Container */}
-              <div className="p-3 bg-[#FAF8F5] border border-[#3C5A44]/5 rounded-2xl shrink-0">
+              <div className="p-3 bg-[#FAF8F5] border border-[#1A2B49]/5 rounded-2xl shrink-0">
                 {pil.icon}
               </div>
 
               {/* Text info */}
               <div className="space-y-2">
-                <h3 className="text-lg font-serif font-black text-[#3C5A44]">
+                <h3 className="text-lg font-serif font-black text-[#1A2B49]">
                   {pil.title}
                 </h3>
                 <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">

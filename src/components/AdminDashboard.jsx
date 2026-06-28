@@ -389,7 +389,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="bg-white min-h-screen text-[#3C5A44] flex items-center justify-center">
+      <div className="bg-white min-h-screen text-[#1A2B49] flex items-center justify-center">
         <p className="text-xl font-semibold">Verifying credentials...</p>
       </div>
     );
@@ -397,7 +397,7 @@ export default function AdminDashboard() {
 
   if (!isAdmin) {
     return (
-      <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col items-center justify-center space-y-4">
+      <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col items-center justify-center space-y-4">
         <h2 className="text-3xl font-bold text-red-600 font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
           Access Denied
         </h2>
@@ -409,16 +409,16 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between">
+    <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between">
       <Navbar />
 
       <section className="max-w-7xl mx-auto py-32 px-8 w-full flex-grow">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-[#3C5A44]/10 pb-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-[#1A2B49]/10 pb-6 gap-4">
           <div>
             <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
               Ayurelix Portal
             </span>
-            <h1 className="text-[#3C5A44] text-4xl font-black font-serif mt-1" style={{ fontFamily: "'Cinzel', serif" }}>
+            <h1 className="text-[#1A2B49] text-4xl font-black font-serif mt-1" style={{ fontFamily: "'Cinzel', serif" }}>
               Admin Dashboard
             </h1>
           </div>
@@ -427,7 +427,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("orders")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "orders" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+                activeTab === "orders" ? "bg-[#1A2B49] text-white" : "bg-white border border-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49]"
               }`}
             >
               <FiShoppingBag />
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("products")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "products" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+                activeTab === "products" ? "bg-[#1A2B49] text-white" : "bg-white border border-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49]"
               }`}
             >
               <FiLayers />
@@ -445,7 +445,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("categories")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "categories" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+                activeTab === "categories" ? "bg-[#1A2B49] text-white" : "bg-white border border-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49]"
               }`}
             >
               <FiGrid />
@@ -454,7 +454,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("reviews")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "reviews" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+                activeTab === "reviews" ? "bg-[#1A2B49] text-white" : "bg-white border border-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49]"
               }`}
             >
               <FiStar />
@@ -463,7 +463,7 @@ export default function AdminDashboard() {
             <button
               onClick={() => setActiveTab("users")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
-                activeTab === "users" ? "bg-[#3C5A44] text-white" : "bg-white border border-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44]"
+                activeTab === "users" ? "bg-[#1A2B49] text-white" : "bg-white border border-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49]"
               }`}
             >
               <FiUser />
@@ -475,14 +475,14 @@ export default function AdminDashboard() {
         {/* Tab Contents */}
         {activeTab === "orders" && (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Customer Orders ({orders.length})</h2>
+            <h2 className="text-xl font-bold font-serif text-[#1A2B49]">Customer Orders ({orders.length})</h2>
             {orders.length === 0 ? (
               <p className="text-gray-500 italic">No orders received yet.</p>
             ) : (
               <div className="grid gap-6">
                 {orders.map((order) => (
-                  <div key={order.id} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl space-y-4 shadow-sm">
-                    <div className="flex flex-wrap justify-between items-start border-b border-[#3C5A44]/5 pb-4 gap-2">
+                  <div key={order.id} className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-6 rounded-3xl space-y-4 shadow-sm">
+                    <div className="flex flex-wrap justify-between items-start border-b border-[#1A2B49]/5 pb-4 gap-2">
                       <div>
                         <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Order ID</p>
                         <p className="text-xs text-[#B89355] font-mono">{order.id}</p>
@@ -503,7 +503,7 @@ export default function AdminDashboard() {
                         {order.status !== "delivered" && (
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, order.status)}
-                            className="bg-[#3C5A44] hover:bg-[#B89355] text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition shadow-sm"
+                            className="bg-[#1A2B49] hover:bg-[#B89355] text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition shadow-sm"
                           >
                             <FiCheckCircle size={12} />
                             <span>Mark as {order.status === "paid" ? "Shipped" : "Delivered"}</span>
@@ -519,7 +519,7 @@ export default function AdminDashboard() {
                           <FiTruck />
                           <span>Shipping Details</span>
                         </h4>
-                        <p className="text-[#3C5A44] font-medium">{order.shipping_address.fullName}</p>
+                        <p className="text-[#1A2B49] font-medium">{order.shipping_address.fullName}</p>
                         <p className="text-gray-600">{order.shipping_address.address}</p>
                         <p className="text-gray-600">
                           {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.postalCode}
@@ -536,10 +536,10 @@ export default function AdminDashboard() {
                               <span>
                                 {item.products?.name || "Deleted Product"} (x{item.quantity})
                               </span>
-                              <span className="font-bold text-[#3C5A44]">₹{item.price * item.quantity}</span>
+                              <span className="font-bold text-[#1A2B49]">₹{item.price * item.quantity}</span>
                             </div>
                           ))}
-                          <div className="flex justify-between items-center border-t border-[#3C5A44]/5 pt-2 mt-2 font-bold">
+                          <div className="flex justify-between items-center border-t border-[#1A2B49]/5 pt-2 mt-2 font-bold">
                             <span className="text-gray-500 text-sm">Total Paid</span>
                             <span className="text-[#B89355] text-base">₹{order.total_amount}</span>
                           </div>
@@ -557,11 +557,11 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-12 gap-8">
             {/* Products list */}
             <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Store Products ({products.length})</h2>
-              <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
+              <h2 className="text-xl font-bold font-serif text-[#1A2B49]">Store Products ({products.length})</h2>
+              <div className="bg-white border border-[#1A2B49]/5 rounded-3xl overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                    <tr className="border-b border-[#1A2B49]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
                       <th className="p-4">ID</th>
                       <th className="p-4">Image</th>
                       <th className="p-4">Name</th>
@@ -574,20 +574,20 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="text-xs">
                     {products.map((prod) => (
-                      <tr key={prod.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
+                      <tr key={prod.id} className="border-b border-[#1A2B49]/5 hover:bg-[#fbf9f4]/50 transition">
                         <td className="p-4 text-gray-500 font-mono">{prod.id}</td>
                         <td className="p-4">
                           {getProductImage(prod.image_url, prod.id, prod.name) ? (
                             <img
                               src={getProductImage(prod.image_url, prod.id, prod.name)}
                               alt={prod.name}
-                              className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
+                              className="w-10 h-10 rounded-lg object-cover border border-[#1A2B49]/10"
                             />
                           ) : (
                             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#B89355] to-[#8F6E35]" />
                           )}
                         </td>
-                        <td className="p-4 text-[#3C5A44] font-medium">{prod.name}</td>
+                        <td className="p-4 text-[#1A2B49] font-medium">{prod.name}</td>
                         <td className="p-4 text-gray-600">{prod.categories?.name || "Unassigned"}</td>
                         <td className="p-4 text-gray-600">
                           {prod.is_bestseller ? (
@@ -613,7 +613,7 @@ export default function AdminDashboard() {
                                   is_bestseller: prod.is_bestseller || false
                                 });
                               }}
-                              className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                              className="text-[#1A2B49] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
                               title="Edit Product"
                             >
                               <FiEdit2 size={14} />
@@ -636,8 +636,8 @@ export default function AdminDashboard() {
 
             {/* Add product form */}
             <div className="lg:col-span-5">
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
-                <h3 className="text-lg font-bold font-serif text-[#3C5A44] flex items-center gap-2">
+              <div className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
+                <h3 className="text-lg font-bold font-serif text-[#1A2B49] flex items-center gap-2">
                   <FiPlus className="text-[#B89355]" />
                   <span>{editingProduct ? `Edit Product: ${editingProduct.name}` : "Add New Product"}</span>
                 </h3>
@@ -650,7 +650,7 @@ export default function AdminDashboard() {
                       value={newProduct.name}
                       onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                       placeholder="Ayurelix Energy Booster"
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -662,7 +662,7 @@ export default function AdminDashboard() {
                         value={newProduct.price}
                         onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                         placeholder="1199"
-                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
                     <div>
@@ -670,7 +670,7 @@ export default function AdminDashboard() {
                       <select
                         value={newProduct.category_id}
                         onChange={(e) => setNewProduct({ ...newProduct, category_id: e.target.value })}
-                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       >
                         <option value="">Select Category</option>
                         {categories.map((cat) => (
@@ -690,7 +690,7 @@ export default function AdminDashboard() {
                         value={newProduct.stock}
                         onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
                         placeholder="100"
-                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
                     <div className="flex items-center mt-6">
@@ -699,7 +699,7 @@ export default function AdminDashboard() {
                         id="is_bestseller"
                         checked={newProduct.is_bestseller}
                         onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
-                        className="w-4 h-4 text-[#3C5A44] border-gray-300 rounded focus:ring-[#3C5A44]"
+                        className="w-4 h-4 text-[#1A2B49] border-gray-300 rounded focus:ring-[#1A2B49]"
                       />
                       <label htmlFor="is_bestseller" className="ml-2 block text-xs font-bold text-gray-600 uppercase">
                         Bestseller Product
@@ -710,7 +710,7 @@ export default function AdminDashboard() {
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Product Image</label>
                     <div className="space-y-2.5">
                       {newProduct.image_url && (
-                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#3C5A44]/10 bg-white">
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#1A2B49]/10 bg-white">
                           <img
                             src={newProduct.image_url}
                             alt="Preview"
@@ -728,7 +728,7 @@ export default function AdminDashboard() {
                       )}
                       
                       <div className="flex items-center gap-2">
-                        <label className="cursor-pointer bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
+                        <label className="cursor-pointer bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
                           Choose Image File
                           <input
                             type="file"
@@ -744,7 +744,7 @@ export default function AdminDashboard() {
                         value={newProduct.image_url}
                         onChange={(e) => setNewProduct({ ...newProduct, image_url: e.target.value })}
                         placeholder="Or paste image URL (e.g. https://...)"
-                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
                   </div>
@@ -756,13 +756,13 @@ export default function AdminDashboard() {
                       value={newProduct.description}
                       onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                       placeholder="A premium wellness blend of..."
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl p-4 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl p-4 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div className="flex gap-2">
                     <button
                       type="submit"
-                      className="flex-grow py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
+                      className="flex-grow py-3 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
                     >
                       {editingProduct ? "Update Product" : "Add Product to Shop"}
                     </button>
@@ -797,11 +797,11 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-12 gap-8">
             {/* Categories list */}
             <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Store Categories ({categories.length})</h2>
-              <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
+              <h2 className="text-xl font-bold font-serif text-[#1A2B49]">Store Categories ({categories.length})</h2>
+              <div className="bg-white border border-[#1A2B49]/5 rounded-3xl overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                    <tr className="border-b border-[#1A2B49]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
                       <th className="p-4">ID</th>
                       <th className="p-4">Image</th>
                       <th className="p-4">Name</th>
@@ -811,28 +811,28 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="text-xs">
                     {categories.map((cat) => (
-                      <tr key={cat.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
+                      <tr key={cat.id} className="border-b border-[#1A2B49]/5 hover:bg-[#fbf9f4]/50 transition">
                         <td className="p-4 text-gray-500 font-mono">{cat.id}</td>
                         <td className="p-4">
                           {cat.image_url ? (
                             <img
                               src={cat.image_url}
                               alt={cat.name}
-                              className="w-10 h-10 rounded-lg object-cover border border-[#3C5A44]/10"
+                              className="w-10 h-10 rounded-lg object-cover border border-[#1A2B49]/10"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#3C5A44] to-[#B89355] flex items-center justify-center text-white text-[8px] font-bold">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1A2B49] to-[#B89355] flex items-center justify-center text-white text-[8px] font-bold">
                               No Img
                             </div>
                           )}
                         </td>
-                        <td className="p-4 text-[#3C5A44] font-medium">{cat.name}</td>
+                        <td className="p-4 text-[#1A2B49] font-medium">{cat.name}</td>
                         <td className="p-4 text-gray-600">{cat.subtitle || "No subtitle"}</td>
                         <td className="p-4 text-right">
                           <div className="flex justify-end gap-2 items-center">
                             <button
                               onClick={() => setEditingCategory(cat)}
-                              className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                              className="text-[#1A2B49] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
                               title="Edit Category"
                             >
                               <FiEdit2 size={14} />
@@ -855,8 +855,8 @@ export default function AdminDashboard() {
 
             {/* Add / Edit Category form */}
             <div className="lg:col-span-5">
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
-                <h3 className="text-lg font-bold font-serif text-[#3C5A44] flex items-center gap-2">
+              <div className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-6 rounded-3xl shadow-xl sticky top-28 space-y-4">
+                <h3 className="text-lg font-bold font-serif text-[#1A2B49] flex items-center gap-2">
                   <FiPlus className="text-[#B89355]" />
                   <span>{editingCategory ? "Edit Category" : "Add New Category"}</span>
                 </h3>
@@ -875,7 +875,7 @@ export default function AdminDashboard() {
                         }
                       }}
                       placeholder="e.g. Skin Care"
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div>
@@ -891,14 +891,14 @@ export default function AdminDashboard() {
                         }
                       }}
                       placeholder="e.g. Pure Ayurvedic Skincare"
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category Banner Image</label>
                     <div className="space-y-2.5">
                       {(editingCategory ? editingCategory.image_url : newCategory.image_url) && (
-                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#3C5A44]/10 bg-white">
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#1A2B49]/10 bg-white">
                           <img
                             src={editingCategory ? editingCategory.image_url : newCategory.image_url}
                             alt="Preview"
@@ -922,7 +922,7 @@ export default function AdminDashboard() {
                       )}
                       
                       <div className="flex items-center gap-2">
-                        <label className="cursor-pointer bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
+                        <label className="cursor-pointer bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
                           Choose Image File
                           <input
                             type="file"
@@ -944,14 +944,14 @@ export default function AdminDashboard() {
                           }
                         }}
                         placeholder="Or paste image URL (e.g. https://...)"
-                        className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
                   </div>
                   <div className="flex gap-2">
                     <button
                       type="submit"
-                      className="flex-grow py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
+                      className="flex-grow py-3 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 uppercase tracking-wider shadow-md"
                     >
                       {editingCategory ? "Update Category" : "Add Category"}
                     </button>
@@ -973,13 +973,13 @@ export default function AdminDashboard() {
 
         {activeTab === "reviews" && (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold font-serif text-[#3C5A44]">Product Reviews ({reviews.length})</h2>
+            <h2 className="text-xl font-bold font-serif text-[#1A2B49]">Product Reviews ({reviews.length})</h2>
             {reviews.length === 0 ? (
               <p className="text-gray-500 italic">No reviews submitted yet.</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
                 {reviews.map((rev) => (
-                  <div key={rev.id} className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-5 rounded-3xl space-y-3 relative group shadow-sm">
+                  <div key={rev.id} className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-5 rounded-3xl space-y-3 relative group shadow-sm">
                     <button
                       onClick={() => handleDeleteReview(rev.id)}
                       className="absolute right-4 top-4 p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 hover:bg-red-500 hover:text-white transition duration-200 opacity-0 group-hover:opacity-100"
@@ -988,7 +988,7 @@ export default function AdminDashboard() {
                     </button>
                     <div className="flex justify-between items-center text-xs">
                       <div>
-                        <p className="font-bold text-[#3C5A44]">{rev.user_name}</p>
+                        <p className="font-bold text-[#1A2B49]">{rev.user_name}</p>
                         <p className="text-gray-600 text-[10px] mt-0.5">
                           On product: <span className="text-[#B89355] font-semibold">{rev.products?.name || "Deleted"}</span>
                         </p>
@@ -1018,22 +1018,22 @@ export default function AdminDashboard() {
           <div className="space-y-8">
             {/* Header / Stats Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
+              <div className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-[#B89355]/10 text-[#B89355] flex items-center justify-center">
                   <FiUser size={24} />
                 </div>
                 <div>
                   <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Registered</p>
-                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">{users.length}</h3>
+                  <h3 className="text-3xl font-black text-[#1A2B49] font-serif">{users.length}</h3>
                 </div>
               </div>
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
+              <div className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-6 rounded-3xl shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500/10 text-blue-600 flex items-center justify-center">
                   <FiActivity size={24} />
                 </div>
                 <div>
                   <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">New This Week</p>
-                  <h3 className="text-3xl font-black text-[#3C5A44] font-serif">
+                  <h3 className="text-3xl font-black text-[#1A2B49] font-serif">
                     {users.filter(u => {
                       const regDate = new Date(u.created_at || u.updated_at);
                       const sevenDaysAgo = new Date();
@@ -1046,7 +1046,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Filters Bar */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-[#fbf9f4] border border-[#3C5A44]/5 p-4 rounded-2xl shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-[#fbf9f4] border border-[#1A2B49]/5 p-4 rounded-2xl shadow-sm">
               {/* Search */}
               <div className="relative w-full sm:max-w-md">
                 <input
@@ -1057,21 +1057,21 @@ export default function AdminDashboard() {
                     setUserSearch(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                  className="w-full bg-white border border-[#1A2B49]/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                 />
                 <FiSearch className="absolute left-3 top-3.5 text-gray-400" size={14} />
               </div>
             </div>
 
             {/* Users Table */}
-            <div className="bg-white border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-[#1A2B49]/5 rounded-3xl overflow-hidden shadow-sm">
               {users.length === 0 ? (
                 <div className="py-12 text-center text-gray-500 italic">No users found.</div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#3C5A44]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
+                      <tr className="border-b border-[#1A2B49]/10 text-[10px] text-gray-600 uppercase tracking-wider font-bold bg-[#fbf9f4]">
                         <th className="p-4">Name & Email</th>
                         <th className="p-4">User ID</th>
                         <th className="p-4">Registered Date</th>
@@ -1089,9 +1089,9 @@ export default function AdminDashboard() {
                         })
                         .slice((currentPage - 1) * USERS_PER_PAGE, currentPage * USERS_PER_PAGE)
                         .map((u) => (
-                          <tr key={u.id} className="border-b border-[#3C5A44]/5 hover:bg-[#fbf9f4]/50 transition">
+                          <tr key={u.id} className="border-b border-[#1A2B49]/5 hover:bg-[#fbf9f4]/50 transition">
                             <td className="p-4">
-                              <p className="font-semibold text-[#3C5A44]">{u.full_name || "N/A"}</p>
+                              <p className="font-semibold text-[#1A2B49]">{u.full_name || "N/A"}</p>
                               <p className="text-[10px] text-gray-500 mt-0.5">{u.email}</p>
                             </td>
                             <td className="p-4 text-gray-500 font-mono text-[10px]">{u.id}</td>
@@ -1105,7 +1105,7 @@ export default function AdminDashboard() {
                               <div className="flex justify-end gap-2 items-center">
                                 <button
                                   onClick={() => setSelectedUserDetails(u)}
-                                  className="text-[#3C5A44] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
+                                  className="text-[#1A2B49] hover:text-[#B89355] p-2 rounded-lg hover:bg-gray-100 transition"
                                   title="View User Details"
                                 >
                                   <FiEye size={14} />
@@ -1133,7 +1133,7 @@ export default function AdminDashboard() {
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
-                  className="p-2 border border-[#3C5A44]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  className="p-2 border border-[#1A2B49]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
                 >
                   <FiChevronLeft size={16} />
                 </button>
@@ -1164,7 +1164,7 @@ export default function AdminDashboard() {
                       return name.includes(search) || email.includes(search) || u.id.includes(search);
                     }).length / USERS_PER_PAGE
                   )}
-                  className="p-2 border border-[#3C5A44]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  className="p-2 border border-[#1A2B49]/10 rounded-xl hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
                 >
                   <FiChevronRight size={16} />
                 </button>
@@ -1187,7 +1187,7 @@ export default function AdminDashboard() {
                       initial={{ scale: 0.95, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.95, opacity: 0 }}
-                      className="bg-white rounded-3xl border border-[#3C5A44]/5 p-6 w-full max-w-lg shadow-2xl relative space-y-6 z-50"
+                      className="bg-white rounded-3xl border border-[#1A2B49]/5 p-6 w-full max-w-lg shadow-2xl relative space-y-6 z-50"
                     >
                       <button
                         onClick={() => setSelectedUserDetails(null)}
@@ -1196,12 +1196,12 @@ export default function AdminDashboard() {
                         <FiX size={18} />
                       </button>
 
-                      <div className="flex items-center gap-3 pb-4 border-b border-[#3C5A44]/10">
+                      <div className="flex items-center gap-3 pb-4 border-b border-[#1A2B49]/10">
                         <div className="w-12 h-12 rounded-full bg-[#B89355]/10 text-[#B89355] flex items-center justify-center">
                           <FiUser size={24} />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
+                          <h3 className="text-xl font-bold font-serif text-[#1A2B49]" style={{ fontFamily: "'Cinzel', serif" }}>
                             User Detail Profile
                           </h3>
                           <p className="text-[10px] text-gray-500 font-mono">{selectedUserDetails.id}</p>
@@ -1211,15 +1211,15 @@ export default function AdminDashboard() {
                       <div className="grid grid-cols-2 gap-4 text-xs">
                         <div>
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Full Name</p>
-                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.full_name || "N/A"}</p>
+                          <p className="text-[#1A2B49] font-medium text-sm">{selectedUserDetails.full_name || "N/A"}</p>
                         </div>
                         <div>
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Email Address</p>
-                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.email}</p>
+                          <p className="text-[#1A2B49] font-medium text-sm">{selectedUserDetails.email}</p>
                         </div>
                         <div className="col-span-2">
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Phone Number</p>
-                          <p className="text-[#3C5A44] font-medium text-sm">{selectedUserDetails.phone || "N/A"}</p>
+                          <p className="text-[#1A2B49] font-medium text-sm">{selectedUserDetails.phone || "N/A"}</p>
                         </div>
                         <div className="col-span-2">
                           <p className="font-bold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Delivery Address</p>
@@ -1243,10 +1243,10 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      <div className="pt-4 border-t border-[#3C5A44]/10 flex gap-3 justify-end">
+                      <div className="pt-4 border-t border-[#1A2B49]/10 flex gap-3 justify-end">
                         <button
                           onClick={() => setSelectedUserDetails(null)}
-                          className="px-5 py-2.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition shadow-sm"
+                          className="px-5 py-2.5 bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition shadow-sm"
                         >
                           Close Details
                         </button>

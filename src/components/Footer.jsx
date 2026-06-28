@@ -27,7 +27,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#FAF8F5] border-t border-[#3C5A44]/10 pt-16 pb-8 px-6 sm:px-8 relative overflow-hidden">
+    <footer className="bg-[#FAF8F5] border-t border-[#1A2B49]/10 pt-16 pb-8 px-6 sm:px-8 relative overflow-hidden">
       
       {/* Decorative background glows */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] rounded-full bg-[#B89355]/3 blur-[150px] pointer-events-none" />
@@ -35,9 +35,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto z-10 relative">
         
         {/* ==================== NEWSLETTER SECTION ==================== */}
-        <div className="border-b border-[#3C5A44]/10 pb-12 mb-16 flex flex-col lg:flex-row justify-between items-center gap-8">
+        <div className="border-b border-[#1A2B49]/10 pb-12 mb-16 flex flex-col lg:flex-row justify-between items-center gap-8">
           <div className="max-w-md text-center lg:text-left space-y-2">
-            <h3 className="text-2xl font-serif font-black text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
+            <h3 className="text-2xl font-serif font-black text-[#1A2B49]" style={{ fontFamily: "'Cinzel', serif" }}>
               Get Exclusive Ayurvedic Wellness Updates
             </h3>
             <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -61,12 +61,12 @@ export default function Footer() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email address..."
-                    className="w-full bg-white border border-[#3C5A44]/15 rounded-xl pl-11 pr-4 py-3.5 text-sm text-[#3C5A44] focus:outline-none focus:border-[#B89355] shadow-sm transition"
+                    className="w-full bg-white border border-[#1A2B49]/15 rounded-xl pl-11 pr-4 py-3.5 text-sm text-[#1A2B49] focus:outline-none focus:border-[#B89355] shadow-sm transition"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-6 py-3.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black text-xs uppercase tracking-wider rounded-xl active:scale-95 transition shadow-md cursor-pointer shrink-0"
+                  className="px-6 py-3.5 bg-[#1A2B49] hover:bg-[#B89355] text-white font-black text-xs uppercase tracking-wider rounded-xl active:scale-95 transition shadow-md cursor-pointer shrink-0"
                 >
                   Subscribe
                 </button>
@@ -85,13 +85,13 @@ export default function Footer() {
               Ayurelix bridges ancient Ayurvedic wisdom with modern botanical science to offer premium, chemical-free, organic skincare formulations.
             </p>
             <div className="flex gap-3.5 pt-2">
-              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#3C5A44]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
+              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
                 <FiInstagram size={16} />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#3C5A44]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
+              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
                 <FiFacebook size={16} />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#3C5A44]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
+              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
                 <FiTwitter size={16} />
               </a>
             </div>
@@ -144,7 +144,7 @@ export default function Footer() {
         </div>
 
         {/* ==================== BOTTOM BAR ==================== */}
-        <div className="border-t border-[#3C5A44]/10 pt-8 flex flex-col md:flex-row items-center justify-between text-center gap-4 text-xs text-gray-500 font-bold uppercase tracking-wider">
+        <div className="border-t border-[#1A2B49]/10 pt-8 flex flex-col md:flex-row items-center justify-between text-center gap-4 text-xs text-gray-500 font-bold uppercase tracking-wider">
           <span>&copy; 2026 Ayurelix Private Limited. All rights reserved.</span>
           <span className="font-serif text-[10px] tracking-[0.25em] text-[#B89355]" style={{ fontFamily: "'Cinzel', serif" }}>
             The Elixir of Ayurveda

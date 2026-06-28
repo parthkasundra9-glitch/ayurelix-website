@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function ShippingDelivery() {
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] relative overflow-hidden">
       {/* Decorative background glows */}
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#B89355]/4 blur-[130px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#f4efe2]/60 blur-[130px] bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 pointer-events-none" />
@@ -25,7 +25,7 @@ export default function ShippingDelivery() {
             Store Policies
           </span>
           <h1
-            className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif"
+            className="text-4xl md:text-5xl font-black text-[#1A2B49] font-serif"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             SHIPPING & DELIVERY
@@ -45,7 +45,7 @@ export default function ShippingDelivery() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#3C5A44]/10 rounded-3xl shadow-sm"
+            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#1A2B49]/10 rounded-3xl shadow-sm"
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
@@ -53,22 +53,22 @@ export default function ShippingDelivery() {
               </p>
             </div>
 
-            <hr className="border-[#3C5A44]/5" />
+            <hr className="border-[#1A2B49]/5" />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 1. Shipment Processing Times
               </h2>
               <p>
                 All orders are processed and packed within <strong>24 to 48 business hours</strong>. Orders placed on Sundays, major public holidays, or after 2:00 PM IST on Saturdays will be processed on the next business day.
               </p>
-              <p className="bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-2xl p-4 italic text-slate-500">
+              <p className="bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-2xl p-4 italic text-slate-500">
                 Please note: Our Ayurvedic oils and herbal extracts are prepared in temperature-controlled environments. During extreme summer seasons, some orders might be briefly held back for 24 hours to coordinate climate-controlled dispatch, ensuring peak biological potency is maintained.
               </p>
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 2. Shipping Rates & Delivery Estimates
               </h2>
               <p>
@@ -76,27 +76,27 @@ export default function ShippingDelivery() {
               </p>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse border border-[#3C5A44]/10 rounded-2xl overflow-hidden text-xs md:text-sm">
+                <table className="w-full text-left border-collapse border border-[#1A2B49]/10 rounded-2xl overflow-hidden text-xs md:text-sm">
                   <thead>
-                    <tr className="bg-[#fbf9f4] text-[#3C5A44] font-bold border-b border-[#3C5A44]/10">
+                    <tr className="bg-[#fbf9f4] text-[#1A2B49] font-bold border-b border-[#1A2B49]/10">
                       <th className="p-4">Shipping Destination</th>
                       <th className="p-4">Estimated Delivery Time</th>
                       <th className="p-4">Shipping Cost</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-[#3C5A44]/5">
-                      <td className="p-4 font-semibold text-[#3C5A44]">Domestic (India) - Standard</td>
+                    <tr className="border-b border-[#1A2B49]/5">
+                      <td className="p-4 font-semibold text-[#1A2B49]">Domestic (India) - Standard</td>
                       <td className="p-4">3 to 5 Business Days</td>
                       <td className="p-4">₹60 (Free on orders above ₹999)</td>
                     </tr>
-                    <tr className="border-b border-[#3C5A44]/5">
-                      <td className="p-4 font-semibold text-[#3C5A44]">Domestic (India) - Express</td>
+                    <tr className="border-b border-[#1A2B49]/5">
+                      <td className="p-4 font-semibold text-[#1A2B49]">Domestic (India) - Express</td>
                       <td className="p-4">1 to 2 Business Days</td>
                       <td className="p-4">₹150 (Flat Rate)</td>
                     </tr>
                     <tr>
-                      <td className="p-4 font-semibold text-[#3C5A44]">International (Outside India)</td>
+                      <td className="p-4 font-semibold text-[#1A2B49]">International (Outside India)</td>
                       <td className="p-4">7 to 14 Business Days</td>
                       <td className="p-4">Calculated by weight at checkout</td>
                     </tr>
@@ -106,7 +106,7 @@ export default function ShippingDelivery() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 3. Shipment Confirmation & Tracking
               </h2>
               <p>
@@ -115,7 +115,7 @@ export default function ShippingDelivery() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 4. Customs, Duties, and Taxes
               </h2>
               <p>
@@ -124,7 +124,7 @@ export default function ShippingDelivery() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 5. Damages and Missing Deliveries
               </h2>
               <p>
@@ -138,11 +138,11 @@ export default function ShippingDelivery() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 6. Shipping Address Correction
               </h2>
               <p>
-                If you have entered an incorrect shipping address, please contact us at <a href="tel:+919876543210" className="text-[#3C5A44] underline">+91 98765 43210</a> or email us before 4:00 PM IST on the day of order placement. Once orders are dispatched, we are unable to redirect packages.
+                If you have entered an incorrect shipping address, please contact us at <a href="tel:+919876543210" className="text-[#1A2B49] underline">+91 98765 43210</a> or email us before 4:00 PM IST on the day of order placement. Once orders are dispatched, we are unable to redirect packages.
               </p>
             </div>
           </motion.div>

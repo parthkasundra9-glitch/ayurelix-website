@@ -67,7 +67,7 @@ export default function FeaturedProducts() {
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
             Organic Skincare Elixirs
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             Products
           </h2>
           <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
@@ -80,7 +80,7 @@ export default function FeaturedProducts() {
           {/* Left Arrow Button */}
           <button
             onClick={() => scroll("left")}
-            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#3C5A44] text-[#3C5A44] hover:text-white border border-[#3C5A44]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Left"
           >
             <FiChevronLeft size={20} />
@@ -89,7 +89,7 @@ export default function FeaturedProducts() {
           {/* Right Arrow Button */}
           <button
             onClick={() => scroll("right")}
-            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#3C5A44] text-[#3C5A44] hover:text-white border border-[#3C5A44]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Right"
           >
             <FiChevronRight size={20} />
@@ -111,11 +111,11 @@ export default function FeaturedProducts() {
                   key={product.id}
                   whileHover={{ y: -8 }}
                   onClick={() => setSelectedProduct(product)}
-                  className="w-[300px] sm:w-[350px] shrink-0 group cursor-pointer bg-white border border-[#3C5A44]/5 hover:border-[#B89355]/40 rounded-3xl p-5 sm:p-6 transition-all duration-500 shadow-md hover:shadow-xl flex flex-col justify-between"
+                  className="w-[300px] sm:w-[350px] shrink-0 group cursor-pointer bg-white border border-[#1A2B49]/5 hover:border-[#B89355]/40 rounded-3xl p-5 sm:p-6 transition-all duration-500 shadow-md hover:shadow-xl flex flex-col justify-between"
                 >
                   <div>
                     {/* Visual Image */}
-                    <div className="h-64 sm:h-72 rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
+                    <div className="h-64 sm:h-72 rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-[#1A2B49]/5">
                       {product.stock <= 0 && (
                         <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
                           Out of Stock
@@ -130,7 +130,7 @@ export default function FeaturedProducts() {
                           }`}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#B89355] to-[#3C5A44] flex items-center justify-center text-white text-3xl font-bold">
+                        <div className="w-full h-full bg-gradient-to-br from-[#B89355] to-[#1A2B49] flex items-center justify-center text-white text-3xl font-bold">
                           A
                         </div>
                       )}
@@ -138,7 +138,7 @@ export default function FeaturedProducts() {
                       {/* Wishlist Button Overlay */}
                       <button
                         onClick={(e) => handleWishlistToggle(e, product)}
-                        className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 hover:bg-white text-gray-500 hover:text-red-500 border border-[#3C5A44]/5 shadow-md transition-all duration-300 z-10 cursor-pointer"
+                        className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 hover:bg-white text-gray-500 hover:text-red-500 border border-[#1A2B49]/5 shadow-md transition-all duration-300 z-10 cursor-pointer"
                         title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                       >
                         <FiHeart
@@ -148,7 +148,7 @@ export default function FeaturedProducts() {
                       </button>
 
                       {/* Quick View Overlay */}
-                      <div className="absolute inset-0 bg-[#3C5A44]/5 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
+                      <div className="absolute inset-0 bg-[#1A2B49]/5 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
                     </div>
 
                     {/* Rating */}
@@ -162,7 +162,7 @@ export default function FeaturedProducts() {
                     </div>
 
                     {/* Info */}
-                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#3C5A44] mt-3 group-hover:text-[#B89355] transition duration-200">
+                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#1A2B49] mt-3 group-hover:text-[#B89355] transition duration-200">
                       {product.name}
                     </h3>
                     <p className="text-gray-600 text-xs sm:text-sm mt-2 leading-relaxed">
@@ -171,7 +171,7 @@ export default function FeaturedProducts() {
                   </div>
 
                   {/* Purchase Footer */}
-                  <div className="mt-6 pt-4 border-t border-[#3C5A44]/5 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-[#1A2B49]/5 flex items-center justify-between">
                     <span className="text-2xl font-black text-[#B89355]">
                       ₹{product.price}
                     </span>
@@ -179,7 +179,7 @@ export default function FeaturedProducts() {
                     <button
                       onClick={(e) => handleQuickAdd(e, product)}
                       disabled={product.stock <= 0}
-                      className="flex items-center gap-2 px-5 py-3 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md active:scale-95 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2 px-5 py-3 bg-[#1A2B49] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md active:scale-95 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                       {product.stock <= 0 ? (
                         <span>Out of Stock</span>

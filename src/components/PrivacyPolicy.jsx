@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] relative overflow-hidden">
       {/* Decorative background glows */}
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#B89355]/4 blur-[130px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#f4efe2]/60 blur-[130px] bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 pointer-events-none" />
@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
             Store Policies
           </span>
           <h1
-            className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif"
+            className="text-4xl md:text-5xl font-black text-[#1A2B49] font-serif"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             PRIVACY POLICY
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#3C5A44]/10 rounded-3xl shadow-sm"
+            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#1A2B49]/10 rounded-3xl shadow-sm"
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
@@ -53,10 +53,10 @@ export default function PrivacyPolicy() {
               </p>
             </div>
 
-            <hr className="border-[#3C5A44]/5" />
+            <hr className="border-[#1A2B49]/5" />
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 1. Information We Collect
               </h2>
               <p>
@@ -73,7 +73,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 2. How We Use Your Information
               </h2>
               <p>
@@ -87,7 +87,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 3. Third-Party Sharing Disclosures
               </h2>
               <p>
@@ -107,7 +107,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 4. Cookies & Analytics
               </h2>
               <p>
@@ -119,7 +119,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 5. Security of Your Personal Data
               </h2>
               <p>
@@ -128,7 +128,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 6. Your Data Rights (GDPR & CCPA Compliant)
               </h2>
               <p>

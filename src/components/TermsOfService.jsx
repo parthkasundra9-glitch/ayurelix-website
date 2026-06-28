@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function TermsOfService() {
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] relative overflow-hidden">
       {/* Decorative background glows */}
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#B89355]/4 blur-[130px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute w-[600px] h-[600px] rounded-full bg-[#f4efe2]/60 blur-[130px] bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 pointer-events-none" />
@@ -25,7 +25,7 @@ export default function TermsOfService() {
             Store Policies
           </span>
           <h1
-            className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif"
+            className="text-4xl md:text-5xl font-black text-[#1A2B49] font-serif"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             TERMS OF SERVICE
@@ -45,7 +45,7 @@ export default function TermsOfService() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#3C5A44]/10 rounded-3xl shadow-sm"
+            className="flex-grow space-y-8 text-slate-600 leading-relaxed text-sm bg-white p-8 lg:p-12 border border-[#1A2B49]/10 rounded-3xl shadow-sm"
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
@@ -53,10 +53,10 @@ export default function TermsOfService() {
               </p>
             </div>
 
-            <hr className="border-[#3C5A44]/5" />
+            <hr className="border-[#1A2B49]/5" />
 
             <div className="bg-[#B89355]/5 border-l-4 border-[#B89355] rounded-r-2xl p-6 space-y-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-[#3C5A44]">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-[#1A2B49]">
                 ⚠️ MEDICAL & HEALTH DISCLAIMER (CRITICAL)
               </h3>
               <p className="text-xs leading-relaxed text-slate-700 font-medium">
@@ -68,7 +68,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 1. Account Registration & Store Use
               </h2>
               <p>
@@ -80,7 +80,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 2. Accuracy of Products & Natural Variance
               </h2>
               <p>
@@ -97,7 +97,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 3. Modification of Services & Prices
               </h2>
               <p>
@@ -106,7 +106,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 4. Billing & Payment Security
               </h2>
               <p>
@@ -118,7 +118,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 5. Intellectual Property
               </h2>
               <p>
@@ -127,7 +127,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 6. Limitation of Liability
               </h2>
               <p>
@@ -136,7 +136,7 @@ export default function TermsOfService() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
                 7. Governing Law & Jurisdiction
               </h2>
               <p>

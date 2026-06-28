@@ -61,11 +61,11 @@ export default function Certifications() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className="flex flex-col items-center space-y-2 group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center border border-[#3C5A44]/5 transition-all duration-300 group-hover:border-[#B89355]/30 group-hover:bg-white group-hover:shadow-[0_8px_30px_rgba(14,26,48,0.06)] group-hover:scale-105 shadow-sm">
+              <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center border border-[#1A2B49]/5 transition-all duration-300 group-hover:border-[#B89355]/30 group-hover:bg-white group-hover:shadow-[0_8px_30px_rgba(14,26,48,0.06)] group-hover:scale-105 shadow-sm">
                 {cert.icon}
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[#3C5A44] tracking-wide group-hover:text-[#B89355] transition-colors duration-200">
+                <h4 className="text-sm font-bold text-[#1A2B49] tracking-wide group-hover:text-[#B89355] transition-colors duration-200">
                   {cert.title}
                 </h4>
                 <p className="text-[10px] text-gray-600 font-semibold uppercase tracking-wider">

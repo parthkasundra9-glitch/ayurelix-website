@@ -192,14 +192,14 @@ export default function UserProfile() {
 
   if (loading) {
     return (
-      <div className="bg-white min-h-screen text-[#3C5A44] flex items-center justify-center">
+      <div className="bg-white min-h-screen text-[#1A2B49] flex items-center justify-center">
         <p className="text-xl font-semibold">Loading your wellness dashboard...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col justify-between overflow-x-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between overflow-x-hidden">
       <Navbar />
 
       <section className="max-w-7xl mx-auto py-20 sm:py-32 px-4 sm:px-8 w-full flex-grow relative">
@@ -207,11 +207,11 @@ export default function UserProfile() {
         <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[#B89355]/3 blur-[120px] pointer-events-none" />
 
         {/* Page Title */}
-        <div className="mb-12 border-b border-[#3C5A44]/10 pb-6 relative z-10">
+        <div className="mb-12 border-b border-[#1A2B49]/10 pb-6 relative z-10">
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block mb-1">
             Welcome Back
           </span>
-          <h1 className="text-[#3C5A44] text-2xl sm:text-4xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h1 className="text-[#1A2B49] text-2xl sm:text-4xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             {profile.fullName || user.email.split("@")[0]}'s Dashboard
           </h1>
         </div>
@@ -219,13 +219,13 @@ export default function UserProfile() {
         <div className="grid lg:grid-cols-12 gap-8 items-start relative z-10">
           
           {/* LEFT PANEL: PROFILE CARD */}
-          <div className="lg:col-span-4 bg-[#fbf9f4] border border-[#3C5A44]/5 p-4 sm:p-6 rounded-3xl shadow-xl space-y-6">
-            <div className="flex items-center gap-4 border-b border-[#3C5A44]/5 pb-5">
+          <div className="lg:col-span-4 bg-[#fbf9f4] border border-[#1A2B49]/5 p-4 sm:p-6 rounded-3xl shadow-xl space-y-6">
+            <div className="flex items-center gap-4 border-b border-[#1A2B49]/5 pb-5">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#B89355] to-[#8F6E35] flex items-center justify-center text-white text-2xl font-black">
                 {profile.fullName ? profile.fullName[0].toUpperCase() : user.email[0].toUpperCase()}
               </div>
               <div>
-                <h3 className="text-lg font-bold text-[#3C5A44] leading-tight">
+                <h3 className="text-lg font-bold text-[#1A2B49] leading-tight">
                   {profile.fullName || "Add your Name"}
                 </h3>
                 <p className="text-xs text-gray-600 font-mono mt-0.5 truncate">{user.email}</p>
@@ -270,7 +270,7 @@ export default function UserProfile() {
 
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="w-full mt-4 py-2.5 bg-transparent border border-[#3C5A44] hover:bg-[#3C5A44] text-[#3C5A44] hover:text-white font-bold rounded-xl transition duration-200 text-xs flex items-center justify-center gap-2 uppercase tracking-wider"
+                  className="w-full mt-4 py-2.5 bg-transparent border border-[#1A2B49] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white font-bold rounded-xl transition duration-200 text-xs flex items-center justify-center gap-2 uppercase tracking-wider"
                 >
                   <FiEdit2 size={12} />
                   <span>Edit Profile</span>
@@ -285,7 +285,7 @@ export default function UserProfile() {
                     required
                     value={editForm.fullName}
                     onChange={(e) => setEditForm({ ...editForm, fullName: e.target.value })}
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   />
                 </div>
                 <div>
@@ -294,7 +294,7 @@ export default function UserProfile() {
                     type="tel"
                     value={editForm.phone}
                     onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   />
                 </div>
                 <div>
@@ -303,7 +303,7 @@ export default function UserProfile() {
                     type="text"
                     value={editForm.address}
                     onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -313,7 +313,7 @@ export default function UserProfile() {
                       type="text"
                       value={editForm.city}
                       onChange={(e) => setEditForm({ ...editForm, city: e.target.value })}
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                   <div>
@@ -322,7 +322,7 @@ export default function UserProfile() {
                       type="text"
                       value={editForm.state}
                       onChange={(e) => setEditForm({ ...editForm, state: e.target.value })}
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                     />
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export default function UserProfile() {
                     type="text"
                     value={editForm.postalCode}
                     onChange={(e) => setEditForm({ ...editForm, postalCode: e.target.value })}
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-3.5 py-2.5 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-3.5 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   />
                 </div>
 
@@ -343,14 +343,14 @@ export default function UserProfile() {
                       setIsEditing(false);
                       setEditForm(profile);
                     }}
-                    className="w-1/2 py-2.5 border border-[#3C5A44]/10 hover:bg-[#3C5A44]/5 text-gray-600 hover:text-[#3C5A44] font-bold rounded-xl transition duration-200"
+                    className="w-1/2 py-2.5 border border-[#1A2B49]/10 hover:bg-[#1A2B49]/5 text-gray-600 hover:text-[#1A2B49] font-bold rounded-xl transition duration-200"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={saveLoading}
-                    className="w-1/2 py-2.5 bg-[#3C5A44] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 disabled:opacity-50"
+                    className="w-1/2 py-2.5 bg-[#1A2B49] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 disabled:opacity-50"
                   >
                     {saveLoading ? "Saving..." : "Save Details"}
                   </button>
@@ -361,18 +361,18 @@ export default function UserProfile() {
 
           {/* RIGHT PANEL: ORDERS ACCORDION */}
           <div className="lg:col-span-8 space-y-6">
-            <h2 className="text-xl font-bold font-serif text-[#3C5A44] flex items-center gap-2">
+            <h2 className="text-xl font-bold font-serif text-[#1A2B49] flex items-center gap-2">
               <FiPackage className="text-[#B89355]" />
               <span>Order History ({orders.length})</span>
             </h2>
 
             {orders.length === 0 ? (
-              <div className="bg-[#fbf9f4] border border-[#3C5A44]/5 p-8 rounded-3xl text-center space-y-4 shadow-sm">
+              <div className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-8 rounded-3xl text-center space-y-4 shadow-sm">
                 <FiPackage size={40} className="text-gray-400 mx-auto" />
                 <p className="text-gray-600 text-sm">You have not placed any orders yet.</p>
                 <button
                   onClick={() => navigate("/products")}
-                  className="px-6 py-2.5 bg-[#3C5A44] text-white font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-[#B89355] transition shadow-md"
+                  className="px-6 py-2.5 bg-[#1A2B49] text-white font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-[#B89355] transition shadow-md"
                 >
                   Explore Formulations
                 </button>
@@ -390,7 +390,7 @@ export default function UserProfile() {
                   return (
                     <div
                       key={order.id}
-                      className="bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-3xl overflow-hidden shadow-sm transition-all duration-300"
+                      className="bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-3xl overflow-hidden shadow-sm transition-all duration-300"
                     >
                       {/* Accordion Trigger Header */}
                       <button
@@ -417,7 +417,7 @@ export default function UserProfile() {
                               <FiCalendar size={12} />
                               {formattedDate}
                             </span>
-                            <span className="font-bold text-[#3C5A44]">₹{order.total_amount}</span>
+                            <span className="font-bold text-[#1A2B49]">₹{order.total_amount}</span>
                           </div>
                         </div>
                         
@@ -436,11 +436,11 @@ export default function UserProfile() {
                             initial={{ height: 0 }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0 }}
-                            className="overflow-hidden border-t border-[#3C5A44]/5 bg-white/80"
+                            className="overflow-hidden border-t border-[#1A2B49]/5 bg-white/80"
                           >
                             <div className="p-4 sm:p-6 space-y-6">
                               {/* Visual Status Stepper */}
-                              <div className="border-b border-[#3C5A44]/5 pb-6 text-center">
+                              <div className="border-b border-[#1A2B49]/5 pb-6 text-center">
                                 <h4 className="text-[10px] uppercase tracking-wider font-bold text-[#B89355] mb-2">
                                   Delivery Progress
                                 </h4>
@@ -459,22 +459,22 @@ export default function UserProfile() {
                                             <img
                                               src={getProductImage(item.products.image_url, item.products.id, item.products.name)}
                                               alt={item.products.name || "Product"}
-                                              className="w-10 h-10 rounded-lg object-cover shrink-0 border border-[#3C5A44]/5"
+                                              className="w-10 h-10 rounded-lg object-cover shrink-0 border border-[#1A2B49]/5"
                                             />
                                           ) : (
                                             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#B89355] to-[#8F6E35] shrink-0" />
                                           )}
                                           <div>
-                                            <p className="font-bold text-[#3C5A44] truncate max-w-[150px] md:max-w-[200px]">
+                                            <p className="font-bold text-[#1A2B49] truncate max-w-[150px] md:max-w-[200px]">
                                               {item.products?.name || "Deleted Product"}
                                             </p>
                                             <p className="text-[10px] text-gray-500 font-semibold">Qty: {item.quantity}</p>
                                           </div>
                                         </div>
-                                        <span className="font-bold text-[#3C5A44]">₹{item.price * item.quantity}</span>
+                                        <span className="font-bold text-[#1A2B49]">₹{item.price * item.quantity}</span>
                                       </div>
                                     ))}
-                                    <div className="flex justify-between items-center border-t border-[#3C5A44]/5 pt-3 mt-3 font-bold">
+                                    <div className="flex justify-between items-center border-t border-[#1A2B49]/5 pt-3 mt-3 font-bold">
                                       <span className="text-gray-500">Total Amount Paid</span>
                                       <span className="text-[#B89355] text-sm">₹{order.total_amount}</span>
                                     </div>
@@ -484,13 +484,13 @@ export default function UserProfile() {
                                 {/* Shipping address details */}
                                 <div className="space-y-2.5">
                                   <h4 className="text-[10px] uppercase tracking-wider font-bold text-[#B89355]">Shipping Destination</h4>
-                                  <div className="p-4 rounded-2xl bg-white border border-[#3C5A44]/5 space-y-1 text-gray-600 shadow-sm">
-                                    <p className="font-bold text-[#3C5A44]">{order.shipping_address.fullName}</p>
+                                  <div className="p-4 rounded-2xl bg-white border border-[#1A2B49]/5 space-y-1 text-gray-600 shadow-sm">
+                                    <p className="font-bold text-[#1A2B49]">{order.shipping_address.fullName}</p>
                                     <p>{order.shipping_address.address}</p>
                                     <p>{order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.postalCode}</p>
                                     <p className="text-gray-500 font-semibold mt-1">Phone: {order.shipping_address.phone}</p>
                                     {order.payment_id && (
-                                      <p className="text-[10px] text-gray-500 font-mono mt-2 pt-1 border-t border-[#3C5A44]/5">
+                                      <p className="text-[10px] text-gray-500 font-mono mt-2 pt-1 border-t border-[#1A2B49]/5">
                                         Payment ID: {order.payment_id}
                                       </p>
                                     )}
@@ -511,7 +511,7 @@ export default function UserProfile() {
         </div>
 
         {/* Center-aligned red styled Sign Out button */}
-        <div className="mt-16 flex justify-center border-t border-[#3C5A44]/10 pt-8 relative z-10">
+        <div className="mt-16 flex justify-center border-t border-[#1A2B49]/10 pt-8 relative z-10">
           <button
             onClick={handleLogout}
             className="px-8 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 hover:border-red-300 font-black rounded-xl text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition duration-300 active:scale-95 cursor-pointer"

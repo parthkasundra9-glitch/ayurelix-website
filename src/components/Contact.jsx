@@ -12,7 +12,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] relative overflow-hidden">
       <Navbar />
 
       {/* Decorative background glow */}
@@ -32,7 +32,7 @@ export default function Contact() {
               Consult with us
             </span>
             <h1
-              className="text-5xl md:text-6xl font-black text-[#3C5A44] font-serif"
+              className="text-5xl md:text-6xl font-black text-[#1A2B49] font-serif"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               GET IN TOUCH
@@ -44,15 +44,15 @@ export default function Contact() {
             <div className="space-y-6 text-slate-500 font-semibold pt-4">
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Email:</span>
-                <span className="text-[#3C5A44]">ayurelix512@gmail.com</span>
+                <span className="text-[#1A2B49]">ayurelix512@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Phone:</span>
-                <span className="text-[#3C5A44]">+91 98765 43210</span>
+                <span className="text-[#1A2B49]">+91 98765 43210</span>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Address:</span>
-                <span className="text-[#3C5A44]">A-12, Wellness Park, Bangalore, India</span>
+                <span className="text-[#1A2B49]">A-12, Wellness Park, Bangalore, India</span>
               </div>
             </div>
           </motion.div>
@@ -61,7 +61,7 @@ export default function Contact() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="bg-[#fbf9f4]/80 border border-[#3C5A44]/10 rounded-3xl p-8 backdrop-blur-xl shadow-xl hover:shadow-2xl transition duration-300"
+            className="bg-[#fbf9f4]/80 border border-[#1A2B49]/10 rounded-3xl p-8 backdrop-blur-xl shadow-xl hover:shadow-2xl transition duration-300"
           >
             {submitted ? (
               <motion.div
@@ -75,7 +75,7 @@ export default function Contact() {
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-8 py-3 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] transition duration-200"
+                  className="px-8 py-3 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] transition duration-200"
                 >
                   Send another message
                 </button>
@@ -87,7 +87,7 @@ export default function Contact() {
                   <input
                     type="text"
                     required
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="John Doe"
                   />
                 </div>
@@ -97,7 +97,7 @@ export default function Contact() {
                   <input
                     type="email"
                     required
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -107,14 +107,14 @@ export default function Contact() {
                   <textarea
                     required
                     rows="4"
-                    className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
+                    className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="Your inquiry details..."
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200"
+                  className="w-full py-4 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200"
                 >
                   Send Message
                 </button>

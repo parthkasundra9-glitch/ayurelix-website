@@ -20,7 +20,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] relative overflow-hidden">
       {/* Premium Backlight Glows */}
       <div className="absolute w-[500px] md:w-[800px] h-[500px] md:h-[800px] rounded-full bg-[#B89355]/4 blur-[150px] top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute w-[500px] md:w-[800px] h-[500px] md:h-[800px] rounded-full bg-[#f4efe2]/60 blur-[150px] bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 pointer-events-none" />
@@ -39,7 +39,7 @@ export default function About() {
               Our sacred heritage
             </span>
             <h1
-              className="text-5xl md:text-7xl font-black mb-8 leading-tight text-[#3C5A44] font-serif"
+              className="text-5xl md:text-7xl font-black mb-8 leading-tight text-[#1A2B49] font-serif"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               ABOUT AYURELIX
@@ -69,7 +69,7 @@ export default function About() {
         <div className="mt-32">
           <div className="text-center mb-16">
             <span className="text-[#B89355] uppercase tracking-[0.2em] text-xs font-bold block mb-2">Philosophy</span>
-            <h2 className="text-4xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>Our Core Values</h2>
+            <h2 className="text-4xl font-bold font-serif text-[#1A2B49]" style={{ fontFamily: "'Cinzel', serif" }}>Our Core Values</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -77,7 +77,7 @@ export default function About() {
               <motion.div
                 key={idx}
                 whileHover={{ y: -10 }}
-                className="bg-[#fbf9f4]/80 border border-[#3C5A44]/10 hover:border-[#B89355]/40 rounded-3xl p-8 backdrop-blur-lg hover:shadow-[0_8px_30px_rgba(14,26,48,0.05)] transition-all duration-300"
+                className="bg-[#fbf9f4]/80 border border-[#1A2B49]/10 hover:border-[#B89355]/40 rounded-3xl p-8 backdrop-blur-lg hover:shadow-[0_8px_30px_rgba(14,26,48,0.05)] transition-all duration-300"
               >
                 <h3 className="text-2xl font-bold text-[#B89355] mb-4 font-serif">{val.title}</h3>
                 <p className="text-slate-600 leading-relaxed text-sm">{val.description}</p>

@@ -12,7 +12,7 @@ export default function PolicySidebar({ active }) {
   return (
     <aside className="w-full lg:w-80 flex flex-col gap-8 shrink-0">
       {/* Policy Navigation */}
-      <div className="bg-[#fbf9f4]/80 border border-[#3C5A44]/10 rounded-3xl p-6 backdrop-blur-md shadow-sm">
+      <div className="bg-[#fbf9f4]/80 border border-[#1A2B49]/10 rounded-3xl p-6 backdrop-blur-md shadow-sm">
         <h3 className="text-xs uppercase tracking-[0.2em] text-[#B89355] font-bold mb-4 px-2">Legal Documents</h3>
         <nav className="flex flex-col gap-2">
           {links.map((link) => (
@@ -21,8 +21,8 @@ export default function PolicySidebar({ active }) {
               to={link.path}
               className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-200 ${
                 active === link.id
-                  ? "bg-[#3C5A44] text-white shadow-md shadow-[#3C5A44]/20"
-                  : "text-slate-600 hover:bg-[#3C5A44]/5 hover:text-[#3C5A44]"
+                  ? "bg-[#1A2B49] text-white shadow-md shadow-[#1A2B49]/20"
+                  : "text-slate-600 hover:bg-[#1A2B49]/5 hover:text-[#1A2B49]"
               }`}
             >
               {link.label}
@@ -32,24 +32,24 @@ export default function PolicySidebar({ active }) {
       </div>
 
       {/* Compliance & Trust Card */}
-      <div className="bg-[#fbf9f4]/80 border border-[#3C5A44]/10 rounded-3xl p-6 backdrop-blur-md shadow-sm space-y-4">
+      <div className="bg-[#fbf9f4]/80 border border-[#1A2B49]/10 rounded-3xl p-6 backdrop-blur-md shadow-sm space-y-4">
         <h4 className="text-xs uppercase tracking-[0.2em] text-[#B89355] font-bold">Compliance & Licensing</h4>
         
         <div className="space-y-3.5 text-xs font-semibold text-slate-600">
-          <div className="flex flex-col gap-1 border-b border-[#3C5A44]/5 pb-2">
-            <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">Registered Entity</span>
+          <div className="flex flex-col gap-1 border-b border-[#1A2B49]/5 pb-2">
+            <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">Registered Entity</span>
             <span>Ayurelix Private Limited</span>
           </div>
-          <div className="flex flex-col gap-1 border-b border-[#3C5A44]/5 pb-2">
-            <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">AYUSH Manufacturing Lic.</span>
+          <div className="flex flex-col gap-1 border-b border-[#1A2B49]/5 pb-2">
+            <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">AYUSH Manufacturing Lic.</span>
             <span className="font-mono text-slate-700">AYU-MFG/KA-48201</span>
           </div>
-          <div className="flex flex-col gap-1 border-b border-[#3C5A44]/5 pb-2">
-            <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">FSSAI License No.</span>
+          <div className="flex flex-col gap-1 border-b border-[#1A2B49]/5 pb-2">
+            <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">FSSAI License No.</span>
             <span className="font-mono text-slate-700">11226000000492</span>
           </div>
           <div className="flex flex-col gap-1 pb-1">
-            <span className="text-[#3C5A44] uppercase text-[10px] tracking-wider font-bold">GSTIN Registration</span>
+            <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">GSTIN Registration</span>
             <span className="font-mono text-slate-700">29AAICA8829G1ZN</span>
           </div>
         </div>

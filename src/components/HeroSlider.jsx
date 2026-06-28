@@ -116,7 +116,7 @@ export default function HeroSlider() {
             {slides[current].layout === "split" ? (
               <div className="w-full h-full flex flex-col md:flex-row relative">
                 {/* Text Content (Left on Desktop, Overlay on Mobile) */}
-                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#3C5A44] bg-black/60 md:bg-[#FAF8F5]">
+                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#1A2B49] bg-black/60 md:bg-[#FAF8F5]">
                   <div className="max-w-xl space-y-2 md:space-y-6 flex flex-col items-start text-left">
                     <motion.span
                       initial={{ opacity: 0, y: -15 }}
@@ -128,7 +128,7 @@ export default function HeroSlider() {
                     <motion.h1
                       initial={{ opacity: 0, y: 25 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-serif tracking-wide leading-tight text-white md:text-[#3C5A44]"
+                      className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-serif tracking-wide leading-tight text-white md:text-[#1A2B49]"
                       style={{ fontFamily: "'Cinzel', serif" }}
                     >
                       {slides[current].title}
@@ -146,7 +146,7 @@ export default function HeroSlider() {
                     >
                       <button
                         onClick={handleScrollToProducts}
-                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
+                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#1A2B49] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
                       >
                         {slides[current].cta}
                       </button>
@@ -205,7 +205,7 @@ export default function HeroSlider() {
                     >
                       <button
                         onClick={handleScrollToProducts}
-                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
+                        className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#1A2B49] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
                       >
                         {slides[current].cta}
                       </button>

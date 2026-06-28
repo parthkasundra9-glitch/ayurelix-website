@@ -92,7 +92,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col relative overflow-hidden">
       <Navbar />
 
       {/* Background glow effects */}
@@ -103,7 +103,7 @@ export default function ResetPassword() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full max-w-md bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
+          className="w-full max-w-md bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
         >
           <div className="text-center mb-8 flex flex-col items-center">
             <Logo size="md" variant="gold" showText={true} layout="vertical" />
@@ -121,7 +121,7 @@ export default function ResetPassword() {
               <div className="flex justify-center text-[#B89355]">
                 <FiCheckCircle size={56} />
               </div>
-              <h3 className="text-2xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h3 className="text-2xl font-bold font-serif text-[#1A2B49]" style={{ fontFamily: "'Cinzel', serif" }}>
                 Password Updated!
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
@@ -130,7 +130,7 @@ export default function ResetPassword() {
               <div className="pt-4">
                 <button
                   onClick={() => navigate("/login")}
-                  className="w-full py-3.5 bg-[#3C5A44] hover:bg-[#B89355] text-white font-black rounded-xl transition shadow-md"
+                  className="w-full py-3.5 bg-[#1A2B49] hover:bg-[#B89355] text-white font-black rounded-xl transition shadow-md"
                 >
                   Sign In
                 </button>
@@ -139,7 +139,7 @@ export default function ResetPassword() {
           ) : (
             <form className="space-y-6" onSubmit={handlePasswordReset}>
               <div className="text-center mb-6">
-                <h2 className="text-xl font-bold font-serif text-[#3C5A44]" style={{ fontFamily: "'Cinzel', serif" }}>
+                <h2 className="text-xl font-bold font-serif text-[#1A2B49]" style={{ fontFamily: "'Cinzel', serif" }}>
                   RESET PASSWORD
                 </h2>
                 <p className="text-gray-600 text-xs font-semibold mt-2">
@@ -164,7 +164,7 @@ export default function ResetPassword() {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       placeholder="••••••••"
                     />
                   </div>
@@ -176,7 +176,7 @@ export default function ResetPassword() {
                       required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       placeholder="••••••••"
                     />
                   </div>
@@ -184,7 +184,7 @@ export default function ResetPassword() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
                   >
                     <FiLock size={16} />
                     <span>{loading ? "Updating password..." : "Reset Password"}</span>
@@ -197,7 +197,7 @@ export default function ResetPassword() {
                   <button
                     type="button"
                     onClick={() => navigate("/forgot-password")}
-                    className="px-6 py-2.5 bg-[#3C5A44] hover:bg-[#B89355] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
+                    className="px-6 py-2.5 bg-[#1A2B49] hover:bg-[#B89355] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
                   >
                     Request New Link
                   </button>

@@ -8,10 +8,10 @@ export default function ProductCard({ product, onView }) {
 
   // Distinct gradients representing formulations
   const gradients = {
-    1: "from-[#B89355] via-[#8F6E35] to-[#3C5A44]", // Immunity (Warm Earthy Gold)
-    2: "from-[#a0c559] via-[#B89355] to-[#3C5A44]", // Hair Care (Fresh Herbal Gold)
-    3: "from-[#c55959] via-[#B89355] to-[#3C5A44]"  // Detox (Fiery Deep Gold)
-  }[product.id] || "from-[#B89355] via-[#8F6E35] to-[#3C5A44]";
+    1: "from-[#B89355] via-[#8F6E35] to-[#1A2B49]", // Immunity (Warm Earthy Gold)
+    2: "from-[#a0c559] via-[#B89355] to-[#1A2B49]", // Hair Care (Fresh Herbal Gold)
+    3: "from-[#c55959] via-[#B89355] to-[#1A2B49]"  // Detox (Fiery Deep Gold)
+  }[product.id] || "from-[#B89355] via-[#8F6E35] to-[#1A2B49]";
 
   const handleQuickAdd = (e) => {
     e.stopPropagation();
@@ -30,7 +30,7 @@ export default function ProductCard({ product, onView }) {
       className="
       bg-[#fbf9f4]
       backdrop-blur-xl
-      border border-[#3C5A44]/5
+      border border-[#1A2B49]/5
       hover:border-[#B89355]/40
       rounded-3xl
       p-6
@@ -42,7 +42,7 @@ export default function ProductCard({ product, onView }) {
       "
     >
       <div>
-        <div className="h-56 rounded-2xl bg-[#fbf9f4] relative overflow-hidden flex items-center justify-center border border-[#3C5A44]/5">
+        <div className="h-56 rounded-2xl bg-[#fbf9f4] relative overflow-hidden flex items-center justify-center border border-[#1A2B49]/5">
           {product.stock <= 0 && (
             <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
               Out of Stock
@@ -78,7 +78,7 @@ export default function ProductCard({ product, onView }) {
                 e.stopPropagation();
                 onView(product);
               }}
-              className="w-12 h-12 rounded-full bg-white text-[#3C5A44] flex items-center justify-center shadow-lg border border-[#3C5A44]/5"
+              className="w-12 h-12 rounded-full bg-white text-[#1A2B49] flex items-center justify-center shadow-lg border border-[#1A2B49]/5"
             >
               <FiEye size={18} />
             </motion.button>
@@ -95,7 +95,7 @@ export default function ProductCard({ product, onView }) {
           </div>
         </div>
 
-        <h2 className="text-[#3C5A44] text-2xl font-serif font-bold mt-5 group-hover:text-[#B89355] transition duration-200">
+        <h2 className="text-[#1A2B49] text-2xl font-serif font-bold mt-5 group-hover:text-[#B89355] transition duration-200">
           {product.name}
         </h2>
 
@@ -134,7 +134,7 @@ export default function ProductCard({ product, onView }) {
             className="
             col-span-2
             py-3
-            bg-[#3C5A44] hover:bg-[#B89355]
+            bg-[#1A2B49] hover:bg-[#B89355]
             text-white
             rounded-xl
             font-black text-sm

@@ -54,7 +54,7 @@ export default function CustomerReviews() {
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
             Real Experiences
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             Loved by Our Community
           </h2>
         </div>
@@ -90,7 +90,7 @@ export default function CustomerReviews() {
                   className="w-10 h-10 rounded-full object-cover border border-[#B89355]/30 shadow-sm shrink-0"
                 />
                 <div className="text-left">
-                  <h4 className="text-sm font-bold text-[#3C5A44] font-serif">{testimonials[current].name}</h4>
+                  <h4 className="text-sm font-bold text-[#1A2B49] font-serif">{testimonials[current].name}</h4>
                   <p className="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">{testimonials[current].role}</p>
                 </div>
               </div>

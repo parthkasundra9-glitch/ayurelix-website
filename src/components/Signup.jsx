@@ -53,7 +53,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="bg-white min-h-screen text-[#3C5A44] flex flex-col relative overflow-hidden">
+    <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col relative overflow-hidden">
       <Navbar />
 
       {/* Background glow effects */}
@@ -64,7 +64,7 @@ export default function Signup() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full max-w-md bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
+          className="w-full max-w-md bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
         >
           <div className="text-center mb-8 flex flex-col items-center">
             <Logo size="md" variant="gold" showText={true} layout="vertical" />
@@ -95,7 +95,7 @@ export default function Signup() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                  className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   placeholder="John Doe"
                 />
               </div>
@@ -107,7 +107,7 @@ export default function Signup() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                  className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   placeholder="name@domain.com"
                 />
               </div>
@@ -119,7 +119,7 @@ export default function Signup() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                  className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   placeholder="••••••••"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function Signup() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-white border border-[#3C5A44]/10 rounded-xl px-4 py-3 text-[#3C5A44] focus:outline-none focus:border-[#B89355] transition"
+                  className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                   placeholder="••••••••"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function Signup() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-[#3C5A44] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                className="w-full py-4 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
               >
                 {loading ? "Registering..." : "Sign Up"}
               </button>

@@ -48,7 +48,7 @@ export default function CategorySection() {
         <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
           Explore by formulation
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
           Categories
         </h2>
         <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
@@ -62,20 +62,20 @@ export default function CategorySection() {
           <motion.div
             key={cat.id}
             whileHover={{ y: -6 }}
-            className="group flex flex-col items-center bg-[#FAF8F5] border border-[#3C5A44]/5 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#B89355]/30 transition-all duration-300 p-3 select-none"
+            className="group flex flex-col items-center bg-[#FAF8F5] border border-[#1A2B49]/5 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#B89355]/30 transition-all duration-300 p-3 select-none"
           >
             {/* Visual circle image */}
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-[#3C5A44]/10 relative shadow-inner shrink-0">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-[#1A2B49]/10 relative shadow-inner shrink-0">
               <img
                 src={cat.image}
                 alt={cat.name}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-[#3C5A44]/5 transition duration-300" />
+              <div className="absolute inset-0 bg-[#1A2B49]/5 transition duration-300" />
             </div>
 
             {/* Labels */}
-            <h3 className="text-sm font-bold text-[#3C5A44] font-serif mt-4 text-center transition duration-200">
+            <h3 className="text-sm font-bold text-[#1A2B49] font-serif mt-4 text-center transition duration-200">
               {cat.name}
             </h3>
             {cat.subtitle && (

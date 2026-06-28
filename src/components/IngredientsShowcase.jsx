@@ -58,7 +58,7 @@ export default function IngredientsShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif mb-6"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             The Alchemy of Ayurveda
@@ -78,7 +78,7 @@ export default function IngredientsShowcase() {
           {/* Left Arrow Button */}
           <button
             onClick={() => scroll("left")}
-            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#3C5A44] text-[#3C5A44] hover:text-white border border-[#3C5A44]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Left"
           >
             <FiChevronLeft size={20} />
@@ -87,7 +87,7 @@ export default function IngredientsShowcase() {
           {/* Right Arrow Button */}
           <button
             onClick={() => scroll("right")}
-            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#3C5A44] text-[#3C5A44] hover:text-white border border-[#3C5A44]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Right"
           >
             <FiChevronRight size={20} />
@@ -107,7 +107,7 @@ export default function IngredientsShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.15, duration: 0.6 }}
-                className="w-[280px] sm:w-[320px] shrink-0 bg-[#fbf9f4] border border-[#3C5A44]/5 rounded-3xl overflow-hidden group hover:border-[#B89355]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(14,26,48,0.06)] flex flex-col justify-between"
+                className="w-[280px] sm:w-[320px] shrink-0 bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-3xl overflow-hidden group hover:border-[#B89355]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(14,26,48,0.06)] flex flex-col justify-between"
               >
                 {/* Image Container */}
                 <div className="h-64 overflow-hidden relative">
@@ -127,7 +127,7 @@ export default function IngredientsShowcase() {
                 {/* Text Container */}
                 <div className="p-6 md:p-8 flex-grow flex flex-col justify-between">
                   <div>
-                    <h3 className="text-2xl font-bold font-serif text-[#3C5A44] mb-3">
+                    <h3 className="text-2xl font-bold font-serif text-[#1A2B49] mb-3">
                       {ing.name}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed mb-6">
@@ -135,7 +135,7 @@ export default function IngredientsShowcase() {
                     </p>
                   </div>
 
-                  <div className="border-t border-[#3C5A44]/5 pt-4 space-y-2.5">
+                  <div className="border-t border-[#1A2B49]/5 pt-4 space-y-2.5">
                     <h4 className="text-xs font-bold text-[#B89355] uppercase tracking-wider">Key Wellness Actions:</h4>
                     {ing.benefits.map((benefit, i) => (
                       <div key={i} className="flex items-start gap-2 text-xs text-gray-600">

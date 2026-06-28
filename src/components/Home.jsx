@@ -11,7 +11,7 @@ import Footer from "./Footer";
 
 export default function Home() {
   return (
-    <div className="bg-[#FAF8F5] min-h-screen text-[#3C5A44] font-sans antialiased overflow-x-hidden">
+    <div className="bg-[#FAF8F5] min-h-screen text-[#1A2B49] font-sans antialiased overflow-x-hidden">
       
       {/* Premium Sticky Navigation Header */}
       <Navbar />
