@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +11,10 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Sign In to Your Account | Ayurelix";
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

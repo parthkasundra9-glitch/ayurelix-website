@@ -2,8 +2,13 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
+import { useEffect } from "react";
 
 export default function About() {
+  useEffect(() => {
+    document.title = "About Our Heritage & Story | Ayurelix";
+  }, []);
+
   const values = [
     {
       title: "100% Organic",

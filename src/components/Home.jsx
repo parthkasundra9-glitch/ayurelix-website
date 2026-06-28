@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import HeroSlider from "./HeroSlider";
 import Certifications from "./Certifications";
@@ -10,6 +11,10 @@ import IngredientsShowcase from "./IngredientsShowcase";
 import Footer from "./Footer";
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Ayurelix | The Elixir of Ayurveda";
+  }, []);
+
   return (
     <div className="bg-[#FAF8F5] min-h-screen text-[#1A2B49] font-sans antialiased overflow-x-hidden">
       

@@ -17,6 +17,10 @@ export default function Products() {
   const categoryIdParam = searchParams.get("category");
 
   useEffect(() => {
+    document.title = "Shop Ayurvedic Skincare Formulations | Ayurelix";
+  }, []);
+
+  useEffect(() => {
     async function fetchProducts() {
       try {
         const { data, error } = await supabase

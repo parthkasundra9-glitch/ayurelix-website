@@ -1,10 +1,14 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    document.title = "Consult Our Experts & Support | Ayurelix";
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

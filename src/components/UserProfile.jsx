@@ -83,6 +83,7 @@ export default function UserProfile() {
   }, []);
 
   useEffect(() => {
+    document.title = "My Account | Ayurelix";
     supabase.auth.getUser().then(({ data: { user: currentUser } }) => {
       if (!currentUser) {
         navigate("/login");

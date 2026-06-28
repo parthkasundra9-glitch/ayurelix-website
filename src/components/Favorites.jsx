@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -11,6 +11,10 @@ import { FiHeart, FiShoppingBag, FiArrowRight } from "react-icons/fi";
 export default function Favorites() {
   const { wishlistItems } = useCart();
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  useEffect(() => {
+    document.title = "My Wishlist | Ayurelix";
+  }, []);
 
   return (
     <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between relative overflow-hidden">

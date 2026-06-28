@@ -129,6 +129,7 @@ export default function AdminDashboard() {
   }, [activeTab]);
 
   useEffect(() => {
+    document.title = "Admin Dashboard | Ayurelix";
     checkAdminAccess();
   }, [checkAdminAccess]);
 
