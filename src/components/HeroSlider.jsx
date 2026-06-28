@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import bannerHerbs from "../assets/banner_herbs.jpg";
+import ancientBeauty from "../assets/ancient_beauty.png";
+import glowingSkin from "../assets/glowing_skin.jpg";
 
 const slides = [
   {
@@ -28,7 +30,7 @@ const slides = [
     subtitle: "Pure Organic Face Pack",
     description: "Crafted with Lodhra, Neem, and Turmeric to combat pigmentation, acne scars, and restore clean, balanced skin tone.",
     cta: "View Cream",
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=1600&auto=format&fit=crop",
+    image: ancientBeauty,
     align: "left"
   },
   {
@@ -37,7 +39,7 @@ const slides = [
     subtitle: "Daily Skincare Rituals",
     description: "Transform your daily skincare routine with chemical-free formulations safe for all skin types. 100% natural, active wellness.",
     cta: "Shop Now",
-    image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1600&auto=format&fit=crop",
+    image: glowingSkin,
     align: "left"
   }
 ];
@@ -92,7 +94,7 @@ export default function HeroSlider() {
   };
 
   return (
-    <section className="relative w-full h-[450px] md:h-[650px] overflow-hidden bg-[#FAF8F5] mt-16 md:mt-20">
+    <section className="relative w-full h-[280px] sm:h-[450px] md:h-[650px] overflow-hidden bg-[#FAF8F5] mt-16 md:mt-20">
       
       {/* Slider Slides Container */}
       <div className="relative w-full h-full">
@@ -117,13 +119,13 @@ export default function HeroSlider() {
             <div className={`absolute inset-0 bg-gradient-to-${slides[current].align === "right" ? "l" : "r"} from-black/50 via-black/20 to-transparent max-md:bg-black/60 z-10`} />
 
             {/* Content Card Panel */}
-            <div className={`absolute inset-0 max-w-7xl mx-auto px-6 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white select-none`}>
-              <div className={`max-w-xl space-y-4 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
+            <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white select-none`}>
+              <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
                 <motion.span
                   initial={{ opacity: 0, y: -15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-xs sm:text-sm font-bold tracking-[0.25em] text-[#D3B685] uppercase block"
+                  className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] uppercase block"
                 >
                   {slides[current].subtitle}
                 </motion.span>
@@ -131,7 +133,7 @@ export default function HeroSlider() {
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-3xl sm:text-5xl md:text-6xl font-black font-serif tracking-wide leading-tight"
+                  className="text-xl sm:text-4xl md:text-6xl font-black font-serif tracking-wide leading-tight"
                   style={{ fontFamily: "'Cinzel', serif" }}
                 >
                   {slides[current].title}
@@ -140,7 +142,7 @@ export default function HeroSlider() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="text-xs sm:text-base text-white/95 leading-relaxed font-sans max-w-md"
+                  className="text-[10px] sm:text-sm md:text-base text-white/95 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
                 >
                   {slides[current].description}
                 </motion.p>
@@ -151,7 +153,7 @@ export default function HeroSlider() {
                 >
                   <button
                     onClick={handleScrollToProducts}
-                    className="px-6 py-3 md:px-8 md:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
+                    className="px-4 py-2 sm:px-8 sm:py-4 rounded-full bg-[#B89355] hover:bg-[#3C5A44] text-white font-bold tracking-wider text-[10px] sm:text-xs md:text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase cursor-pointer"
                   >
                     {slides[current].cta}
                   </button>

@@ -111,8 +111,8 @@ export default function BestSellers() {
         {/* Cards Container */}
         <div
           ref={scrollRef}
-          className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 ${
-            bestsellers.length <= 2 ? "justify-center" : "justify-start"
+          className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
+            bestsellers.length <= 2 ? "md:justify-center" : "md:justify-start"
           }`}
         >
           {bestsellers.map((product) => {

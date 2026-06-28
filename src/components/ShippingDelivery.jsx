@@ -132,7 +132,7 @@ export default function ShippingDelivery() {
               </p>
               <ul className="list-disc list-inside space-y-2 pl-4">
                 <li>Please take clear photographs/video of the damaged packaging and product.</li>
-                <li>Email us at <a href="mailto:support@ayurelix.com" className="text-[#B89355] font-bold underline">support@ayurelix.com</a> within <strong>48 hours</strong> of delivery.</li>
+                <li>Email us at <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a> within <strong>48 hours</strong> of delivery.</li>
                 <li>We will dispatch a fresh replacement bottle immediately at no extra cost.</li>
               </ul>
             </div>

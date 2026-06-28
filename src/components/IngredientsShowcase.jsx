@@ -96,8 +96,8 @@ export default function IngredientsShowcase() {
           {/* Cards Container */}
           <div
             ref={scrollRef}
-            className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 ${
-              ingredients.length <= 2 ? "justify-center" : "justify-start"
+            className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
+              ingredients.length <= 2 ? "md:justify-center" : "md:justify-start"
             }`}
           >
             {ingredients.map((ing, idx) => (

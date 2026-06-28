@@ -44,7 +44,7 @@ export default function Contact() {
             <div className="space-y-6 text-slate-500 font-semibold pt-4">
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Email:</span>
-                <span className="text-[#3C5A44]">support@ayurelix.com</span>
+                <span className="text-[#3C5A44]">ayurelix512@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Phone:</span>

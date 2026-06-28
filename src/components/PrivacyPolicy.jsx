@@ -140,7 +140,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Deletion (Right to be Forgotten):</strong> You can request that we delete your personal and order history from our databases.</li>
               </ul>
               <p>
-                To exercise these rights, please contact us by writing to <a href="mailto:support@ayurelix.com" className="text-[#B89355] font-bold underline">support@ayurelix.com</a>. We will process your requests within 30 days.
+                To exercise these rights, please contact us by writing to <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a>. We will process your requests within 30 days.
               </p>
             </div>
           </motion.div>

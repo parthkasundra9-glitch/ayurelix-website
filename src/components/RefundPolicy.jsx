@@ -98,7 +98,7 @@ export default function RefundPolicy() {
                 4. Damaged or Defective Items
               </h2>
               <p>
-                We immediately replace items if they are received damaged, broken, or defective. Please contact us at <a href="mailto:support@ayurelix.com" className="text-[#B89355] font-bold underline">support@ayurelix.com</a> within <strong>48 hours</strong> of delivery with:
+                We immediately replace items if they are received damaged, broken, or defective. Please contact us at <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a> within <strong>48 hours</strong> of delivery with:
               </p>
               <ol className="list-decimal list-inside space-y-2 pl-4">
                 <li>Your Order Number.</li>
@@ -117,7 +117,7 @@ export default function RefundPolicy() {
                 To return an eligible unopened product, please follow these steps:
               </p>
               <ul className="list-disc list-inside space-y-2 pl-4">
-                <li>Send an email to <a href="mailto:support@ayurelix.com" className="text-[#3C5A44] underline">support@ayurelix.com</a> with your order details and reason for return.</li>
+                <li>Send an email to <a href="mailto:ayurelix512@gmail.com" className="text-[#3C5A44] underline">ayurelix512@gmail.com</a> with your order details and reason for return.</li>
                 <li>Our fulfillment team will review the request and issue a Return Authorization (RA) number.</li>
                 <li>We will coordinate a courier pickup from your delivery address. Reverse pickup charges of ₹100 will be deducted from your final refund amount, except in cases of damaged/defective items.</li>
               </ul>

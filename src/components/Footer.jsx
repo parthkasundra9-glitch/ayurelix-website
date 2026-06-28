@@ -136,7 +136,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <FiCompass className="text-[#B89355] text-base shrink-0" />
-                <span>support@ayurelix.com</span>
+                <span>ayurelix512@gmail.com</span>
               </div>
             </div>
           </div>
