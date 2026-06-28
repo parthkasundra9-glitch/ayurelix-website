@@ -1,8 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ashwagandhaImg from "../assets/ashwagandha.png";
+import saffronImg from "../assets/banner_herbs.jpg";
 import turmericImg from "../assets/turmeric.png";
-import gotukolaImg from "../assets/gotu_kola.png";
 
 const ingredients = [
   {
@@ -10,7 +9,7 @@ const ingredients = [
     sanskrit: "Crocus sativus",
     description: "The precious golden thread of Ayurveda, Saffron is the star botanical of Kumkumadi Oil, celebrated for its legendary skin-brightening and complexion-evening properties.",
     benefits: ["Fades dark spots, blemishes, & pigmentation", "Rich in carotenoids and powerful antioxidants", "Enhances cell regeneration for a youthful glow"],
-    image: ashwagandhaImg,
+    image: saffronImg,
     glowColor: "group-hover:shadow-[0_0_30px_rgba(197,160,89,0.15)]"
   },
   {
@@ -20,24 +19,13 @@ const ingredients = [
     benefits: ["Supports joint comfort, mobility, & cellular health", "Promotes radiant, clear skin from the inside out", "Supports digestive efficiency and liver detoxification"],
     image: turmericImg,
     glowColor: "group-hover:shadow-[0_0_30px_rgba(230,193,115,0.15)]"
-  },
-  {
-    name: "Gotu Kola",
-    sanskrit: "Centella asiatica",
-    description: "Revered as the 'Herb of Longevity' in Ayurvedic scriptures, Gotu Kola is celebrated for its legendary capacity to revitalize skin cells, promote microcirculation, and accelerate healing.",
-    benefits: ["Supports natural collagen synthesis & skin elasticity", "Promotes cellular repair and reduces skin inflammation", "Enhances healthy capillary circulation for a radiant glow"],
-    image: gotukolaImg,
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(72,187,120,0.15)]"
   }
 ];
 
 export default function IngredientsShowcase() {
   return (
-    <section className="bg-white py-24 px-8 relative overflow-hidden">
-      {/* Decorative background blur */}
-      <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#B89355]/5 blur-[150px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto z-10 relative">
+    <section className="py-6 w-full relative">
+      <div className="z-10 relative">
         <div className="text-center mb-16">
           <motion.span
             initial={{ opacity: 0 }}
@@ -52,7 +40,7 @@ export default function IngredientsShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-black text-[#3C5A44] font-serif mb-6"
+            className="text-3xl sm:text-4xl font-black text-[#3C5A44] font-serif mb-6"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             The Alchemy of Ayurveda
@@ -61,13 +49,13 @@ export default function IngredientsShowcase() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed"
+            className="text-gray-600 text-sm max-w-sm mx-auto leading-relaxed"
           >
             We extract the potent life force of active botanicals, ethically sourced and scientifically validated, to restore balance to your modern life.
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
           {ingredients.map((ing, idx) => (
             <motion.div
               key={idx}

@@ -45,29 +45,23 @@ export default function FeaturedProducts() {
   };
 
   return (
-    <section id="featured-products-section" className="bg-[#FAF8F5] py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden">
+    <section id="featured-products-section" className="py-6 w-full">
       
       {/* Header Info */}
       <div className="text-center mb-16">
         <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
           Organic Skincare Elixirs
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-          Featured Formulations
+        <h2 className="text-3xl sm:text-4xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          Products
         </h2>
-        <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
+        <p className="text-gray-600 text-sm max-w-sm mx-auto mt-4">
           Experience our highly potent flagship formulations, lovingly prepared to elevate your natural beauty.
         </p>
       </div>
 
       {/* Grid Layout */}
-      <div className={`grid gap-8 justify-center ${
-        productsList.length === 1
-          ? "grid-cols-1 max-w-sm mx-auto"
-          : productsList.length === 2
-          ? "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto"
-          : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto"
-      }`}>
+      <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
         {productsList.map((product) => {
           const isWishlisted = isInWishlist(product.id);
           const imageSrc = getProductImage(product.image_url, product.id, product.name);
@@ -128,7 +122,7 @@ export default function FeaturedProducts() {
                 </div>
 
                 {/* Info */}
-                <h3 className="text-xl sm:text-2xl font-serif text-[#3C5A44] mt-3 group-hover:text-[#B89355] transition duration-200">
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#3C5A44] mt-3 group-hover:text-[#B89355] transition duration-200">
                   {product.name}
                 </h3>
                 <p className="text-gray-600 text-xs sm:text-sm mt-2 leading-relaxed">

@@ -137,8 +137,8 @@ export default function Logo({
         >
           Ayurelix
         </span>
-        <span className="text-[10px] tracking-[0.3em] text-[#B89355] uppercase mt-1">
-          Ancient Ayurveda • Modern Wellness
+        <span className="text-[10px] tracking-[0.1em] text-[#B89355] uppercase mt-1">
+          The Elixir of Ayurveda
         </span>
       </div>
     );
@@ -155,8 +155,8 @@ export default function Logo({
         >
           Ayurelix
         </span>
-        <span className="text-[9px] tracking-[0.2em] text-[#B89355] uppercase leading-none mt-1">
-          Wellness
+        <span className="text-[9px] tracking-[0.05em] text-[#B89355] leading-none mt-1 font-medium">
+          The Elixir of Ayurveda
         </span>
       </div>
     </div>

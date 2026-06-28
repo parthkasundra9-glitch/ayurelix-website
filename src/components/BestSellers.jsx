@@ -61,23 +61,23 @@ export default function BestSellers() {
   }
 
   return (
-    <section className="bg-white py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden">
+    <section className="py-6 w-full">
       
       {/* Header Info */}
       <div className="text-center mb-16">
         <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
           Highly Loved Remedies
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-          The Best Sellers
+        <h2 className="text-3xl sm:text-4xl font-black text-[#3C5A44] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+          Best Seller
         </h2>
-        <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
+        <p className="text-gray-600 text-sm max-w-sm mx-auto mt-4">
           Explore our community's favorites, formulation mixtures designed to soothe and refresh your skin daily.
         </p>
       </div>
 
-      {/* Grid Layout - 4 Columns Desktop, 2 Tablet, 1 Mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
         {bestsellers.map((product) => {
           const isWishlisted = isInWishlist(product.id);
           const productImg = getProductImage(product.image_url, product.id, product.name);
@@ -139,7 +139,7 @@ export default function BestSellers() {
                 </div>
 
                 {/* Info */}
-                <h3 className="text-lg font-serif text-[#3C5A44] mt-2 group-hover:text-[#B89355] transition duration-200 truncate">
+                <h3 className="text-lg font-serif font-bold text-[#3C5A44] mt-2 group-hover:text-[#B89355] transition duration-200 truncate">
                   {product.name}
                 </h3>
                 <p className="text-gray-500 text-xs mt-1.5 leading-relaxed line-clamp-2">

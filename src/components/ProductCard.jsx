@@ -95,7 +95,7 @@ export default function ProductCard({ product, onView }) {
           </div>
         </div>
 
-        <h2 className="text-[#3C5A44] text-2xl font-serif mt-5 group-hover:text-[#B89355] transition duration-200">
+        <h2 className="text-[#3C5A44] text-2xl font-serif font-bold mt-5 group-hover:text-[#B89355] transition duration-200">
           {product.name}
         </h2>
 

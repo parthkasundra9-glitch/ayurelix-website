@@ -27,14 +27,14 @@ export default function Home() {
         <CategorySection />
       </div>
 
-      {/* Featured Products Section */}
-      <FeaturedProducts />
-
-      {/* Best Sellers Shopping Grid */}
-      <BestSellers />
-
-      {/* Botanical Ingredients Alchemy */}
-      <IngredientsShowcase />
+      {/* Row Wrapper for Products, Best Seller, and The Alchemy of Ayurveda */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+          <FeaturedProducts />
+          <BestSellers />
+          <IngredientsShowcase />
+        </div>
+      </div>
 
       {/* Why Choose Us Trust Pillars */}
       <WhyChooseUs />

@@ -147,7 +147,7 @@ export default function Footer() {
         <div className="border-t border-[#3C5A44]/10 pt-8 flex flex-col md:flex-row items-center justify-between text-center gap-4 text-xs text-gray-500 font-bold uppercase tracking-wider">
           <span>&copy; 2026 Ayurelix Private Limited. All rights reserved.</span>
           <span className="font-serif text-[10px] tracking-[0.25em] text-[#B89355]" style={{ fontFamily: "'Cinzel', serif" }}>
-            Ancient Ayurveda. Modern Wellness.
+            The Elixir of Ayurveda
           </span>
         </div>
 
