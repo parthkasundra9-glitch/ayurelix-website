@@ -4,6 +4,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import premiumSkincare from "../assets/premium_skincare.png";
 import ancientBeauty from "../assets/ancient_beauty.png";
 import glowingSkin from "../assets/glowing_skin.jpg";
+import kumkumadiSerum from "../assets/kumkumadi_serum.jpg";
 
 const slides = [
   {
@@ -22,9 +23,9 @@ const slides = [
     subtitle: "Authentic Kumkumadi Oil",
     description: "Infused with pure Saffron and Sandalwood to reduce fine lines, erase blemishes, and reveal your skin's inner radiance.",
     cta: "View Serum",
-    image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=1600&auto=format&fit=crop",
+    image: kumkumadiSerum,
     align: "left",
-    layout: "full"
+    layout: "split"
   },
   {
     id: 3,
