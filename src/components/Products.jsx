@@ -79,12 +79,7 @@ export default function Products() {
       <section className="max-w-7xl mx-auto py-32 px-8">
         
         {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16 space-y-4"
-        >
+        <div className="text-center mb-16 space-y-4">
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
             Pure apothecary
           </span>
@@ -94,14 +89,10 @@ export default function Products() {
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Discover our carefully crafted range of premium Ayurvedic wellness formulations designed for modern life.
           </p>
-        </motion.div>
+        </div>
 
         {/* Products Grid */}
-        <motion.div
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+        <div
           className={`grid gap-8 z-10 relative justify-center ${
             displayedProducts.length === 1
               ? "grid-cols-1 max-w-sm mx-auto"
@@ -117,7 +108,7 @@ export default function Products() {
               onView={(p) => setSelectedProduct(p)}
             />
           ))}
-        </motion.div>
+        </div>
       </section>
 
       {/* Brand Footer */}

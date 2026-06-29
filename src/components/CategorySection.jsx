@@ -59,10 +59,9 @@ export default function CategorySection() {
       {/* Grid Layout */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
         {categories.map((cat) => (
-          <motion.div
+          <div
             key={cat.id}
-            whileHover={{ y: -6 }}
-            className="group flex flex-col items-center bg-[#FAF8F5] border border-[#1A2B49]/5 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#B89355]/30 transition-all duration-300 p-3 select-none"
+            className="group flex flex-col items-center bg-[#FAF8F5] border border-[#1A2B49]/5 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#B89355]/30 hover:-translate-y-1.5 transition-all duration-300 p-3 select-none"
           >
             {/* Visual circle image */}
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-[#1A2B49]/10 relative shadow-inner shrink-0">
@@ -83,7 +82,7 @@ export default function CategorySection() {
                 {cat.subtitle}
               </p>
             )}
-          </motion.div>
+          </div>
         ))}
       </div>
 
