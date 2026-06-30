@@ -195,7 +195,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
 
                   <button
                     onClick={handleAddToCart}
-                    disabled={product.stock <= 0 || loading}
+                    disabled={product.stock <= 0 || added}
                     className="flex-grow py-3 px-6 bg-[#1A2B49] hover:bg-[#B89355] disabled:bg-gray-200 text-white font-black rounded-xl hover:shadow-md transition-all duration-300 disabled:opacity-50 text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {product.stock <= 0 ? (
