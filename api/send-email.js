@@ -202,8 +202,8 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${resendApiKey}`
       },
       body: JSON.stringify({
-        from: "Ayurelix Contact <onboarding@resend.dev>",
-        to: ["ayurelix512@gmail.com"],
+        from: process.env.FROM_EMAIL || "Ayurelix Contact <onboarding@resend.dev>",
+        to: [process.env.TO_EMAIL || "ayurelix512@gmail.com"],
         reply_to: email,
         subject: `New Ayurelix Inquiry: ${subject || "General Consultation"}`,
         html: emailHtml
