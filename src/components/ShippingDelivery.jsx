@@ -87,18 +87,8 @@ export default function ShippingDelivery() {
                   <tbody>
                     <tr className="border-b border-[#1A2B49]/5">
                       <td className="p-4 font-semibold text-[#1A2B49]">Domestic (India) - Standard</td>
-                      <td className="p-4">3 to 5 Business Days</td>
-                      <td className="p-4">₹60 (Free on orders above ₹999)</td>
-                    </tr>
-                    <tr className="border-b border-[#1A2B49]/5">
-                      <td className="p-4 font-semibold text-[#1A2B49]">Domestic (India) - Express</td>
-                      <td className="p-4">1 to 2 Business Days</td>
-                      <td className="p-4">₹150 (Flat Rate)</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 font-semibold text-[#1A2B49]">International (Outside India)</td>
-                      <td className="p-4">7 to 14 Business Days</td>
-                      <td className="p-4">Calculated by weight at checkout</td>
+                      <td className="p-4">3 to 7 Business Days</td>
+                      <td className="p-4">₹60 (Free on orders above ₹599)</td>
                     </tr>
                   </tbody>
                 </table>

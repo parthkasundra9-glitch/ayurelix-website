@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
                   <strong>Payment Gateways (Razorpay / Stripe):</strong> Payment details are sent directly to PCI-compliant gateways. We do not touch or store credit card details.
                 </li>
                 <li>
-                  <strong>Logistics & Delivery Partners:</strong> Shipping addresses are shared with courier agents (Delhivery, BlueDart, DHL) to process delivery labels.
+                  <strong>Logistics & Delivery Partners:</strong> Shipping addresses are shared with courier agents(shiprocket) to process delivery labels.
                 </li>
               </ul>
             </div>
