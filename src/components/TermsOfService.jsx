@@ -49,7 +49,7 @@ export default function TermsOfService() {
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
-                Welcome to Ayurelix. This website is owned and operated by Ayurelix Private Limited. Throughout the site, the terms "we", "us" and "our" refer to Ayurelix. By visiting our site and/or purchasing products from us, you engage in our "Service" and agree to be bound by the following Terms of Service.
+                Welcome to Ayurelix. This website is owned and operated by Ayurelix. Throughout the site, the terms "we", "us" and "our" refer to Ayurelix. By visiting our site and/or purchasing products from us, you engage in our "Service" and agree to be bound by the following Terms of Service.
               </p>
             </div>
 
@@ -122,7 +122,7 @@ export default function TermsOfService() {
                 5. Intellectual Property
               </h2>
               <p>
-                The Ayurelix logo, typography, website structure, product images, brand philosophy, and custom formulation recipes are the exclusive intellectual property of Ayurelix Private Limited. Any reproduction, distribution, or unauthorized commercial use of these materials is strictly prohibited unless explicitly authorized by us in writing.
+                The Ayurelix logo, typography, website structure, product images, brand philosophy, and custom formulation recipes are the exclusive intellectual property of Ayurelix. Any reproduction, distribution, or unauthorized commercial use of these materials is strictly prohibited unless explicitly authorized by us in writing.
               </p>
             </div>
 

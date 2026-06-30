@@ -116,7 +116,6 @@ export default function Footer() {
             <h4 className="text-xs uppercase tracking-[0.2em] text-[#B89355] font-black">Policy & Support</h4>
             <div className="flex flex-col space-y-3 text-xs sm:text-sm text-gray-600 font-semibold">
               <Link to="/shipping-delivery" className="hover:text-[#B89355] transition">Shipping & Delivery</Link>
-              <Link to="/refund-policy" className="hover:text-[#B89355] transition">Refund Policy</Link>
               <Link to="/terms-of-service" className="hover:text-[#B89355] transition">Terms of Service</Link>
               <Link to="/privacy-policy" className="hover:text-[#B89355] transition">Privacy Policy</Link>
             </div>
@@ -145,7 +144,7 @@ export default function Footer() {
 
         {/* ==================== BOTTOM BAR ==================== */}
         <div className="border-t border-[#1A2B49]/10 pt-8 flex flex-col md:flex-row items-center justify-between text-center gap-4 text-xs text-gray-500 font-bold uppercase tracking-wider">
-          <span>&copy; 2026 Ayurelix Private Limited. All rights reserved.</span>
+          <span>&copy; 2026 Ayurelix. All rights reserved.</span>
           <span className="font-serif text-[10px] tracking-[0.25em] text-[#B89355]" style={{ fontFamily: "'Cinzel', serif" }}>
             The Elixir of Ayurveda
           </span>

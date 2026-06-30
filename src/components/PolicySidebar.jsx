@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export default function PolicySidebar({ active }) {
   const links = [
     { id: "shipping", label: "Shipping & Delivery", path: "/shipping-delivery" },
-    { id: "refund", label: "Refund Policy", path: "/refund-policy" },
     { id: "terms", label: "Terms of Service", path: "/terms-of-service" },
     { id: "privacy", label: "Privacy Policy", path: "/privacy-policy" }
   ];
@@ -38,7 +37,7 @@ export default function PolicySidebar({ active }) {
         <div className="space-y-3.5 text-xs font-semibold text-slate-600">
           <div className="flex flex-col gap-1 border-b border-[#1A2B49]/5 pb-2">
             <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">Registered Entity</span>
-            <span>Ayurelix Private Limited</span>
+            <span>Ayurelix</span>
           </div>
           <div className="flex flex-col gap-1 border-b border-[#1A2B49]/5 pb-2">
             <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">AYUSH Manufacturing Lic.</span>
