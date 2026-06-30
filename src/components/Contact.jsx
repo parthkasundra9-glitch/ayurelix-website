@@ -4,15 +4,55 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     document.title = "Consult Our Experts & Support | Ayurelix";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message. Please try again.");
+      }
+
+      setSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
+    } catch (err) {
+      console.error("Submission error:", err);
+      setError(err.message || "A network error occurred. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -91,6 +131,8 @@ export default function Contact() {
                   <input
                     type="text"
                     required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="John Doe"
                   />
@@ -101,9 +143,35 @@ export default function Contact() {
                   <input
                     type="email"
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="john@example.com"
                   />
+                </div>
+
+                {/* Phone & Subject Fields (Responsive Grid) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
+                      placeholder="+91 98765 43210 (Optional)"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-2">Subject</label>
+                    <input
+                      type="text"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
+                      placeholder="Consultation (Optional)"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -111,16 +179,25 @@ export default function Contact() {
                   <textarea
                     required
                     rows="4"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-3 text-[#1A2B49] placeholder-slate-400 focus:outline-none focus:border-[#B89355] focus:ring-1 focus:ring-[#B89355] transition"
                     placeholder="Your inquiry details..."
                   ></textarea>
                 </div>
 
+                {error && (
+                  <div className="text-red-500 text-xs font-semibold bg-red-50 border border-red-200 rounded-xl p-3">
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200"
+                  disabled={loading}
+                  className="w-full py-4 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  Send Message
+                  {loading ? "Sending Message..." : "Send Message"}
                 </button>
               </form>
             )}

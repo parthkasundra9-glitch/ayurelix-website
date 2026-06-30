@@ -8,23 +8,23 @@ export default function Logo({
   layout = "horizontal",
   className = ""
 }) {
-  // Height classes based on size prop (making them larger for visibility as requested)
+  // Height classes based on size prop (making them 30-40% larger as requested)
   const heights = {
-    sm: "h-14 md:h-16",
-    md: "h-20 md:h-24",
-    lg: "h-28 md:h-32",
-    xl: "h-36 md:h-44",
-    xxl: "h-60 md:h-80"
-  }[size] || "h-20 md:h-24";
+    sm: "h-18 md:h-22",
+    md: "h-26 md:h-32",
+    lg: "h-36 md:h-44",
+    xl: "h-46 md:h-58",
+    xxl: "h-78 md:h-100"
+  }[size] || "h-26 md:h-32";
 
-  // Dimension classes for the font sizes (making text and tagline smaller)
+  // Dimension classes for the font sizes (making tagline noticeably smaller)
   const fontSizes = {
-    sm: { title: "text-sm md:text-base", tag: "text-[7px] md:text-[8px]" },
-    md: { title: "text-base md:text-lg", tag: "text-[8px] md:text-[9px]" },
-    lg: { title: "text-lg md:text-xl", tag: "text-[9px] md:text-[10px]" },
-    xl: { title: "text-xl md:text-2xl", tag: "text-[10px] md:text-[11px]" },
-    xxl: { title: "text-3xl md:text-4xl", tag: "text-[12px] md:text-[14px]" }
-  }[size] || { title: "text-base md:text-lg", tag: "text-[8px] md:text-[9px]" };
+    sm: { title: "text-sm md:text-base", tag: "text-[5.5px] md:text-[6.5px]" },
+    md: { title: "text-base md:text-lg", tag: "text-[6.5px] md:text-[7.5px]" },
+    lg: { title: "text-lg md:text-xl", tag: "text-[7.5px] md:text-[8.5px]" },
+    xl: { title: "text-xl md:text-2xl", tag: "text-[8.5px] md:text-[9.5px]" },
+    xxl: { title: "text-3xl md:text-4xl", tag: "text-[10px] md:text-[12px]" }
+  }[size] || { title: "text-base md:text-lg", tag: "text-[6.5px] md:text-[7.5px]" };
 
   const imgContent = (
     <img
