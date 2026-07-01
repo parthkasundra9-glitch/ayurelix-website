@@ -8,9 +8,9 @@ export default function Logo({
   layout = "horizontal",
   className = ""
 }) {
-  // Height classes based on size prop (making them 30-40% larger as requested)
+  // Height classes based on size prop (making them 30-40% larger as requested, keeping mobile compact)
   const heights = {
-    sm: "h-18 md:h-22",
+    sm: "h-11 md:h-22",
     md: "h-26 md:h-32",
     lg: "h-36 md:h-44",
     xl: "h-46 md:h-58",

@@ -209,7 +209,7 @@ export default function Navbar() {
       </div>
 
       {/* ---------------- MOBILE HEADER (Single Row) ---------------- */}
-      <div className="lg:hidden max-w-7xl mx-auto px-4 py-2.5 flex justify-between items-center">
+      <div className="lg:hidden max-w-7xl mx-auto px-4 py-1.5 flex justify-between items-center">
         
         {/* Left: Brand Logo */}
         <Link to="/" className="outline-none" onClick={() => setIsMenuOpen(false)}>
