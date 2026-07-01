@@ -132,7 +132,7 @@ export default function ShippingDelivery() {
                 6. Shipping Address Correction
               </h2>
               <p>
-                If you have entered an incorrect shipping address, please contact us at <a href="tel:+919876543210" className="text-[#1A2B49] underline">+91 98765 43210</a> or email us before 4:00 PM IST on the day of order placement. Once orders are dispatched, we are unable to redirect packages.
+                If you have entered an incorrect shipping address, please email us at <a href="mailto:ayurelix512@gmail.com" className="text-[#1A2B49] underline">ayurelix512@gmail.com</a> before 4:00 PM IST on the day of order placement. Once orders are dispatched, we are unable to redirect packages.
               </p>
             </div>
           </motion.div>

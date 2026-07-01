@@ -128,7 +128,7 @@ export default function RefundPolicy() {
                 6. Refund Processing Times
               </h2>
               <p>
-                Once your returned item is received at our Bangalore facility and inspected by our quality control team, we will send you an email notifying you of the approval or rejection of your refund.
+                Once your returned item is received at our Ahmedabad facility and inspected by our quality control team, we will send you an email notifying you of the approval or rejection of your refund.
               </p>
               <p>
                 If approved, your refund will be processed and automatically applied to your original credit card, bank account, or UPI payment method within <strong>5 to 7 business days</strong>.

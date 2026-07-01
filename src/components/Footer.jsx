@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
-import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiCheck, FiMapPin, FiPhone, FiCompass } from "react-icons/fi";
+import { FiInstagram, FiFacebook, FiYoutube, FiMail, FiCheck, FiMapPin, FiPhone, FiCompass } from "react-icons/fi";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -85,14 +85,14 @@ export default function Footer() {
               Ayurelix bridges ancient Ayurvedic wisdom with modern botanical science to offer premium, chemical-free, organic skincare formulations.
             </p>
             <div className="flex gap-3.5 pt-2">
-              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
+              <a href="https://www.instagram.com/ayurelix?igsh=eWpma2Z1aWI1M3My" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
                 <FiInstagram size={16} />
               </a>
               <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
                 <FiFacebook size={16} />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
-                <FiTwitter size={16} />
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white border border-[#1A2B49]/10 flex items-center justify-center text-gray-500 hover:text-[#B89355] hover:border-[#B89355]/40 transition shadow-sm">
+                <FiYoutube size={16} />
               </a>
             </div>
           </div>
@@ -127,11 +127,7 @@ export default function Footer() {
             <div className="flex flex-col space-y-4 text-xs sm:text-sm text-gray-600 font-semibold items-center md:items-start">
               <div className="flex items-start gap-2.5">
                 <FiMapPin className="text-[#B89355] text-base shrink-0 mt-0.5" />
-                <span className="text-center md:text-left">A-12, Wellness Park, Bangalore, India</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <FiPhone className="text-[#B89355] text-base shrink-0" />
-                <span>+91 98765 43210</span>
+                <span className="text-center md:text-left">Silver Gardenia, Gota, Ahmedabad, India</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <FiCompass className="text-[#B89355] text-base shrink-0" />

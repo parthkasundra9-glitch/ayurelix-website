@@ -91,12 +91,8 @@ export default function Contact() {
                 <span className="text-[#1A2B49]">ayurelix512@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Phone:</span>
-                <span className="text-[#1A2B49]">+91 98765 43210</span>
-              </div>
-              <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Address:</span>
-                <span className="text-[#1A2B49]">A-12, Wellness Park, Bangalore, India</span>
+                <span className="text-[#1A2B49]">Silver Gardenia, Gota, Ahmedabad, India</span>
               </div>
             </div>
           </motion.div>
