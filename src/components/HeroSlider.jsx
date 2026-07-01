@@ -99,7 +99,7 @@ export default function HeroSlider() {
   };
 
   return (
-    <section className="relative w-full h-[280px] sm:h-[450px] md:h-[650px] overflow-hidden bg-[#FAF8F5] mt-16 md:mt-20">
+    <section className="relative w-full h-[280px] sm:h-[450px] md:h-[650px] overflow-hidden bg-[#FAF8F5] mt-[56px] lg:mt-[140px]">
       
       {/* Slider Slides Container */}
       <div className="relative w-full h-full">
