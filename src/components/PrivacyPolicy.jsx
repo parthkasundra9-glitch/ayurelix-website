@@ -49,7 +49,7 @@ export default function PrivacyPolicy() {
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
-                At Ayurelix, we respect your privacy and are deeply committed to protecting the personal data you share with us. This Privacy Policy describes how we collect, use, and share your personal information when you visit, create an account, or make a purchase from Ayurelix.
+                At Ayurelix, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or purchase our products.
               </p>
             </div>
 
@@ -57,91 +57,135 @@ export default function PrivacyPolicy() {
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                1. Information We Collect
+                1. INFORMATION WE COLLECT
               </h2>
-              <p>
-                We gather information to process your orders, customize your Ayurvedic experiences, and secure our systems:
-              </p>
+              <p>We may collect the following types of information:</p>
+              
+              <h3 className="text-base font-bold text-[#1A2B49] mt-2">a. Personal Information</h3>
               <ul className="list-disc list-inside space-y-2 pl-4">
-                <li>
-                  <strong>Personal Profile & Account Data:</strong> When you register an account, purchase products, or fill contact forms, we collect your name, email, billing address, shipping address, telephone number, and account passwords.
-                </li>
-                <li>
-                  <strong>Device & Connection Data:</strong> We automatically record IP addresses, browser types, referral URLs, operating systems, and page navigation patterns using standard logging tools and cookies.
-                </li>
+                <li>Name</li>
+                <li>Phone number</li>
+                <li>Email address</li>
+                <li>Shipping and billing address</li>
+              </ul>
+
+              <h3 className="text-base font-bold text-[#1A2B49] mt-4">b. Payment Information</h3>
+              <ul className="list-disc list-inside space-y-2 pl-4">
+                <li>Payment details are processed securely through third-party payment gateways.</li>
+                <li>We do not store your card or banking information.</li>
+              </ul>
+
+              <h3 className="text-base font-bold text-[#1A2B49] mt-4">c. Technical Data</h3>
+              <ul className="list-disc list-inside space-y-2 pl-4">
+                <li>IP address</li>
+                <li>Browser type</li>
+                <li>Device information</li>
+                <li>Website usage data (via cookies)</li>
               </ul>
             </div>
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                2. How We Use Your Information
+                2. HOW WE USE YOUR INFORMATION
               </h2>
-              <p>
-                We process your personal information based on business requirements and consent:
-              </p>
+              <p>We use your information to:</p>
               <ul className="list-disc list-inside space-y-2 pl-4">
-                <li>To fulfill and ship orders, process payments, and send invoices.</li>
-                <li>To send tracking updates, newsletters, and promotional offers (only if opted-in).</li>
-                <li>To optimize website speed, detect fraudulent activities, and maintain site security.</li>
+                <li>Process and deliver your orders</li>
+                <li>Communicate order updates and customer support</li>
+                <li>Improve our website and services</li>
+                <li>Send promotional offers (only if you opt-in)</li>
+                <li>Prevent fraud and ensure security</li>
               </ul>
             </div>
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                3. Third-Party Sharing Disclosures
+                3. SHARING OF INFORMATION
               </h2>
-              <p>
-                We do not sell, rent, or trade your personal data with third parties for marketing purposes. We only share necessary customer data with trusted service providers to run our operations:
-              </p>
+              <p>We do not sell your personal data. However, we may share your information with:</p>
               <ul className="list-disc list-inside space-y-2 pl-4">
-                <li>
-                  <strong>Database & Auth (Supabase):</strong> We store account and order data in secure cloud servers provided by Supabase under industry-grade encryption.
-                </li>
-                <li>
-                  <strong>Payment Gateways (Razorpay / Stripe):</strong> Payment details are sent directly to PCI-compliant gateways. We do not touch or store credit card details.
-                </li>
-                <li>
-                  <strong>Logistics & Delivery Partners:</strong> Shipping addresses are shared with courier agents(shiprocket) to process delivery labels.
-                </li>
+                <li>Trusted delivery partners for order fulfillment</li>
+                <li>Payment gateway providers for secure transactions</li>
+                <li>Legal authorities if required by law</li>
               </ul>
             </div>
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                4. Cookies & Analytics
+                4. COOKIES
               </h2>
-              <p>
-                Ayurelix uses cookies and tracking technologies to enhance user experiences:
-              </p>
-              <p>
-                Cookies help keep track of items added to your shopping cart, speed up form entries, and track website traffic trends. You can instruct your browser to refuse all cookies, though some features (such as the cart checkout drawer) may not operate correctly as a result.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                5. Security of Your Personal Data
-              </h2>
-              <p>
-                The security of your personal data is critical to us. We employ SSL (Secure Socket Layer) encryption to protect all credit transactions, login credentials, and user data entered on the website. While no transmission method over the internet is 100% secure, we apply rigorous administrative and technological safeguards to minimize vulnerability risks.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                6. Your Data Rights (GDPR & CCPA Compliant)
-              </h2>
-              <p>
-                Regardless of where you reside, you have full control over your personal data:
-              </p>
+              <p>Our website uses cookies to enhance your browsing experience. Cookies help us:</p>
               <ul className="list-disc list-inside space-y-2 pl-4">
-                <li><strong>Access:</strong> You can request a copy of the personal information we hold about you.</li>
-                <li><strong>Correction:</strong> You can correct incomplete or inaccurate data.</li>
-                <li><strong>Deletion (Right to be Forgotten):</strong> You can request that we delete your personal and order history from our databases.</li>
+                <li>Understand user behavior</li>
+                <li>Improve website performance</li>
+                <li>Remember your preferences</li>
               </ul>
+              <p>You can disable cookies in your browser settings if you prefer.</p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                5. DATA SECURITY
+              </h2>
               <p>
-                To exercise these rights, please contact us by writing to <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a>. We will process your requests within 30 days.
+                We take appropriate security measures to protect your personal information. However, no online platform can guarantee 100% security.
               </p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                6. YOUR RIGHTS
+              </h2>
+              <p>You have the right to:</p>
+              <ul className="list-disc list-inside space-y-2 pl-4">
+                <li>Access your personal data</li>
+                <li>Request correction of incorrect information</li>
+                <li>Request deletion of your data (subject to legal requirements)</li>
+              </ul>
+              <p>To exercise your rights, contact us using the details below.</p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                7. THIRD-PARTY LINKS
+              </h2>
+              <p>
+                Our website may contain links to third-party websites. We are not responsible for their privacy practices.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                8. CHILDREN’S PRIVACY
+              </h2>
+              <p>
+                Our website is not intended for individuals under the age of 18. We do not knowingly collect data from minors.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                9. CHANGES TO THIS POLICY
+              </h2>
+              <p>
+                We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                10. CONTACT US
+              </h2>
+              <p>If you have any questions about this Privacy Policy, please contact:</p>
+              <ul className="space-y-2 pl-4">
+                <li>📧 <strong>Email:</strong> ayurelix512@gmail.com</li>
+                <li>📞 <strong>Phone:</strong> +91 00000 00000</li>
+                <li>📍 <strong>Location:</strong> Gujarat, India</li>
+              </ul>
+            </div>
+
+            <div className="pt-4 border-t border-[#1A2B49]/5 text-xs italic text-slate-400">
+              By using our website, you consent to this Privacy Policy.
             </div>
           </motion.div>
         </div>

@@ -11,6 +11,7 @@ import ShippingDelivery from "./components/ShippingDelivery";
 import RefundPolicy from "./components/RefundPolicy";
 import TermsOfService from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import CustomerSupport from "./components/CustomerSupport";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import Favorites from "./components/Favorites";
@@ -34,6 +35,7 @@ function App() {
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/customer-support" element={<CustomerSupport />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/wishlist" element={<Favorites />} />

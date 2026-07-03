@@ -5,7 +5,8 @@ export default function PolicySidebar({ active }) {
   const links = [
     { id: "shipping", label: "Shipping & Delivery", path: "/shipping-delivery" },
     { id: "terms", label: "Terms of Service", path: "/terms-of-service" },
-    { id: "privacy", label: "Privacy Policy", path: "/privacy-policy" }
+    { id: "privacy", label: "Privacy Policy", path: "/privacy-policy" },
+    { id: "support", label: "Customer Support", path: "/customer-support" }
   ];
 
   return (

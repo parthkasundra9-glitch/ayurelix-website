@@ -49,7 +49,7 @@ export default function ShippingDelivery() {
           >
             <div>
               <p className="text-base text-slate-700 font-medium mb-4">
-                Thank you for choosing Ayurelix. We are committed to delivering our fresh, small-batch Ayurvedic formulations directly from our wellness gardens to your doorstep. Below are the terms and conditions that constitute our Shipping & Delivery Policy.
+                All domestic orders are shipped from our Ahmedabad facility and will take <strong>3 to 14 days</strong>, depending on your location. Ayurelix is not to be held responsible for any damage or leakage to a product after delivery.
               </p>
             </div>
 
@@ -57,82 +57,31 @@ export default function ShippingDelivery() {
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                1. Shipment Processing Times
+                1. Domestic Orders - Dispatch & Tracking
               </h2>
               <p>
-                All orders are processed and packed within <strong>24 to 48 business hours</strong>. Orders placed on Sundays, major public holidays, or after 2:00 PM IST on Saturdays will be processed on the next business day.
-              </p>
-              <p className="bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-2xl p-4 italic text-slate-500">
-                Please note: Our Ayurvedic oils and herbal extracts are prepared in temperature-controlled environments. During extreme summer seasons, some orders might be briefly held back for 24 hours to coordinate climate-controlled dispatch, ensuring peak biological potency is maintained.
+                The dispatch time for domestic orders is <strong>3 to 7 days</strong>. You will receive notifications via SMS or email about the status of your orders. You can track your packages directly using the tracking feature on our website.
               </p>
             </div>
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                2. Shipping Rates & Delivery Estimates
+                2. Customs & Other Fees
               </h2>
               <p>
-                Shipping charges for your order will be calculated and displayed at checkout. Below are standard shipping guidelines:
+                Ayurelix is not to be held responsible for any customs duties, VAT fees, or additional charges levied on the shipment. These must be paid in full by the customer. We do not control and are not liable for any additional taxes or charges levied by your country on imports (as a buyer, you are considered an importer).
               </p>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse border border-[#1A2B49]/10 rounded-2xl overflow-hidden text-xs md:text-sm">
-                  <thead>
-                    <tr className="bg-[#fbf9f4] text-[#1A2B49] font-bold border-b border-[#1A2B49]/10">
-                      <th className="p-4">Shipping Destination</th>
-                      <th className="p-4">Estimated Delivery Time</th>
-                      <th className="p-4">Shipping Cost</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-[#1A2B49]/5">
-                      <td className="p-4 font-semibold text-[#1A2B49]">Domestic (India) - Standard</td>
-                      <td className="p-4">3 to 7 Business Days</td>
-                      <td className="p-4">₹60 (Free on orders above ₹599)</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                3. Shipment Confirmation & Tracking
-              </h2>
               <p>
-                Once your order has been packed and handed over to our shipping carriers (Delhivery, BlueDart, or DHL), you will receive a Shipment Confirmation email and SMS containing your <strong>Awb (Air Waybill) tracking number</strong>. You can monitor your shipment's journey using the provided link or directly on our shipping dashboard.
+                We have attempted to list every item transparently to prevent any external or extra charges. However, in the rare case this does occur, the product(s) cannot be returned or exchanged and the order(s) cannot be canceled for this reason.
               </p>
             </div>
 
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                4. Customs, Duties, and Taxes
+                3. Order Queries
               </h2>
               <p>
-                Ayurelix is not responsible for any customs clearance fees, import duties, or taxes applied to your package upon entering international borders. All fees collected during or after shipping are the responsibility of the customer.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                5. Damages and Missing Deliveries
-              </h2>
-              <p>
-                Our glass bottles and herbal jars are wrapped in bio-degradable honeycomb protective packaging. However, if you receive a product that was damaged or broken in transit:
-              </p>
-              <ul className="list-disc list-inside space-y-2 pl-4">
-                <li>Please take clear photographs/video of the damaged packaging and product.</li>
-                <li>Email us at <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a> within <strong>48 hours</strong> of delivery.</li>
-                <li>We will dispatch a fresh replacement bottle immediately at no extra cost.</li>
-              </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-                6. Shipping Address Correction
-              </h2>
-              <p>
-                If you have entered an incorrect shipping address, please email us at <a href="mailto:ayurelix512@gmail.com" className="text-[#1A2B49] underline">ayurelix512@gmail.com</a> before 4:00 PM IST on the day of order placement. Once orders are dispatched, we are unable to redirect packages.
+                If you have any queries related to your order, you can contact us at <a href="mailto:ayurelix512@gmail.com" className="text-[#B89355] font-bold underline">ayurelix512@gmail.com</a> for assistance.
               </p>
             </div>
           </motion.div>

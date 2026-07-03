@@ -118,6 +118,7 @@ export default function Footer() {
               <Link to="/shipping-delivery" className="hover:text-[#B89355] transition">Shipping & Delivery</Link>
               <Link to="/terms-of-service" className="hover:text-[#B89355] transition">Terms of Service</Link>
               <Link to="/privacy-policy" className="hover:text-[#B89355] transition">Privacy Policy</Link>
+              <Link to="/customer-support" className="hover:text-[#B89355] transition">Customer Support</Link>
             </div>
           </div>
 
