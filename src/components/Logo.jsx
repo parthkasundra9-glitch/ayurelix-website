@@ -8,23 +8,23 @@ export default function Logo({
   layout = "horizontal",
   className = ""
 }) {
-  // Height classes based on size prop (making them 30-40% larger as requested, keeping mobile compact)
+  // Height classes based on size prop (making them larger as requested, keeping mobile compact but clear)
   const heights = {
-    sm: "h-11 md:h-22",
-    md: "h-26 md:h-32",
-    lg: "h-36 md:h-44",
-    xl: "h-46 md:h-58",
-    xxl: "h-78 md:h-100"
-  }[size] || "h-26 md:h-32";
+    sm: "h-[56px] md:h-[88px]",
+    md: "h-[68px] md:h-[96px]",
+    lg: "h-[88px] md:h-[130px]",
+    xl: "h-[110px] md:h-[160px]",
+    xxl: "h-[170px] md:h-[240px]"
+  }[size] || "h-[68px] md:h-[96px]";
 
-  // Dimension classes for the font sizes (making tagline noticeably smaller)
+  // Dimension classes for the font sizes
   const fontSizes = {
-    sm: { title: "text-sm md:text-base", tag: "text-[5.5px] md:text-[6.5px]" },
-    md: { title: "text-base md:text-lg", tag: "text-[6.5px] md:text-[7.5px]" },
-    lg: { title: "text-lg md:text-xl", tag: "text-[7.5px] md:text-[8.5px]" },
-    xl: { title: "text-xl md:text-2xl", tag: "text-[8.5px] md:text-[9.5px]" },
-    xxl: { title: "text-3xl md:text-4xl", tag: "text-[10px] md:text-[12px]" }
-  }[size] || { title: "text-base md:text-lg", tag: "text-[6.5px] md:text-[7.5px]" };
+    sm: { title: "text-lg md:text-2xl", tag: "text-[8px] md:text-[11px]" },
+    md: { title: "text-xl md:text-3xl", tag: "text-[9px] md:text-[12px]" },
+    lg: { title: "text-2xl md:text-4xl", tag: "text-[11px] md:text-[14px]" },
+    xl: { title: "text-3xl md:text-5xl", tag: "text-[13px] md:text-[18px]" },
+    xxl: { title: "text-5xl md:text-7xl", tag: "text-[18px] md:text-[24px]" }
+  }[size] || { title: "text-xl md:text-3xl", tag: "text-[9px] md:text-[12px]" };
 
   const imgContent = (
     <img

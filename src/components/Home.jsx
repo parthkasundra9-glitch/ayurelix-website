@@ -24,9 +24,6 @@ export default function Home() {
       {/* Hero Banner Auto Slider */}
       <HeroSlider />
 
-      {/* Trust Badge Certifications */}
-      <Certifications />
-
       {/* Category Section Cards */}
       <div id="category-section">
         <CategorySection />
@@ -37,6 +34,9 @@ export default function Home() {
 
       {/* Best Sellers Shopping Grid */}
       <BestSellers />
+
+      {/* Trust Badge Certifications */}
+      <Certifications />
 
       {/* Botanical Ingredients Alchemy */}
       <IngredientsShowcase />
