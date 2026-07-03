@@ -29,17 +29,6 @@ export default function PolicySidebar({ active }) {
           ))}
         </nav>
       </div>
-
-      {/* Compliance & Trust Card */}
-
-
-      <div className="flex flex-col gap-1 pb-1">
-        <span className="text-[#1A2B49] uppercase text-[10px] tracking-wider font-bold">GSTIN Registration</span>
-        <span className="font-mono text-slate-700">29AAICA8829G1ZN</span>
-      </div>
-
-
-
     </aside>
   );
 }
