@@ -188,6 +188,14 @@ export default function CartDrawer() {
       currency: "INR",
       name: "Ayurelix Ltd.",
       description: "Ancient Ayurveda. Modern Wellness.",
+      config: {
+        display: {
+          hide: [
+            { method: "emi" },
+            { method: "paylater" }
+          ]
+        }
+      },
       handler: async function (response) {
         await saveOrder(response.razorpay_payment_id);
       },
