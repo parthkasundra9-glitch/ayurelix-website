@@ -20,6 +20,7 @@ export default function CartDrawer() {
   const [checkoutStep, setCheckoutStep] = useState("cart"); // 'cart' | 'shipping' | 'success'
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [createdOrderInfo, setCreatedOrderInfo] = useState(null);
   const navigate = useNavigate();
 
   const SHIPPING_THRESHOLD = 599;
@@ -158,6 +159,10 @@ export default function CartDrawer() {
 
       // 4. Clear cart and show success
       clearCart();
+      setCreatedOrderInfo({
+        orderId: order.id,
+        paymentId: paymentId
+      });
       setCheckoutStep("success");
     } catch (err) {
       alert("Error saving your order: " + err.message);
@@ -452,9 +457,23 @@ export default function CartDrawer() {
                   <p className="text-sm text-gray-600 max-w-[280px]">
                     Thank you for choosing Ayurelix. We have received your order and are preparing your wellness formulations.
                   </p>
+
+                  {createdOrderInfo && (
+                    <div className="w-full bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-2xl p-4 space-y-2 text-left text-xs text-slate-500">
+                      <div className="flex justify-between">
+                        <span className="font-semibold text-gray-600">Order ID:</span>
+                        <span className="font-mono text-slate-700 font-bold">{createdOrderInfo.orderId.toString().slice(0, 8).toUpperCase()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="font-semibold text-gray-600">Payment ID:</span>
+                        <span className="font-mono text-slate-700">{createdOrderInfo.paymentId}</span>
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={handleClose}
-                    className="px-6 py-2.5 bg-[#1A2B49] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 shadow-md cursor-pointer"
+                    className="px-6 py-2.5 bg-[#1A2B49] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-200 shadow-md cursor-pointer w-full"
                   >
                     Continue Shopping
                   </button>
