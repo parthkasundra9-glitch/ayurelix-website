@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaStar, FaQuoteLeft } from "react-icons/fa";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { FaStar } from "react-icons/fa";
+import { FiCheck } from "react-icons/fi";
 
 const testimonials = [
   {
@@ -30,90 +31,72 @@ const testimonials = [
 ];
 
 export default function CustomerReviews() {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section className="bg-white py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden relative">
+    <section className="bg-[#FAF8F5] py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden relative">
       
-      {/* Decorative quotes background graphic */}
-      <div className="absolute top-1/2 left-10 -translate-y-1/2 text-gray-100/60 text-9xl font-serif pointer-events-none select-none">
-        <FaQuoteLeft />
-      </div>
+      {/* Background glow decorator */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#B89355]/3 blur-[140px] pointer-events-none" />
 
-      <div className="max-w-3xl mx-auto z-10 relative text-center space-y-8">
+      <div className="max-w-7xl mx-auto z-10 relative space-y-12">
         
         {/* Header */}
-        <div>
+        <div className="text-center">
           <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
             Real Experiences
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-            Loved by Our Community
+          <h2 className="text-3xl sm:text-4xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+            Loved By Our Community
           </h2>
         </div>
 
-        {/* Testimonial Active Card */}
-        <div className="h-64 sm:h-56 relative flex items-center justify-center">
-          <AnimatePresence mode="wait">
+        {/* Responsive Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((t, idx) => (
             <motion.div
-              key={current}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center space-y-4"
+              key={t.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-[0_4px_20px_rgba(26,43,73,0.02)] hover:shadow-[0_12px_40px_rgba(26,43,73,0.05)] transition-all duration-300 flex flex-col justify-between space-y-6"
             >
-              {/* Testimonial text */}
-              <p className="text-base sm:text-lg text-slate-700 italic leading-relaxed max-w-2xl">
-                "{testimonials[current].text}"
-              </p>
-
-              {/* Star Rating */}
-              <div className="flex justify-center gap-1 text-[#B89355]">
-                {[...Array(testimonials[current].rating)].map((_, i) => (
-                  <FaStar key={i} size={16} />
-                ))}
-              </div>
-
-              {/* User Bio */}
-              <div className="flex items-center gap-3 pt-3">
-                <img
-                  src={testimonials[current].avatar}
-                  alt={testimonials[current].name}
-                  className="w-10 h-10 rounded-full object-cover border border-[#B89355]/30 shadow-sm shrink-0"
-                />
-                <div className="text-left">
-                  <h4 className="text-sm font-bold text-[#1A2B49] font-serif">{testimonials[current].name}</h4>
-                  <p className="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">{testimonials[current].role}</p>
+              <div className="space-y-4">
+                {/* Header: Profile & Checkmark */}
+                <div className="flex items-center gap-3">
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover border border-[#B89355]/20 shadow-sm shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h4 className="text-sm font-bold text-[#1A2B49] font-serif">{t.name}</h4>
+                      {/* Verified Buyer Checkmark Badge */}
+                      <span className="p-0.5 bg-blue-500 text-white rounded-full flex items-center justify-center text-[8px]" title="Verified Buyer">
+                        <FiCheck strokeWidth={3} />
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-gray-400 font-semibold tracking-wider uppercase">{t.role}</p>
+                  </div>
                 </div>
+
+                {/* Rating Stars */}
+                <div className="flex gap-0.5 text-[#B89355]">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <FaStar key={i} size={13} />
+                  ))}
+                </div>
+
+                {/* Quote review text */}
+                <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed italic">
+                  "{t.text}"
+                </p>
               </div>
             </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Testimonial dots navigation */}
-        <div className="flex justify-center gap-2 pt-4">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrent(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                index === current ? "w-6 bg-[#B89355]" : "w-1.5 bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
           ))}
         </div>
 
       </div>
-
     </section>
   );
 }
