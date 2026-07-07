@@ -49,8 +49,8 @@ export default function CustomerReviews() {
           </h2>
         </div>
 
-        {/* Responsive Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Responsive Testimonials Grid with Horizontal Scroll on Mobile */}
+        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 scrollbar-none snap-x snap-mandatory">
           {testimonials.map((t, idx) => (
             <motion.div
               key={t.id}
@@ -58,7 +58,7 @@ export default function CustomerReviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-[0_4px_20px_rgba(26,43,73,0.02)] hover:shadow-[0_12px_40px_rgba(26,43,73,0.05)] transition-all duration-300 flex flex-col justify-between space-y-6"
+              className="w-[285px] md:w-full shrink-0 snap-center bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-[0_4px_20px_rgba(26,43,73,0.02)] hover:shadow-[0_12px_40px_rgba(26,43,73,0.05)] transition-all duration-300 flex flex-col justify-between space-y-6"
             >
               <div className="space-y-4">
                 {/* Header: Profile & Checkmark */}

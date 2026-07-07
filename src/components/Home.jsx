@@ -24,13 +24,13 @@ export default function Home() {
       {/* Hero Banner Auto Slider */}
       <HeroSlider />
 
+      {/* Featured Products Section */}
+      <FeaturedProducts />
+
       {/* Category Section Cards */}
       <div id="category-section">
         <CategorySection />
       </div>
-
-      {/* Featured Products Section */}
-      <FeaturedProducts />
 
       {/* Best Sellers Shopping Grid */}
       <BestSellers />
