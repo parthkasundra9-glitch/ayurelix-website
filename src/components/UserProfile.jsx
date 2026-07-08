@@ -495,6 +495,27 @@ export default function UserProfile() {
                                         Payment ID: {order.payment_id}
                                       </p>
                                     )}
+                                    {order.shipping_address?.shipment_id && (
+                                      <div className="text-[10px] text-gray-500 font-medium pt-2 mt-2 border-t border-[#1A2B49]/5 space-y-1">
+                                        <p className="font-bold text-[9px] uppercase tracking-wider text-gray-400">Shipping Partner Updates</p>
+                                        {order.shipping_address.awb_code ? (
+                                          <p>
+                                            AWB / Tracking:{" "}
+                                            <a 
+                                              href={`https://shiprocket.co/tracking/${order.shipping_address.awb_code}`} 
+                                              target="_blank" 
+                                              rel="noopener noreferrer"
+                                              className="text-blue-600 font-bold hover:underline"
+                                            >
+                                              {order.shipping_address.awb_code} (Click to Track)
+                                            </a>
+                                          </p>
+                                        ) : (
+                                          <p>Shipment ID: <span className="font-mono text-[#B89355]">{order.shipping_address.shipment_id}</span></p>
+                                        )}
+                                        <p className="text-gray-400 italic">Courier pickup scheduled from Ahmedabad warehouse.</p>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </div>

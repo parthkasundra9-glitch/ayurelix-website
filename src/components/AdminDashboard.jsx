@@ -142,9 +142,35 @@ export default function AdminDashboard() {
   // Update order status
   const handleUpdateOrderStatus = async (orderId, currentStatus) => {
     const nextStatus = currentStatus === "paid" ? "shipped" : "delivered";
+    let awbUpdate = {};
+
+    if (nextStatus === "shipped") {
+      const awb = prompt("Enter AWB / Courier Tracking Number (optional):");
+      if (awb !== null && awb.trim() !== "") {
+        try {
+          const { data: order } = await supabase
+            .from("orders")
+            .select("shipping_address")
+            .eq("id", orderId)
+            .single();
+
+          if (order) {
+            awbUpdate = {
+              shipping_address: {
+                ...order.shipping_address,
+                awb_code: awb.trim()
+              }
+            };
+          }
+        } catch (err) {
+          console.error("Failed to merge AWB number:", err);
+        }
+      }
+    }
+
     const { error } = await supabase
       .from("orders")
-      .update({ status: nextStatus })
+      .update({ status: nextStatus, ...awbUpdate })
       .eq("id", orderId);
 
     if (error) {
@@ -526,6 +552,30 @@ export default function AdminDashboard() {
                           {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.postalCode}
                         </p>
                         <p className="text-gray-600">Phone: {order.shipping_address.phone}</p>
+                        {order.shipping_address?.shipment_id && (
+                          <div className="mt-3 pt-3 border-t border-[#1A2B49]/10 space-y-1 text-gray-500 text-[11px]">
+                            <p className="font-bold text-[10px] text-gray-400 uppercase tracking-wider">Courier Partner (Shiprocket)</p>
+                            <p>Shipment ID: <span className="font-mono text-[#B89355] font-bold">{order.shipping_address.shipment_id}</span></p>
+                            {order.shipping_address.shiprocket_order_id && (
+                              <p>Shiprocket Order ID: <span className="font-mono">{order.shipping_address.shiprocket_order_id}</span></p>
+                            )}
+                            <p>
+                              AWB / Tracking:{" "}
+                              {order.shipping_address.awb_code ? (
+                                <a 
+                                  href={`https://shiprocket.co/tracking/${order.shipping_address.awb_code}`} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 font-bold hover:underline"
+                                >
+                                  {order.shipping_address.awb_code} (Track Order)
+                                </a>
+                              ) : (
+                                <span className="italic text-gray-400">Not assigned yet (click Mark Shipped to set)</span>
+                              )}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
                       {/* Order items */}

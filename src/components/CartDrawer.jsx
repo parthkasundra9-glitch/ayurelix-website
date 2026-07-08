@@ -157,7 +157,34 @@ export default function CartDrawer() {
         }
       }
 
-      // 4. Clear cart and show success
+      // 4. Trigger Shiprocket shipment creation (asynchronous, does not block customer UI)
+      try {
+        fetch("/api/create-shipment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: order.id,
+            total: grandTotal,
+            shippingDetails: shippingDetails,
+            items: cartItems,
+            email: user.email
+          })
+        }).then(res => {
+          if (!res.ok) {
+            console.error("Failed to register order in Shiprocket");
+          } else {
+            console.log("Shiprocket shipment generated successfully!");
+          }
+        }).catch(err => {
+          console.error("Shiprocket API error:", err);
+        });
+      } catch (shiprocketErr) {
+        console.error("Error initiating Shiprocket shipment:", shiprocketErr);
+      }
+
+      // 5. Clear cart and show success
       clearCart();
       setCreatedOrderInfo({
         orderId: order.id,
