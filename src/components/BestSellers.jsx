@@ -73,69 +73,72 @@ export default function BestSellers() {
   }
 
   return (
-    <section className="bg-white py-24 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden">
+    <section className="bg-[#FAF8F5] py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden">
       
-      {/* Header Info */}
-      <div className="text-center mb-16">
-        <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
-          Highly Loved Remedies
-        </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+      {/* Header Info matching the screenshot */}
+      <div className="flex justify-between items-end mb-8 border-b border-[#1A2B49]/10 pb-4">
+        <h2 className="text-2xl sm:text-3xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
           Best Seller
         </h2>
-        <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
-          Explore our community's favorites, formulation mixtures designed to soothe and refresh your skin daily.
-        </p>
+        <a href="/products" className="text-xs font-bold uppercase tracking-widest text-[#B89355] hover:text-[#1A2B49] transition duration-300 flex items-center gap-1">
+          View All &gt;
+        </a>
       </div>
 
       {/* Slidable Carousel Wrapper */}
-      <div className="relative group max-w-5xl mx-auto">
+      <div className="relative group max-w-7xl mx-auto">
         {/* Left Arrow Button */}
         <button
           onClick={() => scroll("left")}
-          className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+          className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-md flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
           aria-label="Scroll Left"
         >
-          <FiChevronLeft size={20} />
+          <FiChevronLeft size={18} />
         </button>
 
         {/* Right Arrow Button */}
         <button
           onClick={() => scroll("right")}
-          className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+          className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-md flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
           aria-label="Scroll Right"
         >
-          <FiChevronRight size={20} />
+          <FiChevronRight size={18} />
         </button>
 
         {/* Cards Container */}
         <div
           ref={scrollRef}
-          className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
-            bestsellers.length <= 2 ? "md:justify-center" : "md:justify-start"
-          }`}
+          className="flex gap-6 overflow-x-auto scrollbar-none scroll-smooth py-4 px-1 justify-start"
         >
           {bestsellers.map((product) => {
             const isWishlisted = isInWishlist(product.id);
             const productImg = getProductImage(product.image_url, product.id, product.name);
             const rating = product.rating || 5.0;
             const reviewsCount = product.reviews || 18;
+            const isEven = product.id % 2 === 0;
             
             return (
               <motion.div
                 key={product.id}
-                whileHover={{ y: -8 }}
+                whileHover={{ y: -6 }}
                 onClick={() => setSelectedProduct(product)}
-                className="w-[280px] sm:w-[320px] shrink-0 group cursor-pointer bg-[#FAF8F5] border border-[#1A2B49]/5 hover:border-[#B89355]/40 rounded-3xl p-4 transition-all duration-500 shadow-sm hover:shadow-xl flex flex-col justify-between"
+                className="w-[170px] sm:w-[280px] shrink-0 group cursor-pointer bg-white border border-slate-100 rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 transition-all duration-300 shadow-[0_4px_15px_rgba(26,43,73,0.02)] hover:shadow-[0_12px_30px_rgba(26,43,73,0.06)] flex flex-col justify-between"
               >
                 <div>
-                  {/* Visual Image */}
-                  <div className="h-56 rounded-2xl bg-white relative overflow-hidden flex items-center justify-center border border-[#1A2B49]/5">
+                  {/* Image Container with Badges */}
+                  <div className="h-36 sm:h-64 rounded-xl sm:rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-slate-50">
+                    
+                    {/* Golden Ribbon Tag (New Launch / Best Seller) */}
+                    <div className="absolute top-0 left-0 bg-[#B89355] text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-br-lg rounded-tl-xl sm:rounded-tl-2xl z-10">
+                      {isEven ? "New Formula" : "Best Seller"}
+                    </div>
+
                     {product.stock <= 0 && (
-                      <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
+                      <div className="absolute top-2 left-2 bg-[#c55959]/90 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm z-10">
                         Out of Stock
                       </div>
                     )}
+
                     {productImg ? (
                       <img
                         src={productImg}
@@ -150,57 +153,71 @@ export default function BestSellers() {
                       </div>
                     )}
 
-                    {/* Wishlist Button Overlay */}
+                    {/* Wishlist Heart Icon Circle */}
                     <button
                       onClick={(e) => handleWishlistToggle(e, product)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-white/95 hover:bg-white text-gray-500 hover:text-red-500 border border-[#1A2B49]/5 shadow-sm transition-all duration-300 z-10 cursor-pointer"
+                      className="absolute top-2 right-2 p-1.5 sm:p-2 rounded-full bg-white hover:bg-slate-50 text-gray-500 hover:text-red-500 shadow-sm border border-slate-100 transition-all duration-300 z-10 cursor-pointer"
                       title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                     >
                       <FiHeart
-                        size={16}
+                        size={12}
                         className={isWishlisted ? "fill-red-500 text-red-500" : "transition-colors"}
                       />
                     </button>
 
-                    <div className="absolute inset-0 bg-[#1A2B49]/5 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
+                    {/* Shopping Bag Overlay Quick-Add Circle */}
+                    {product.stock > 0 && (
+                      <button
+                        onClick={(e) => handleQuickAdd(e, product)}
+                        className="absolute bottom-2 right-2 p-1.5 sm:p-2 rounded-full bg-white text-[#1A2B49] hover:text-[#B89355] shadow-sm border border-slate-100 transition-all duration-300 z-10 cursor-pointer"
+                        title="Quick Add to Cart"
+                      >
+                        <FiShoppingBag size={12} />
+                      </button>
+                    )}
+
+                    <div className="absolute inset-0 bg-[#1A2B49]/2 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
                   </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-0.5 mt-4">
+                  {/* Rating Section */}
+                  <div className="flex items-center gap-0.5 mt-2.5 sm:mt-4">
                     {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} size={12} className="text-[#B89355]" />
+                      <FaStar key={i} className="text-[#B89355] w-2 h-2 sm:w-2.5 sm:h-2.5" />
                     ))}
-                    <span className="text-[10px] text-gray-500 font-bold ml-1 uppercase tracking-wider">
-                      {rating} ({reviewsCount})
+                    <span className="text-[8px] sm:text-[10px] text-gray-400 font-bold ml-1 tracking-wider">
+                      ({reviewsCount})
                     </span>
                   </div>
 
-                  {/* Info */}
-                  <h3 className="text-lg font-serif font-bold text-[#1A2B49] mt-2 group-hover:text-[#B89355] transition duration-200 truncate">
+                  {/* Product Title & Short Info */}
+                  <h3 className="text-xs sm:text-base font-serif font-bold text-[#1A2B49] mt-1 sm:mt-2 group-hover:text-[#B89355] transition duration-200 truncate">
                     {product.name}
                   </h3>
-                  <p className="text-gray-500 text-xs mt-1.5 leading-relaxed line-clamp-2">
+                  <p className="text-gray-500 text-[10px] sm:text-xs mt-1 leading-relaxed line-clamp-2 hidden sm:block">
                     {product.description}
                   </p>
                 </div>
 
-                {/* Purchase Footer */}
-                <div className="mt-5 pt-3 border-t border-[#1A2B49]/5 flex items-center justify-between">
-                  <span className="text-lg font-black text-[#B89355]">
-                    ₹{product.price}
-                  </span>
+                {/* Purchase Area with Full-width Add to Cart Button */}
+                <div className="mt-2.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-100">
+                  <div className="flex justify-between items-center mb-2 sm:mb-3">
+                    <span className="text-[8px] sm:text-xs uppercase font-bold text-gray-400">Price</span>
+                    <span className="text-sm sm:text-lg font-black text-[#B89355]">
+                      ₹{product.price}
+                    </span>
+                  </div>
 
                   <button
                     onClick={(e) => handleQuickAdd(e, product)}
                     disabled={product.stock <= 0}
-                    className="flex items-center gap-1.5 px-4 py-2.5 bg-[#1A2B49] hover:bg-[#B89355] text-white text-[10px] font-black tracking-wider uppercase rounded-lg transition duration-300 shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-full py-1.5 sm:py-2.5 bg-[#1A2B49] hover:bg-[#B89355] text-white text-[8px] sm:text-[10px] font-bold tracking-wider sm:tracking-widest uppercase rounded-lg sm:rounded-xl transition duration-300 shadow-sm active:scale-98 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-1"
                   >
                     {product.stock <= 0 ? (
-                      <span>Out</span>
+                      <span>Out of Stock</span>
                     ) : (
                       <>
-                        <FiShoppingBag size={12} />
-                        <span>Add</span>
+                        <FiShoppingBag className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                        <span>Add To Cart</span>
                       </>
                     )}
                   </button>

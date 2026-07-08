@@ -8,14 +8,13 @@ export default function Logo({
   layout = "horizontal",
   className = ""
 }) {
-  // Height classes based on size prop (making them larger as requested, keeping mobile compact but clear)
   const heights = {
-    sm: "h-[56px] md:h-[88px]",
-    md: "h-[68px] md:h-[96px]",
-    lg: "h-[88px] md:h-[130px]",
-    xl: "h-[110px] md:h-[160px]",
-    xxl: "h-[170px] md:h-[240px]"
-  }[size] || "h-[68px] md:h-[96px]";
+    sm: "h-[72px] md:h-[110px]",
+    md: "h-[86px] md:h-[128px]",
+    lg: "h-[108px] md:h-[160px]",
+    xl: "h-[136px] md:h-[200px]",
+    xxl: "h-[190px] md:h-[280px]"
+  }[size] || "h-[86px] md:h-[128px]";
 
   // Dimension classes for the font sizes
   const fontSizes = {

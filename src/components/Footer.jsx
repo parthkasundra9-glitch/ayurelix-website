@@ -28,12 +28,12 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#FAF8F5] border-t border-[#1A2B49]/10 pt-16 pb-8 px-6 sm:px-8 relative overflow-hidden">
-      
+
       {/* Decorative background glows */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] rounded-full bg-[#B89355]/3 blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto z-10 relative">
-        
+
         {/* ==================== NEWSLETTER SECTION ==================== */}
         <div className="border-b border-[#1A2B49]/10 pb-12 mb-16 flex flex-col lg:flex-row justify-between items-center gap-8">
           <div className="max-w-md text-center lg:text-left space-y-2">
@@ -77,7 +77,7 @@ export default function Footer() {
 
         {/* ==================== FOOTER LINKS GRID ==================== */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 text-center md:text-left">
-          
+
           {/* Column 1: Brand Info */}
           <div className="space-y-6 flex flex-col items-center md:items-start">
             <Logo size="sm" variant="gold" showText={true} />

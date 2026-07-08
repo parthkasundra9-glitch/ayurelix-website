@@ -105,19 +105,21 @@ export default function FeaturedProducts() {
             {productsList.map((product) => {
               const isWishlisted = isInWishlist(product.id);
               const imageSrc = getProductImage(product.image_url, product.id, product.name);
+              const rating = product.rating || 5.0;
+              const reviewsCount = product.reviews || 18;
               
               return (
                 <motion.div
                   key={product.id}
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -6 }}
                   onClick={() => setSelectedProduct(product)}
-                  className="w-[300px] sm:w-[350px] shrink-0 group cursor-pointer bg-white border border-[#1A2B49]/5 hover:border-[#B89355]/40 rounded-3xl p-5 sm:p-6 transition-all duration-500 shadow-md hover:shadow-xl flex flex-col justify-between"
+                  className="w-[170px] sm:w-[300px] shrink-0 group cursor-pointer bg-white border border-slate-100 rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 transition-all duration-300 shadow-[0_4px_15px_rgba(26,43,73,0.02)] hover:shadow-[0_12px_30px_rgba(26,43,73,0.06)] flex flex-col justify-between"
                 >
                   <div>
                     {/* Visual Image */}
-                    <div className="h-64 sm:h-72 rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-[#1A2B49]/5">
+                    <div className="h-36 sm:h-60 rounded-xl sm:rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-slate-50">
                       {product.stock <= 0 && (
-                        <div className="absolute top-3 left-3 bg-[#c55959]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
+                        <div className="absolute top-2 left-2 bg-[#c55959]/90 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm z-10">
                           Out of Stock
                         </div>
                       )}
@@ -138,54 +140,67 @@ export default function FeaturedProducts() {
                       {/* Wishlist Button Overlay */}
                       <button
                         onClick={(e) => handleWishlistToggle(e, product)}
-                        className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 hover:bg-white text-gray-500 hover:text-red-500 border border-[#1A2B49]/5 shadow-md transition-all duration-300 z-10 cursor-pointer"
+                        className="absolute top-2 right-2 p-1.5 sm:p-2.5 rounded-full bg-white hover:bg-slate-50 text-gray-500 hover:text-red-500 shadow-sm border border-slate-100 transition-all duration-300 z-10 cursor-pointer"
                         title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                       >
                         <FiHeart
-                          size={18}
+                          size={12}
                           className={isWishlisted ? "fill-red-500 text-red-500" : "transition-colors"}
                         />
                       </button>
 
-                      {/* Quick View Overlay */}
-                      <div className="absolute inset-0 bg-[#1A2B49]/5 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
+                      {/* Quick Add Overlay */}
+                      {product.stock > 0 && (
+                        <button
+                          onClick={(e) => handleQuickAdd(e, product)}
+                          className="absolute bottom-2 right-2 p-1.5 sm:p-2 rounded-full bg-white text-[#1A2B49] hover:text-[#B89355] shadow-sm border border-slate-100 transition-all duration-300 z-10 cursor-pointer"
+                          title="Quick Add to Cart"
+                        >
+                          <FiShoppingBag size={12} />
+                        </button>
+                      )}
+
+                      <div className="absolute inset-0 bg-[#1A2B49]/2 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none" />
                     </div>
 
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mt-5">
+                    {/* Rating Section */}
+                    <div className="flex items-center gap-0.5 mt-2.5 sm:mt-4">
                       {[...Array(5)].map((_, i) => (
-                        <FaStar key={i} size={14} className="text-[#B89355]" />
+                        <FaStar key={i} className="text-[#B89355] w-2 h-2 sm:w-2.5 sm:h-2.5" />
                       ))}
-                      <span className="text-[11px] text-gray-500 font-bold ml-1 uppercase tracking-wider">
-                        5.0 (48 Reviews)
+                      <span className="text-[8px] sm:text-[10px] text-gray-400 font-bold ml-1 tracking-wider">
+                        ({reviewsCount})
                       </span>
                     </div>
 
-                    {/* Info */}
-                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#1A2B49] mt-3 group-hover:text-[#B89355] transition duration-200">
+                    {/* Product Title & Info */}
+                    <h3 className="text-xs sm:text-lg font-serif font-bold text-[#1A2B49] mt-1 sm:mt-2 group-hover:text-[#B89355] transition duration-200 truncate">
                       {product.name}
                     </h3>
-                    <p className="text-gray-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mt-1 leading-relaxed line-clamp-2 hidden sm:block">
                       {product.description}
                     </p>
                   </div>
 
-                  {/* Purchase Footer */}
-                  <div className="mt-6 pt-4 border-t border-[#1A2B49]/5 flex items-center justify-between">
-                    <span className="text-2xl font-black text-[#B89355]">
-                      ₹{product.price}
-                    </span>
+                  {/* Purchase Area with Full-width Add to Cart Button */}
+                  <div className="mt-2.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-100">
+                    <div className="flex justify-between items-center mb-2 sm:mb-3">
+                      <span className="text-[8px] sm:text-xs uppercase font-bold text-gray-400">Price</span>
+                      <span className="text-sm sm:text-lg font-black text-[#B89355]">
+                        ₹{product.price}
+                      </span>
+                    </div>
 
                     <button
                       onClick={(e) => handleQuickAdd(e, product)}
                       disabled={product.stock <= 0}
-                      className="flex items-center gap-2 px-5 py-3 bg-[#1A2B49] hover:bg-[#B89355] text-white text-xs font-black tracking-wider uppercase rounded-xl transition duration-300 shadow-md active:scale-95 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full py-1.5 sm:py-2.5 bg-[#1A2B49] hover:bg-[#B89355] text-white text-[8px] sm:text-[10px] font-bold tracking-wider sm:tracking-widest uppercase rounded-lg sm:rounded-xl transition duration-300 shadow-sm active:scale-98 cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-1"
                     >
                       {product.stock <= 0 ? (
                         <span>Out of Stock</span>
                       ) : (
                         <>
-                          <FiShoppingBag size={14} />
+                          <FiShoppingBag className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                           <span>Add To Cart</span>
                         </>
                       )}

@@ -116,8 +116,8 @@ export default function HeroSlider() {
           >
             {slides[current].layout === "split" ? (
               <div className="w-full h-full flex flex-col md:flex-row relative">
-                {/* Text Content (Left on Desktop, Overlay on Mobile) */}
-                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#1A2B49] bg-black/60 md:bg-[#FAF8F5]">
+                {/* Text Content (Left on Desktop, Overlay on Mobile) - Transparent background to show text directly on image */}
+                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#1A2B49] bg-transparent md:bg-[#FAF8F5]">
                   <div className="max-w-xl space-y-2 md:space-y-6 flex flex-col items-start text-left">
                     <motion.span
                       initial={{ opacity: 0, y: -15 }}
@@ -174,7 +174,8 @@ export default function HeroSlider() {
                   alt={slides[current].title}
                   className="w-full h-full object-cover object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]"
                 />
-                <div className={`absolute inset-0 bg-gradient-to-${slides[current].align === "right" ? "l" : "r"} from-black/50 via-black/20 to-transparent max-md:bg-black/60 md:hidden z-10`} />
+                {/* Transparent overlay so the font sits directly on the image with no dark backing */}
+                <div className="absolute inset-0 bg-transparent z-10 pointer-events-none" />
 
                 <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white md:text-[#1A2B49] select-none`}>
                   <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
