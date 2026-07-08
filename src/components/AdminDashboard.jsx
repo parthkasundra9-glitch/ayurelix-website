@@ -26,7 +26,9 @@ export default function AdminDashboard() {
     description: "",
     category_id: "",
     stock: "100",
-    image_url: "",
+    image_url_1: "",
+    image_url_2: "",
+    image_url_3: "",
     is_bestseller: false
   });
 
@@ -180,7 +182,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -198,7 +200,7 @@ export default function AdminDashboard() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
-        setNewProduct(prev => ({ ...prev, image_url: dataUrl }));
+        setNewProduct(prev => ({ ...prev, [`image_url_${index}`]: dataUrl }));
       };
       img.src = event.target.result;
     };
@@ -237,6 +239,9 @@ export default function AdminDashboard() {
   // Add new product
   const handleAddProduct = async (e) => {
     e.preventDefault();
+    const imgs = [newProduct.image_url_1, newProduct.image_url_2, newProduct.image_url_3].map(s => s ? s.trim() : "").filter(Boolean);
+    const finalImageUrl = JSON.stringify(imgs);
+
     const { error } = await supabase.from("products").insert([
       {
         name: newProduct.name,
@@ -244,7 +249,7 @@ export default function AdminDashboard() {
         description: newProduct.description,
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
-        image_url: newProduct.image_url,
+        image_url: finalImageUrl,
         is_bestseller: newProduct.is_bestseller
       }
     ]);
@@ -258,7 +263,9 @@ export default function AdminDashboard() {
         description: "",
         category_id: "",
         stock: "100",
-        image_url: "",
+        image_url_1: "",
+        image_url_2: "",
+        image_url_3: "",
         is_bestseller: false
       });
       alert("Product added successfully!");
@@ -286,6 +293,9 @@ export default function AdminDashboard() {
   // Update product
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
+    const imgs = [newProduct.image_url_1, newProduct.image_url_2, newProduct.image_url_3].map(s => s ? s.trim() : "").filter(Boolean);
+    const finalImageUrl = JSON.stringify(imgs);
+
     const { error } = await supabase
       .from("products")
       .update({
@@ -294,7 +304,7 @@ export default function AdminDashboard() {
         description: newProduct.description,
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
-        image_url: newProduct.image_url,
+        image_url: finalImageUrl,
         is_bestseller: newProduct.is_bestseller
       })
       .eq("id", editingProduct.id);
@@ -308,7 +318,9 @@ export default function AdminDashboard() {
         description: "",
         category_id: "",
         stock: "100",
-        image_url: "",
+        image_url_1: "",
+        image_url_2: "",
+        image_url_3: "",
         is_bestseller: false
       });
       setEditingProduct(null);
@@ -653,6 +665,24 @@ export default function AdminDashboard() {
                           <div className="flex justify-end gap-2 items-center">
                             <button
                               onClick={() => {
+                                let urls = ["", "", ""];
+                                if (prod.image_url) {
+                                  if (prod.image_url.trim().startsWith("[")) {
+                                    try {
+                                      const parsed = JSON.parse(prod.image_url);
+                                      if (Array.isArray(parsed)) {
+                                        urls[0] = parsed[0] || "";
+                                        urls[1] = parsed[1] || "";
+                                        urls[2] = parsed[2] || "";
+                                      }
+                                    } catch (e) {
+                                      urls[0] = prod.image_url;
+                                    }
+                                  } else {
+                                    urls[0] = prod.image_url;
+                                  }
+                                }
+
                                 setEditingProduct(prod);
                                 setNewProduct({
                                   name: prod.name,
@@ -660,7 +690,9 @@ export default function AdminDashboard() {
                                   description: prod.description || "",
                                   category_id: prod.category_id ? String(prod.category_id) : "",
                                   stock: String(prod.stock),
-                                  image_url: prod.image_url || "",
+                                  image_url_1: urls[0],
+                                  image_url_2: urls[1],
+                                  image_url_3: urls[2],
                                   is_bestseller: prod.is_bestseller || false
                                 });
                               }}
@@ -758,45 +790,58 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Product Image</label>
-                    <div className="space-y-2.5">
-                      {newProduct.image_url && (
-                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#1A2B49]/10 bg-white">
-                          <img
-                            src={newProduct.image_url}
-                            alt="Preview"
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setNewProduct({ ...newProduct, image_url: "" })}
-                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
-                            title="Remove Image"
-                          >
-                            <FiTrash2 size={10} />
-                          </button>
-                        </div>
-                      )}
-                      
-                      <div className="flex items-center gap-2">
-                        <label className="cursor-pointer bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold py-2 px-4 rounded-xl transition text-center flex-grow">
-                          Choose Image File
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
-                      
-                      <input
-                        type="text"
-                        value={newProduct.image_url}
-                        onChange={(e) => setNewProduct({ ...newProduct, image_url: e.target.value })}
-                        placeholder="Or paste image URL (e.g. https://...)"
-                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
-                      />
+                    <label className="block text-[10px] uppercase font-bold text-gray-600 mb-2 tracking-wider">Product Photos (Up to 3)</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white border border-[#1A2B49]/5 p-3 rounded-2xl">
+                      {[1, 2, 3].map((num) => {
+                        const imgUrl = newProduct[`image_url_${num}`];
+                        return (
+                          <div key={num} className="bg-[#FAF8F5]/85 border border-[#1A2B49]/5 p-2 rounded-xl space-y-2 flex flex-col justify-between">
+                            <span className="text-[9px] font-bold text-gray-500 uppercase block">Photo {num} {num === 1 ? "(Primary)" : ""}</span>
+                            
+                            {imgUrl ? (
+                              <div className="relative w-full h-16 rounded-lg overflow-hidden border border-[#1A2B49]/10 bg-white mx-auto">
+                                <img
+                                  src={getProductImage(imgUrl, 0, "")}
+                                  alt={`Preview ${num}`}
+                                  className="w-full h-full object-cover"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => setNewProduct({ ...newProduct, [`image_url_${num}`]: "" })}
+                                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600 transition shadow cursor-pointer animate-none"
+                                  title="Remove Image"
+                                >
+                                  <FiTrash2 size={8} />
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="w-full h-16 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-[9px] italic bg-white select-none">
+                                No Photo
+                              </div>
+                            )}
+
+                            <div className="space-y-1">
+                              <label className="cursor-pointer bg-[#1A2B49] hover:bg-[#B89355] text-white font-bold py-1 px-2 rounded-lg transition text-center block text-[8px] uppercase tracking-wider">
+                                Upload File
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleImageChange(e, num)}
+                                  className="hidden"
+                                />
+                              </label>
+                              
+                              <input
+                                type="text"
+                                value={imgUrl || ""}
+                                onChange={(e) => setNewProduct({ ...newProduct, [`image_url_${num}`]: e.target.value })}
+                                placeholder="Paste URL"
+                                className="w-full bg-white border border-[#1A2B49]/10 rounded-lg px-1.5 py-1 text-[9px] text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                   <div>
@@ -828,7 +873,9 @@ export default function AdminDashboard() {
                             description: "",
                             category_id: "",
                             stock: "100",
-                            image_url: "",
+                            image_url_1: "",
+                            image_url_2: "",
+                            image_url_3: "",
                             is_bestseller: false
                           });
                         }}

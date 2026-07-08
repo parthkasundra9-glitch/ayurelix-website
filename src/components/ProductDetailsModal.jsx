@@ -1,52 +1,26 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { FiX, FiPlus, FiMinus, FiShoppingBag, FiCheck } from "react-icons/fi";
 import ProductReviews from "./ProductReviews";
-import { getProductImage } from "../data/products";
-
-const productDetailsMap = {
-  1: {
-    ingredients: ["Saffron (Kumkuma)", "Sandalwood (Chandana)", "Manjistha", "Licorice (Yashtimadhu)", "Goat Milk & Sesame Oil Base"],
-    benefits: [
-      "Brightens skin complexion and reduces hyperpigmentation.",
-      "Acts as a natural anti-aging serum, smoothing fine lines and wrinkles.",
-      "Improves skin texture and adds a natural, youthful glow."
-    ],
-    usage: "Gently massage 3-4 drops of Kumkumadi Face Serum on clean face and neck in upward strokes before sleeping. Leave overnight for best results.",
-    cautions: "For external use only. Oily/acne-prone skin types should start with 1-2 drops."
-  },
-  2: {
-    ingredients: ["Lodhra Extract", "Neem Bark Powder", "Turmeric Root", "Multani Mitti (Fuller's Earth)", "Rose Water Extract"],
-    benefits: [
-      "Targeted action against dark spots, pigmentation, and acne scars.",
-      "Intensively brightens skin and evens out skin tone.",
-      "Absorbs excess oil and tightens pores for a smooth skin texture."
-    ],
-    usage: "Mix 1 tablespoon of Face Pack with water or rose water to form a smooth paste. Apply evenly to face and neck, avoiding eyes. Leave for 15 minutes, then rinse with cool water.",
-    cautions: "Patch test recommended before first use. Avoid contact with eyes."
-  }
-};
+import { getProductImage, getProductImages } from "../data/products";
 
 export default function ProductDetailsModal({ product, isOpen, onClose }) {
   const { addToCart, setIsCartOpen } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     if (product) {
       setQuantity(product.stock <= 0 ? 0 : 1);
+      setActiveImageIndex(0);
     }
   }, [product, isOpen]);
 
   if (!product) return null;
 
-  const info = productDetailsMap[product.id] || {
-    ingredients: ["Traditional Ayurvedic Herbs"],
-    benefits: ["Promotes general wellness, vitality, and balance in skin and body systems."],
-    usage: "As directed by an Ayurvedic practitioner.",
-    cautions: "Keep out of reach of children."
-  };
+  const images = getProductImages(product.image_url, product.id, product.name);
+  const activeImage = images[activeImageIndex] || getProductImage(product.image_url, product.id, product.name);
 
   const handleAddToCart = () => {
     if (product.stock <= 0) return;
@@ -55,7 +29,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
     setTimeout(() => {
       setAdded(false);
       onClose();
-      setIsCartOpen(true); // Open the cart drawer to show the item was added
+      setIsCartOpen(true);
     }, 800);
   };
 
@@ -78,20 +52,21 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
             >
               <button
                 onClick={onClose}
-                className="absolute right-4 top-4 md:right-6 md:top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#1A2B49] transition z-20"
+                className="absolute right-4 top-4 md:right-6 md:top-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-[#1A2B49] transition z-20 shadow-sm"
               >
                 <FiX size={20} />
               </button>
 
-              <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-48 md:h-auto border-b md:border-b-0 md:border-r border-[#1A2B49]/5 bg-[#fbf9f4] shrink-0">
-                {getProductImage(product.image_url, product.id, product.name) ? (
+              {/* Left Side: Images section */}
+              <div className="w-full md:w-5/12 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden h-64 md:h-auto border-b md:border-b-0 md:border-r border-[#1A2B49]/5 bg-[#fbf9f4] shrink-0">
+                {activeImage ? (
                   <div className="absolute inset-0 z-0">
                     <img
-                      src={getProductImage(product.image_url, product.id, product.name)}
+                      src={activeImage}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-all duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
                   </div>
                 ) : (
                   <>
@@ -104,66 +79,47 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   </>
                 )}
                 
-                <div className="z-10 text-white flex flex-col justify-end h-full">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#B89355] mb-1">
-                    Premium Formulation
-                  </span>
-                  <h3 className="text-2xl font-black font-serif uppercase tracking-wide leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
-                    {product.name}
-                  </h3>
+                {/* Thumbnails overlaid at the bottom of the image area */}
+                <div className="z-10 text-white flex flex-col justify-end h-full gap-4">
+                  {images.length > 1 && (
+                    <div className="flex flex-wrap gap-2 mb-1">
+                      {images.map((img, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveImageIndex(idx);
+                          }}
+                          className={`w-11 h-11 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                            idx === activeImageIndex ? "border-[#B89355] scale-105 shadow-md" : "border-white/40 hover:border-white"
+                          }`}
+                        >
+                          <img src={img} alt="" className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  <div>
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#B89355] mb-1">
+                      Premium Formulation
+                    </span>
+                    <h3 className="text-2xl font-black font-serif uppercase tracking-wide leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
+                      {product.name}
+                    </h3>
+                  </div>
                 </div>
               </div>
 
-              <div className="w-full md:w-7/12 p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-12rem)] md:max-h-[85vh] flex flex-col justify-between">
+              {/* Right Side: Details and Cart action */}
+              <div className="w-full md:w-7/12 p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-16rem)] md:max-h-[85vh] flex flex-col justify-between">
                 <div className="space-y-6">
                   <div>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block mb-1">
-                      Overview
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-2">
+                      Description
                     </span>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed whitespace-pre-line font-medium">
                       {product.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block mb-2">
-                      Key Botanicals
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {info.ingredients.map((ing, idx) => (
-                        <span key={idx} className="bg-[#FAF8F5] border border-[#1A2B49]/5 px-2.5 py-1 rounded-lg text-[10px] text-[#1A2B49] font-medium">
-                          {ing}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block mb-2">
-                      Ayurvedic Benefits
-                    </span>
-                    <ul className="list-disc pl-4 space-y-1 text-xs text-gray-600">
-                      {info.benefits.map((benefit, idx) => (
-                        <li key={idx} className="leading-relaxed">{benefit}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block mb-1">
-                      Daily Ritual
-                    </span>
-                    <p className="text-xs text-gray-600 leading-relaxed italic bg-[#FAF8F5] border-l-2 border-[#B89355] p-3 rounded-r-xl">
-                      {info.usage}
-                    </p>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block mb-1">
-                      Cautions
-                    </span>
-                    <p className="text-[10px] text-gray-500 leading-relaxed">
-                      {info.cautions}
                     </p>
                   </div>
 
@@ -177,16 +133,16 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                     <div className="flex items-center bg-[#FAF8F5] border border-[#1A2B49]/10 rounded-xl p-1 shrink-0">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="p-2 hover:text-[#B89355] transition text-gray-500"
+                        className="p-2 hover:text-[#B89355] transition text-gray-500 cursor-pointer"
                       >
                         <FiMinus size={14} />
                       </button>
-                      <span className="px-4 text-sm font-bold text-[#1A2B49] min-w-[20px] text-center">
+                      <span className="px-4 text-sm font-bold text-[#1A2B49] min-w-[20px] text-center select-none">
                         {quantity}
                       </span>
                       <button
                         onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                        className="p-2 hover:text-[#B89355] transition text-gray-500"
+                        className="p-2 hover:text-[#B89355] transition text-gray-500 cursor-pointer"
                       >
                         <FiPlus size={14} />
                       </button>
