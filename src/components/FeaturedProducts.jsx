@@ -42,48 +42,45 @@ export default function FeaturedProducts() {
   };
 
   return (
-    <section id="featured-products-section" className="bg-[#FAF8F5] py-24 px-4 sm:px-6 md:px-8 relative overflow-hidden">
+    <section id="featured-products-section" className="bg-[#FAF8F5] py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden relative">
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full bg-[#B89355]/3 blur-[150px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto z-10 relative">
-        {/* Header Info */}
-        <div className="text-center mb-16">
-          <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-black block mb-3">
-            Organic Skincare Elixirs
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+      <div className="z-10 relative">
+        {/* Header Info matching Best Seller layout */}
+        <div className="flex justify-between items-end mb-8 border-b border-[#1A2B49]/10 pb-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
             Products
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mt-4">
-            Experience our highly potent flagship formulations, lovingly prepared to elevate your natural beauty.
-          </p>
+          <a href="/products" className="text-xs font-bold uppercase tracking-widest text-[#B89355] hover:text-[#1A2B49] transition duration-300 flex items-center gap-1">
+            View All &gt;
+          </a>
         </div>
 
         {/* Slidable Carousel Wrapper */}
-        <div className="relative group max-w-5xl mx-auto">
+        <div className="relative group max-w-7xl mx-auto">
           {/* Left Arrow Button */}
           <button
             onClick={() => scroll("left")}
-            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-md flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Left"
           >
-            <FiChevronLeft size={20} />
+            <FiChevronLeft size={18} />
           </button>
 
           {/* Right Arrow Button */}
           <button
             onClick={() => scroll("right")}
-            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-lg flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
+            className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#FAF8F5] hover:bg-[#1A2B49] text-[#1A2B49] hover:text-white border border-[#1A2B49]/10 shadow-md flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100 max-md:opacity-100 cursor-pointer"
             aria-label="Scroll Right"
           >
-            <FiChevronRight size={20} />
+            <FiChevronRight size={18} />
           </button>
 
           {/* Cards Container */}
           <div
             ref={scrollRef}
-            className={`flex gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
+            className={`flex gap-3 sm:gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
               productsList.length <= 2 ? "md:justify-center" : "md:justify-start"
             }`}
           >

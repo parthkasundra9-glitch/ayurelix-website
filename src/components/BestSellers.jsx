@@ -92,7 +92,7 @@ export default function BestSellers() {
         {/* Cards Container */}
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scrollbar-none scroll-smooth py-4 px-1 justify-start"
+          className="flex gap-3 sm:gap-6 overflow-x-auto scrollbar-none scroll-smooth py-4 px-1 justify-start"
         >
           {bestsellers.map((product) => (
             <ProductCard

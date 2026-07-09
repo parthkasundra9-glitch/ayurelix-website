@@ -117,19 +117,19 @@ export default function HeroSlider() {
             {slides[current].layout === "split" ? (
               <div className="w-full h-full flex flex-col md:flex-row relative">
                 {/* Text Content (Left on Desktop, Overlay on Mobile) - Transparent background to show text directly on image */}
-                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-white md:text-[#1A2B49] bg-transparent md:bg-[#FAF8F5]">
+                <div className="absolute inset-0 md:relative md:w-1/2 h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 text-[#1A2B49] bg-[#FAF8F5]/85 backdrop-blur-[1px] md:bg-[#FAF8F5] md:backdrop-blur-none">
                   <div className="max-w-xl space-y-2 md:space-y-6 flex flex-col items-start text-left">
                     <motion.span
                       initial={{ opacity: 0, y: -15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] md:text-[#B89355] uppercase block"
+                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#B89355] uppercase block"
                     >
                       {slides[current].subtitle}
                     </motion.span>
                     <motion.h1
                       initial={{ opacity: 0, y: 25 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-serif tracking-wide leading-tight text-white md:text-[#1A2B49]"
+                      className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-serif tracking-wide leading-tight text-[#1A2B49]"
                       style={{ fontFamily: "'Cinzel', serif" }}
                     >
                       {slides[current].title}
@@ -137,7 +137,7 @@ export default function HeroSlider() {
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="text-[10px] sm:text-sm md:text-base text-white/90 md:text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
+                      className="text-[10px] sm:text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
                     >
                       {slides[current].description}
                     </motion.p>
@@ -177,19 +177,19 @@ export default function HeroSlider() {
                 {/* Transparent overlay so the font sits directly on the image with no dark backing */}
                 <div className="absolute inset-0 bg-transparent z-10 pointer-events-none" />
 
-                <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-white md:text-[#1A2B49] select-none`}>
-                  <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"}`}>
+                <div className={`absolute inset-0 max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col justify-center ${slides[current].align === "right" ? "items-end" : "items-start"} z-20 text-[#1A2B49] select-none`}>
+                  <div className={`max-w-xl space-y-2 md:space-y-6 flex flex-col ${slides[current].align === "right" ? "items-end text-right" : "items-start text-left"} p-5 sm:p-8 md:p-0 rounded-2xl sm:rounded-3xl bg-[#FAF8F5]/85 backdrop-blur-[1px] md:bg-transparent md:backdrop-blur-none`}>
                     <motion.span
                       initial={{ opacity: 0, y: -15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#D3B685] md:text-[#B89355] uppercase block"
+                      className="text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#B89355] uppercase block"
                     >
                       {slides[current].subtitle}
                     </motion.span>
                     <motion.h1
                       initial={{ opacity: 0, y: 25 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-xl sm:text-4xl md:text-6xl font-black font-serif tracking-wide leading-tight text-white md:text-[#1A2B49]"
+                      className="text-xl sm:text-4xl md:text-6xl font-black font-serif tracking-wide leading-tight text-[#1A2B49]"
                       style={{ fontFamily: "'Cinzel', serif" }}
                     >
                       {slides[current].title}
@@ -197,7 +197,7 @@ export default function HeroSlider() {
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="text-[10px] sm:text-sm md:text-base text-white/95 md:text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
+                      className="text-[10px] sm:text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
                     >
                       {slides[current].description}
                     </motion.p>

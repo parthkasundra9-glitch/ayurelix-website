@@ -93,7 +93,7 @@ export default function Products() {
 
         {/* Products Grid */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 z-10 relative justify-center max-w-7xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 z-10 relative justify-center max-w-7xl mx-auto"
         >
           {displayedProducts.map(product => (
             <ProductCard
