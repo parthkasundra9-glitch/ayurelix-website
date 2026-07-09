@@ -38,11 +38,6 @@ export default function ProductCard({ product, onView, isGrid = false }) {
         {/* Image Container with Badges */}
         <div className="h-36 sm:h-64 rounded-xl sm:rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-slate-50">
           
-          {/* Golden Ribbon Tag (New Launch / Best Seller) */}
-          <div className="absolute top-0 left-0 bg-[#B89355] text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-br-lg rounded-tl-xl sm:rounded-tl-2xl z-10">
-            {product.is_bestseller ? "Best Seller" : isEven ? "New Formula" : "New Launch"}
-          </div>
-
           {product.stock <= 0 && (
             <div className="absolute top-2 left-2 bg-[#c55959]/90 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm z-10">
               Out of Stock
