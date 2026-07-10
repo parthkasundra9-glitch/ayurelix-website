@@ -60,31 +60,44 @@ export default async function handler(req, res) {
 
     const { token } = await authRes.json();
 
-    // 2. Create Order in Shiprocket
-    const orderDateFormatted = new Date().toLocaleString("en-IN", {
-      timeZone: "Asia/Kolkata",
-      hour12: false
-    }).replace(/,/g, "").slice(0, 16); // format: YYYY-MM-DD HH:mm or DD/MM/YYYY HH:mm
+    // 2. Format Order Date in Asia/Kolkata timezone: YYYY-MM-DD HH:mm
+    let orderDateFormatted = "";
+    try {
+      const dateOpts = { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false };
+      const formatter = new Intl.DateTimeFormat("en-US", dateOpts);
+      const parts = formatter.formatToParts(new Date());
+      const partMap = {};
+      parts.forEach(p => partMap[p.type] = p.value);
+      orderDateFormatted = `${partMap.year}-${partMap.month}-${partMap.day} ${partMap.hour}:${partMap.minute}`;
+    } catch (dateErr) {
+      console.warn("Failed to format date with Intl, using fallback:", dateErr);
+      orderDateFormatted = new Date().toISOString().slice(0, 16).replace('T', ' ');
+    }
+
+    // Clean customer details to prevent Shiprocket API validation failures
+    const phoneClean = shippingDetails.phone ? shippingDetails.phone.replace(/\D/g, "").slice(-10) : "";
+    const pincodeClean = shippingDetails.postalCode ? shippingDetails.postalCode.replace(/\D/g, "") : "";
+    const addressClean = shippingDetails.address ? shippingDetails.address.trim() : "";
 
     const shiprocketOrderPayload = {
       order_id: orderId,
       order_date: orderDateFormatted,
       pickup_location: process.env.SHIPROCKET_PICKUP_LOCATION || "Primary",
-      billing_customer_name: shippingDetails.fullName,
+      billing_customer_name: shippingDetails.fullName || "Customer",
       billing_last_name: "",
-      billing_address: shippingDetails.address,
-      billing_city: shippingDetails.city,
-      billing_pincode: shippingDetails.postalCode,
-      billing_state: shippingDetails.state,
+      billing_address: addressClean.length < 6 ? `${addressClean} Street Address` : addressClean, // Pad if too short
+      billing_city: shippingDetails.city || "Ahmedabad",
+      billing_pincode: pincodeClean,
+      billing_state: shippingDetails.state || "Gujarat",
       billing_country: "India",
       billing_email: email,
-      billing_phone: shippingDetails.phone,
+      billing_phone: phoneClean,
       shipping_is_billing: true,
       order_items: items.map((item) => ({
-        name: item.name || "Premium Ayurvedic Product",
+        name: (item.name || "Ayurvedic Product").slice(0, 50),
         sku: String(item.id),
-        units: item.quantity,
-        selling_price: item.price,
+        units: Number(item.quantity) || 1,
+        selling_price: Number(item.price) || 0,
         discount: 0,
         tax: 0,
         hsn: 0
@@ -93,7 +106,7 @@ export default async function handler(req, res) {
       shipping_charges: 0,
       giftwrap_charges: 0,
       transaction_delay: 0,
-      sub_total: total,
+      sub_total: Number(total) || 0,
       length: 15,     // 15 cm
       width: 8,       // 8 cm (breadth)
       height: 8,      // 8 cm
