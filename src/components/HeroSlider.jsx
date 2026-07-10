@@ -160,7 +160,9 @@ export default function HeroSlider() {
                   <img
                     src={slides[current].image}
                     alt={slides[current].title}
-                    className="w-full h-full object-cover object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]"
+                    className={`w-full h-full ${
+                      slides[current].id === 2 ? "object-contain bg-[#FAF8F5]" : "object-cover"
+                    } object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]`}
                   />
                   {/* Subtle right-to-left gradient on desktop to blend the edge of the image */}
                   <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/40 via-transparent to-transparent md:block hidden z-10 pointer-events-none" />
@@ -172,7 +174,9 @@ export default function HeroSlider() {
                 <img
                   src={slides[current].image}
                   alt={slides[current].title}
-                  className="w-full h-full object-cover object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]"
+                  className={`w-full h-full ${
+                    slides[current].id === 2 ? "object-contain bg-[#FAF8F5]" : "object-cover"
+                  } object-center contrast-[1.04] saturate-[1.02] brightness-[1.01]`}
                 />
                 {/* Transparent overlay so the font sits directly on the image with no dark backing */}
                 <div className="absolute inset-0 bg-transparent z-10 pointer-events-none" />
