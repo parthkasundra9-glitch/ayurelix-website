@@ -184,7 +184,34 @@ export default function CartDrawer() {
         console.error("Error initiating Shiprocket shipment:", shiprocketErr);
       }
 
-      // 5. Clear cart and show success
+      // 5. Trigger automated email invoice/bill delivery (asynchronous, does not block customer UI)
+      try {
+        fetch("/api/send-invoice", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: order.id,
+            total: grandTotal,
+            shippingDetails: shippingDetails,
+            items: cartItems,
+            email: user.email
+          })
+        }).then(res => {
+          if (!res.ok) {
+            console.error("Failed to send invoice email");
+          } else {
+            console.log("Invoice email dispatched successfully!");
+          }
+        }).catch(err => {
+          console.error("Invoice email delivery error:", err);
+        });
+      } catch (invoiceErr) {
+        console.error("Error initiating invoice email delivery:", invoiceErr);
+      }
+
+      // 6. Clear cart and show success
       clearCart();
       setCreatedOrderInfo({
         orderId: order.id,
