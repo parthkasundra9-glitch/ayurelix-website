@@ -472,7 +472,16 @@ export default function UserProfile() {
                                             <p className="text-[10px] text-gray-500 font-semibold">Qty: {item.quantity}</p>
                                           </div>
                                         </div>
-                                        <span className="font-bold text-[#1A2B49]">₹{item.price * item.quantity}</span>
+                                        <div className="text-right flex flex-col items-end">
+                                          {item.products?.original_price && Number(item.products.original_price) > Number(item.price) && (
+                                            <span className="text-[10px] text-gray-400 line-through">
+                                              ₹{Number(item.products.original_price) * item.quantity}
+                                            </span>
+                                          )}
+                                          <span className="font-bold text-[#1A2B49]">
+                                            ₹{item.price * item.quantity}
+                                          </span>
+                                        </div>
                                       </div>
                                     ))}
                                     <div className="flex justify-between items-center border-t border-[#1A2B49]/5 pt-3 mt-3 font-bold">

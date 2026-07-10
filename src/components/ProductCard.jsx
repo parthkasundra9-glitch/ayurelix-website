@@ -12,6 +12,13 @@ export default function ProductCard({ product, onView, isGrid = false }) {
   const reviewsCount = product.reviews || 18;
   const isEven = product.id % 2 === 0;
 
+  const sellPrice = Number(product.price);
+  const originalPrice = product.original_price ? Number(product.original_price) : 0;
+  const hasDiscount = originalPrice > sellPrice;
+  const discountPercent = hasDiscount 
+    ? Math.round(((originalPrice - sellPrice) / originalPrice) * 100)
+    : 0;
+
   const handleQuickAdd = (e) => {
     e.stopPropagation();
     if (product.stock <= 0) return;
@@ -38,11 +45,21 @@ export default function ProductCard({ product, onView, isGrid = false }) {
         {/* Image Container with Badges */}
         <div className="h-36 sm:h-64 rounded-xl sm:rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center border border-slate-50">
           
-          {product.stock <= 0 && (
-            <div className="absolute top-2 left-2 bg-[#c55959]/90 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm z-10">
-              Out of Stock
-            </div>
-          )}
+          <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10 items-start">
+            {product.stock <= 0 && (
+              <div className="bg-[#c55959]/90 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm">
+                Out of Stock
+              </div>
+            )}
+            {hasDiscount && product.stock > 0 && (
+              <motion.div
+                whileHover={{ scale: 1.08 }}
+                className="bg-red-500 text-white text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm tracking-wider uppercase"
+              >
+                {discountPercent}% OFF
+              </motion.div>
+            )}
+          </div>
 
           {getProductImage(product.image_url, product.id, product.name) ? (
             <img
@@ -107,9 +124,26 @@ export default function ProductCard({ product, onView, isGrid = false }) {
       <div className="mt-2.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-100">
         <div className="flex justify-between items-center mb-2 sm:mb-3">
           <span className="text-[8px] sm:text-xs uppercase font-bold text-gray-400">Price</span>
-          <span className="text-sm sm:text-lg font-black text-[#B89355]">
-            ₹{product.price}
-          </span>
+          <motion.div 
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center gap-1.5 sm:gap-2"
+          >
+            {hasDiscount && (
+              <span className="text-[10px] sm:text-xs text-gray-400 line-through font-medium">
+                ₹{originalPrice}
+              </span>
+            )}
+            <motion.span 
+              whileHover={{ scale: 1.08 }}
+              className={`text-xs sm:text-base font-black transition-colors ${
+                hasDiscount ? "text-emerald-700" : "text-[#B89355]"
+              }`}
+            >
+              ₹{sellPrice}
+            </motion.span>
+          </motion.div>
         </div>
 
         <button

@@ -383,7 +383,16 @@ export default function CartDrawer() {
                         <div className="flex-grow min-w-0">
                           <h4 className="text-sm font-bold text-[#1A2B49] truncate">{item.name}</h4>
                           <p className="text-xs text-gray-600 line-clamp-1">{item.description}</p>
-                          <p className="text-sm text-[#B89355] font-semibold mt-1">₹{item.price}</p>
+                          <div className="flex items-center gap-1.5 mt-1 text-xs">
+                            {item.original_price && Number(item.original_price) > Number(item.price) && (
+                              <span className="text-gray-400 line-through">₹{item.original_price}</span>
+                            )}
+                            <span className={`font-semibold ${
+                              item.original_price && Number(item.original_price) > Number(item.price) ? "text-emerald-700 font-bold" : "text-[#B89355]"
+                            }`}>
+                              ₹{item.price}
+                            </span>
+                          </div>
                         </div>
                         <div className="flex flex-col items-end gap-3">
                           <button

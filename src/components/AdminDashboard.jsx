@@ -23,6 +23,7 @@ export default function AdminDashboard() {
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
+    original_price: "",
     description: "",
     category_id: "",
     stock: "100",
@@ -242,10 +243,19 @@ export default function AdminDashboard() {
     const imgs = [newProduct.image_url_1, newProduct.image_url_2, newProduct.image_url_3].map(s => s ? s.trim() : "").filter(Boolean);
     const finalImageUrl = JSON.stringify(imgs);
 
+    // Validation: Original Price (MRP) >= Selling Price
+    const orgPrice = newProduct.original_price ? parseFloat(newProduct.original_price) : null;
+    const sellPrice = parseFloat(newProduct.price);
+    if (orgPrice !== null && orgPrice < sellPrice) {
+      alert("Original Price (MRP) cannot be lower than the Selling Price.");
+      return;
+    }
+
     const { error } = await supabase.from("products").insert([
       {
         name: newProduct.name,
-        price: parseFloat(newProduct.price),
+        price: sellPrice,
+        original_price: orgPrice,
         description: newProduct.description,
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
@@ -260,6 +270,7 @@ export default function AdminDashboard() {
       setNewProduct({
         name: "",
         price: "",
+        original_price: "",
         description: "",
         category_id: "",
         stock: "100",
@@ -296,11 +307,20 @@ export default function AdminDashboard() {
     const imgs = [newProduct.image_url_1, newProduct.image_url_2, newProduct.image_url_3].map(s => s ? s.trim() : "").filter(Boolean);
     const finalImageUrl = JSON.stringify(imgs);
 
+    // Validation: Original Price (MRP) >= Selling Price
+    const orgPrice = newProduct.original_price ? parseFloat(newProduct.original_price) : null;
+    const sellPrice = parseFloat(newProduct.price);
+    if (orgPrice !== null && orgPrice < sellPrice) {
+      alert("Original Price (MRP) cannot be lower than the Selling Price.");
+      return;
+    }
+
     const { error } = await supabase
       .from("products")
       .update({
         name: newProduct.name,
-        price: parseFloat(newProduct.price),
+        price: sellPrice,
+        original_price: orgPrice,
         description: newProduct.description,
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
@@ -315,6 +335,7 @@ export default function AdminDashboard() {
       setNewProduct({
         name: "",
         price: "",
+        original_price: "",
         description: "",
         category_id: "",
         stock: "100",
@@ -630,7 +651,7 @@ export default function AdminDashboard() {
                       <th className="p-4">Name</th>
                       <th className="p-4">Category</th>
                       <th className="p-4">Bestseller</th>
-                      <th className="p-4">Price</th>
+                      <th className="p-4">Price (MRP / Selling)</th>
                       <th className="p-4">Stock</th>
                       <th className="p-4 text-right">Actions</th>
                     </tr>
@@ -659,7 +680,14 @@ export default function AdminDashboard() {
                             <span className="text-gray-400">No</span>
                           )}
                         </td>
-                        <td className="p-4 text-[#B89355] font-bold">₹{prod.price}</td>
+                        <td className="p-4 text-gray-600">
+                          <div className="flex flex-col gap-0.5">
+                            {prod.original_price && Number(prod.original_price) > Number(prod.price) && (
+                              <span className="text-gray-400 line-through text-[10px]">₹{prod.original_price}</span>
+                            )}
+                            <span className="text-[#B89355] font-bold">₹{prod.price}</span>
+                          </div>
+                        </td>
                         <td className="p-4 text-gray-600">{prod.stock} left</td>
                         <td className="p-4 text-right">
                           <div className="flex justify-end gap-2 items-center">
@@ -687,6 +715,7 @@ export default function AdminDashboard() {
                                 setNewProduct({
                                   name: prod.name,
                                   price: String(prod.price),
+                                  original_price: prod.original_price ? String(prod.original_price) : "",
                                   description: prod.description || "",
                                   category_id: prod.category_id ? String(prod.category_id) : "",
                                   stock: String(prod.stock),
@@ -738,16 +767,28 @@ export default function AdminDashboard() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Price (₹)</label>
+                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Original Price (MRP)</label>
+                      <input
+                        type="number"
+                        value={newProduct.original_price}
+                        onChange={(e) => setNewProduct({ ...newProduct, original_price: e.target.value })}
+                        placeholder="e.g. 1199"
+                        className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Selling Price (₹)</label>
                       <input
                         type="number"
                         required
                         value={newProduct.price}
                         onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                        placeholder="1199"
+                        placeholder="e.g. 799"
                         className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Category</label>
                       <select
@@ -763,8 +804,6 @@ export default function AdminDashboard() {
                         ))}
                       </select>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-[10px] uppercase font-bold text-gray-600 mb-1">Initial Stock</label>
                       <input
@@ -776,18 +815,18 @@ export default function AdminDashboard() {
                         className="w-full bg-white border border-[#1A2B49]/10 rounded-xl px-4 py-2.5 text-[#1A2B49] focus:outline-none focus:border-[#B89355] transition"
                       />
                     </div>
-                    <div className="flex items-center mt-6">
-                      <input
-                        type="checkbox"
-                        id="is_bestseller"
-                        checked={newProduct.is_bestseller}
-                        onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
-                        className="w-4 h-4 text-[#1A2B49] border-gray-300 rounded focus:ring-[#1A2B49]"
-                      />
-                      <label htmlFor="is_bestseller" className="ml-2 block text-xs font-bold text-gray-600 uppercase">
-                        Bestseller Product
-                      </label>
-                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="is_bestseller"
+                      checked={newProduct.is_bestseller}
+                      onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
+                      className="w-4 h-4 text-[#1A2B49] border-gray-300 rounded focus:ring-[#1A2B49]"
+                    />
+                    <label htmlFor="is_bestseller" className="ml-2 block text-xs font-bold text-gray-600 uppercase">
+                      Bestseller Product
+                    </label>
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold text-gray-600 mb-2 tracking-wider">Product Photos (Up to 3)</label>

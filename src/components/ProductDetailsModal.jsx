@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { FiX, FiPlus, FiMinus, FiShoppingBag, FiCheck } from "react-icons/fi";
 import ProductReviews from "./ProductReviews";
 import { getProductImage, getProductImages } from "../data/products";
+import { motion } from "framer-motion";
 
 export default function ProductDetailsModal({ product, isOpen, onClose }) {
   const { addToCart, setIsCartOpen } = useCart();
@@ -21,6 +22,14 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
 
   const images = getProductImages(product.image_url, product.id, product.name);
   const activeImage = images[activeImageIndex] || getProductImage(product.image_url, product.id, product.name);
+
+  const sellPrice = Number(product.price);
+  const originalPrice = product.original_price ? Number(product.original_price) : 0;
+  const hasDiscount = originalPrice > sellPrice;
+  const discountPercent = hasDiscount 
+    ? Math.round(((originalPrice - sellPrice) / originalPrice) * 100)
+    : 0;
+  const savings = hasDiscount ? (originalPrice - sellPrice) : 0;
 
   const handleAddToCart = () => {
     if (product.stock <= 0) return;
@@ -114,6 +123,52 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               {/* Right Side: Details and Cart action */}
               <div className="w-full md:w-7/12 p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-16rem)] md:max-h-[85vh] flex flex-col justify-between">
                 <div className="space-y-6">
+                  {/* Rating Stars & Pricing with Slide-in Animation */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col gap-2 pb-4 border-b border-[#1A2B49]/5"
+                  >
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className="text-[#B89355] text-xs">★</span>
+                      ))}
+                      <span className="text-[10px] text-gray-400 font-bold ml-1">
+                        (Verified Reviews)
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      {hasDiscount && (
+                        <span className="text-sm md:text-base text-[#9CA3AF] line-through font-medium">
+                          ₹{originalPrice}
+                        </span>
+                      )}
+                      <motion.span 
+                        whileHover={{ scale: 1.05 }}
+                        className={`text-xl md:text-2xl font-black transition-colors duration-200 cursor-default ${
+                          hasDiscount ? "text-emerald-700" : "text-[#B89355]"
+                        }`}
+                      >
+                        ₹{sellPrice}
+                      </motion.span>
+                      {hasDiscount && (
+                        <motion.span 
+                          whileHover={{ scale: 1.08 }}
+                          className="bg-red-500 text-white text-[9px] md:text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm tracking-wider uppercase cursor-default"
+                        >
+                          {discountPercent}% OFF
+                        </motion.span>
+                      )}
+                    </div>
+                    {hasDiscount && (
+                      <p className="text-xs text-emerald-600 font-bold">
+                        You Save ₹{savings} ({discountPercent}%)
+                      </p>
+                    )}
+                  </motion.div>
+
                   <div>
                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-2">
                       Description
