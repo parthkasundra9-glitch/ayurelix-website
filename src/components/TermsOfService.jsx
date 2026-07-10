@@ -203,7 +203,7 @@ export default function TermsOfService() {
               <p>For any questions or concerns, please contact:</p>
               <ul className="space-y-2 pl-4">
                 <li>📧 <strong>Email:</strong> ayurelix512@gmail.com</li>
-                <li>📞 <strong>Phone:</strong> +91 00000 00000</li>
+                <li>📞 <strong>Phone:</strong> <a href="tel:+919726299878" className="hover:underline">+91 9726299878</a></li>
                 <li>📍 <strong>Location:</strong> Gujarat, India</li>
               </ul>
             </div>

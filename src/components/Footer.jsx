@@ -132,7 +132,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <FiCompass className="text-[#B89355] text-base shrink-0" />
-                <span>ayurelix512@gmail.com</span>
+                <a href="mailto:ayurelix512@gmail.com" className="hover:underline">ayurelix512@gmail.com</a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <FiPhone className="text-[#B89355] text-base shrink-0" />
+                <a href="tel:+919726299878" className="hover:underline">+91 9726299878</a>
               </div>
             </div>
           </div>

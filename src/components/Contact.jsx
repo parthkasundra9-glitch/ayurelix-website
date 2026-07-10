@@ -87,8 +87,12 @@ export default function Contact() {
 
             <div className="space-y-6 text-slate-500 font-semibold pt-4">
               <div className="flex items-center gap-4">
+                <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Phone:</span>
+                <a href="tel:+919726299878" className="text-[#1A2B49] hover:underline font-bold">+91 9726299878</a>
+              </div>
+              <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Email:</span>
-                <span className="text-[#1A2B49]">ayurelix512@gmail.com</span>
+                <a href="mailto:ayurelix512@gmail.com" className="text-[#1A2B49] hover:underline">ayurelix512@gmail.com</a>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[#B89355] text-base font-bold uppercase tracking-wider w-20">Address:</span>

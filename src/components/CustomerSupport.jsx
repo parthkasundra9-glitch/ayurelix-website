@@ -62,7 +62,7 @@ export default function CustomerSupport() {
               <p>For any queries, feel free to reach out to us:</p>
               <ul className="space-y-2 pl-4 text-[#1A2B49] font-semibold">
                 <li>📧 <strong>Email:</strong> <a href="mailto:ayurelix512@gmail.com" className="underline">ayurelix512@gmail.com</a></li>
-                <li>📞 <strong>Phone / WhatsApp:</strong> +91 00000 00000</li>
+                <li>📞 <strong>Phone / WhatsApp:</strong> <a href="tel:+919726299878" className="underline">+91 9726299878</a></li>
                 <li>📍 <strong>Location:</strong> Gujarat, India</li>
               </ul>
               <p className="pt-2 text-xs text-slate-400">
