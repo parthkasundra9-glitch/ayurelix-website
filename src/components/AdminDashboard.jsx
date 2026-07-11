@@ -472,7 +472,7 @@ export default function AdminDashboard() {
     <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto py-32 px-8 w-full flex-grow">
+      <section className="max-w-7xl mx-auto pt-36 md:pt-44 pb-32 px-4 sm:px-8 w-full flex-grow">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-[#1A2B49]/10 pb-6 gap-4">
           <div>
             <span className="text-[#B89355] uppercase tracking-[0.25em] text-xs font-bold block">
@@ -483,7 +483,7 @@ export default function AdminDashboard() {
             </h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 max-w-full">
             <button
               onClick={() => setActiveTab("orders")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm ${
