@@ -63,7 +63,7 @@ export default function Contact() {
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-[#B89355]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full bg-[#f4efe2]/60 blur-[120px] pointer-events-none" />
 
-      <section className="max-w-7xl mx-auto py-32 px-8 z-10 relative">
+      <section className="max-w-7xl mx-auto pt-32 lg:pt-44 pb-32 px-8 z-10 relative">
         <div className="grid md:grid-cols-2 gap-16 items-start">
           
           <motion.div

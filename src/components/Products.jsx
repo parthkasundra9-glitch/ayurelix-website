@@ -76,7 +76,7 @@ export default function Products() {
       {/* Navigation */}
       <Navbar />
 
-      <section className="max-w-7xl mx-auto py-32 px-8">
+      <section className="max-w-7xl mx-auto pt-32 lg:pt-44 pb-32 px-8">
         
         {/* Header Section */}
         <div className="text-center mb-16 space-y-4">

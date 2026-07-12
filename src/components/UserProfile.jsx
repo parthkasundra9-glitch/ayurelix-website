@@ -203,7 +203,7 @@ export default function UserProfile() {
     <div className="bg-white min-h-screen text-[#1A2B49] flex flex-col justify-between overflow-x-hidden">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto py-20 sm:py-32 px-4 sm:px-8 w-full flex-grow relative">
+      <section className="max-w-7xl mx-auto pt-32 lg:pt-44 pb-32 px-4 sm:px-8 w-full flex-grow relative">
         {/* Glow decoration */}
         <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[#B89355]/3 blur-[120px] pointer-events-none" />
 

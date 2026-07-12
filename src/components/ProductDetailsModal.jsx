@@ -121,8 +121,9 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               </div>
 
               {/* Right Side: Details and Cart action */}
-              <div className="w-full md:w-7/12 p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-16rem)] md:max-h-[85vh] flex flex-col justify-between">
-                <div className="space-y-6">
+              <div className="w-full md:w-7/12 flex flex-col max-h-[calc(90vh-16rem)] md:max-h-[85vh] overflow-hidden bg-white">
+                {/* Scrollable Content Area */}
+                <div className="flex-grow overflow-y-auto p-6 md:p-8 space-y-6">
                   {/* Rating Stars & Pricing with Slide-in Animation */}
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
@@ -183,9 +184,10 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                   </div>
                 </div>
 
-                <div className="border-t border-[#1A2B49]/5 pt-6 mt-8 flex items-center justify-between gap-4">
+                {/* Fixed Bottom Action Bar */}
+                <div className="border-t border-[#1A2B49]/5 p-6 bg-[#fbf9f4] flex items-center justify-between gap-4 shrink-0">
                   {product.stock > 0 && (
-                    <div className="flex items-center bg-[#FAF8F5] border border-[#1A2B49]/10 rounded-xl p-1 shrink-0">
+                    <div className="flex items-center bg-white border border-[#1A2B49]/10 rounded-xl p-1 shrink-0">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         className="p-2 hover:text-[#B89355] transition text-gray-500 cursor-pointer"

@@ -14,7 +14,7 @@ export default function RefundPolicy() {
       <Navbar />
 
       {/* Main Layout Container */}
-      <section className="max-w-7xl mx-auto py-32 px-8 relative z-10">
+      <section className="max-w-7xl mx-auto pt-32 lg:pt-44 pb-32 px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
