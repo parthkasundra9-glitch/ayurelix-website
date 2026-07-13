@@ -108,7 +108,7 @@ export default async function handler(req, res) {
       transaction_delay: 0,
       sub_total: Number(total) || 0,
       length: 15,     // 15 cm
-      width: 8,       // 8 cm (breadth)
+      breadth: 8,      // 8 cm
       height: 8,      // 8 cm
       weight: 0.05    // 0.05 kg (50 grams dead weight)
     };
