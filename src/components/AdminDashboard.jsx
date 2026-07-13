@@ -183,6 +183,54 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleCreateShiprocketShipment = async (order) => {
+    const confirmPush = window.confirm("Are you sure you want to push this order to Shiprocket manually?");
+    if (!confirmPush) return;
+
+    try {
+      // 1. Fetch user's email from their profile
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("email")
+        .eq("id", order.user_id)
+        .single();
+
+      if (profileError || !profile) {
+        throw new Error(profileError?.message || "User profile containing email was not found.");
+      }
+
+      // 2. Trigger Vercel create-shipment API
+      const response = await fetch("/api/create-shipment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          orderId: order.id,
+          total: order.total_amount,
+          shippingDetails: order.shipping_address,
+          items: order.order_items.map(item => ({
+            id: item.product_id,
+            name: item.products?.name,
+            quantity: item.quantity,
+            price: item.price
+          })),
+          email: profile.email
+        })
+      });
+
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.error || "Failed to create shipment");
+      }
+
+      alert("Shiprocket shipment generated successfully!");
+      fetchData(); // Refresh order details
+    } catch (err) {
+      alert("Failed to push to Shiprocket: " + err.message);
+    }
+  };
+
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -585,6 +633,23 @@ export default function AdminDashboard() {
                           {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.postalCode}
                         </p>
                         <p className="text-gray-600">Phone: {order.shipping_address.phone}</p>
+                        
+                        {!order.shipping_address?.shipment_id && (
+                          <div className="mt-3 pt-3 border-t border-[#1A2B49]/10 space-y-2">
+                            <p className="text-amber-600 font-bold text-[10px] uppercase tracking-wider flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                              <span>Shiprocket order not created</span>
+                            </p>
+                            <button
+                              onClick={() => handleCreateShiprocketShipment(order)}
+                              className="px-3 py-1.5 bg-[#B89355] hover:bg-[#1A2B49] text-white text-[10px] font-bold uppercase tracking-wider rounded-lg transition shadow-sm hover:shadow-md cursor-pointer flex items-center gap-1.5"
+                            >
+                              <FiTruck size={12} />
+                              <span>Push to Shiprocket</span>
+                            </button>
+                          </div>
+                        )}
+
                         {order.shipping_address?.shipment_id && (
                           <div className="mt-3 pt-3 border-t border-[#1A2B49]/10 space-y-1 text-gray-500 text-[11px]">
                             <p className="font-bold text-[10px] text-gray-400 uppercase tracking-wider">Courier Partner (Shiprocket)</p>
