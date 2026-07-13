@@ -23,10 +23,10 @@ export default function CartDrawer() {
   const [createdOrderInfo, setCreatedOrderInfo] = useState(null);
   const navigate = useNavigate();
 
-  const SHIPPING_THRESHOLD = 599;
-  const SHIPPING_COST = 49;
-  const shippingFee = cartTotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
-  const grandTotal = cartTotal > 0 ? cartTotal + shippingFee : 0;
+  const SHIPPING_THRESHOLD = 0;
+  const SHIPPING_COST = 0;
+  const shippingFee = 0;
+  const grandTotal = cartTotal > 0 ? cartTotal : 0;
 
   // Shipping details state
   const [shippingDetails, setShippingDetails] = useState({
@@ -343,7 +343,7 @@ export default function CartDrawer() {
                       <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
                         <div
                           className="bg-[#B89355] h-full transition-all duration-500 ease-out"
-                          style={{ width: `${Math.min((cartTotal / SHIPPING_THRESHOLD) * 100, 100)}%` }}
+                          style={{ width: `${SHIPPING_THRESHOLD > 0 ? Math.min((cartTotal / SHIPPING_THRESHOLD) * 100, 100) : 100}%` }}
                         />
                       </div>
                     </div>
