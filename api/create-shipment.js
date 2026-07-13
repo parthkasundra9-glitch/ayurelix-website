@@ -124,13 +124,7 @@ export default async function handler(req, res) {
 
     if (!orderRes.ok) {
       const orderErr = await orderRes.json();
-      let detailMsg = "";
-      if (orderErr.errors) {
-        detailMsg = " | Errors: " + Object.entries(orderErr.errors)
-          .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
-          .join("; ");
-      }
-      throw new Error(`Shiprocket order creation failed: ${orderErr.message || orderRes.statusText}${detailMsg}`);
+      throw new Error(`Shiprocket order creation failed: ${orderErr.message || orderRes.statusText}`);
     }
 
     const orderResult = await orderRes.json();
