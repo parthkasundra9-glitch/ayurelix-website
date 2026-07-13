@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Required order details are missing." });
   }
 
-  // Retrieve API Keys from Environment Variables
+  // Retrieve Shiprocket and database credentials from Vercel env settings
   const shiprocketEmail = process.env.SHIPROCKET_EMAIL;
   const shiprocketPassword = process.env.SHIPROCKET_PASSWORD;
   const supabaseUrl = process.env.VITE_SUPABASE_URL || "https://bxoiqighjsdwjltqmeci.supabase.co";
