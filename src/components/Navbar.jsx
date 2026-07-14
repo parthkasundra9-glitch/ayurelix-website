@@ -71,7 +71,7 @@ export default function Navbar() {
       {/* ---------------- DESKTOP HEADER (Double Row) ---------------- */}
       <div className="hidden lg:block">
         {/* Upper Row: Logo, Search, Action Buttons */}
-        <div className="max-w-7xl mx-auto px-8 py-2.5 flex justify-between items-center border-b border-[#1A2B49]/5">
+        <div className="max-w-7xl mx-auto px-8 py-1 flex justify-between items-center border-b border-[#1A2B49]/5">
           {/* Left: Brand Logo */}
           <Link to="/" className="outline-none">
             <Logo size="sm" variant="gold" showText={false} />
@@ -210,7 +210,7 @@ export default function Navbar() {
       </div>
 
       {/* ---------------- MOBILE HEADER (Single Row) ---------------- */}
-      <div className="lg:hidden max-w-7xl mx-auto px-4 py-1.5 flex justify-between items-center">
+      <div className="lg:hidden max-w-7xl mx-auto px-4 py-1 flex justify-between items-center">
         
         {/* Left: Brand Logo */}
         <Link to="/" className="outline-none" onClick={() => setIsMenuOpen(false)}>
