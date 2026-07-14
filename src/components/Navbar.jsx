@@ -74,7 +74,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-8 py-2.5 flex justify-between items-center border-b border-[#1A2B49]/5">
           {/* Left: Brand Logo */}
           <Link to="/" className="outline-none">
-            <Logo size="sm" variant="gold" showText={true} />
+            <Logo size="sm" variant="gold" showText={false} />
           </Link>
 
           {/* Center: Search Bar */}
@@ -213,7 +213,7 @@ export default function Navbar() {
         
         {/* Left: Brand Logo */}
         <Link to="/" className="outline-none" onClick={() => setIsMenuOpen(false)}>
-          <Logo size="sm" variant="gold" showText={true} />
+          <Logo size="sm" variant="gold" showText={false} />
         </Link>
 
         {/* Right: Hamburger & Cart icons */}

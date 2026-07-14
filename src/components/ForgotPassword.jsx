@@ -50,7 +50,7 @@ export default function ForgotPassword() {
           className="w-full max-w-md bg-[#fbf9f4] border border-[#1A2B49]/5 rounded-3xl p-8 backdrop-blur-xl shadow-xl"
         >
           <div className="text-center mb-8 flex flex-col items-center">
-            <Logo size="md" variant="gold" showText={true} layout="vertical" />
+            <Logo size="md" variant="gold" showText={false} layout="vertical" />
           </div>
 
           {submitted ? (

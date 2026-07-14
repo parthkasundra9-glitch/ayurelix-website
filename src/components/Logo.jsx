@@ -9,7 +9,7 @@ export default function Logo({
   className = ""
 }) {
   const heights = {
-    sm: "h-[72px] md:h-[110px]",
+    sm: "h-[86px] md:h-[120px]",
     md: "h-[86px] md:h-[128px]",
     lg: "h-[108px] md:h-[160px]",
     xl: "h-[136px] md:h-[200px]",

@@ -62,7 +62,7 @@ export default function About() {
             {/* Background design elements */}
             <div className="absolute w-80 h-80 rounded-full bg-[#B89355]/10 blur-[80px]" />
             <div className="w-full h-80 flex items-center justify-center">
-              <Logo size="xl" variant="gold" layout="vertical" />
+              <Logo size="xl" variant="gold" showText={false} layout="vertical" />
             </div>
             <span className="text-[#B89355] text-sm font-bold tracking-[0.25em] uppercase mt-4">
               Established 2026

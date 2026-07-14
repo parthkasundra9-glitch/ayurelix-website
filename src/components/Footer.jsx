@@ -80,7 +80,7 @@ export default function Footer() {
 
           {/* Column 1: Brand Info */}
           <div className="space-y-6 flex flex-col items-center md:items-start">
-            <Logo size="sm" variant="gold" showText={true} />
+            <Logo size="sm" variant="gold" showText={false} />
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-xs">
               Ayurelix bridges ancient Ayurvedic wisdom with modern botanical science to offer premium, chemical-free, organic skincare formulations.
             </p>
