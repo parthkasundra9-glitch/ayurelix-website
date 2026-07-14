@@ -185,7 +185,8 @@ export default function Navbar() {
                       key={cat.id}
                       to={`/products?category=${cat.id}`}
                       onClick={() => setIsCategoriesDropdownOpen(false)}
-                      className="block px-6 py-2.5 text-xs text-gray-700 hover:bg-[#FAF8F5] hover:text-[#B89355] transition duration-150 font-bold normal-case"
+                      className="block px-6 py-2.5 text-[11px] text-[#1A2B49] hover:bg-[#FAF8F5] hover:text-[#B89355] transition duration-150 font-bold uppercase tracking-wider font-serif"
+                      style={{ fontFamily: "'Cinzel', serif" }}
                     >
                       {cat.name}
                     </Link>
@@ -318,7 +319,8 @@ export default function Navbar() {
                             setIsMenuOpen(false);
                             setIsMobileCategoriesOpen(false);
                           }}
-                          className="text-sm text-gray-600 hover:text-[#B89355] py-1 transition font-bold"
+                          className="text-xs text-[#1A2B49] hover:text-[#B89355] py-1 transition font-bold uppercase tracking-wider font-serif"
+                          style={{ fontFamily: "'Cinzel', serif" }}
                         >
                           {cat.name}
                         </Link>
