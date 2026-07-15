@@ -106,6 +106,8 @@ export default function AdminDashboard() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [awbCodeInput, setAwbCodeInput] = useState("");
   const [chartHoverIndex, setChartHoverIndex] = useState(null);
+  const [activeReplyId, setActiveReplyId] = useState(null);
+  const [replyText, setReplyText] = useState("");
 
   // New product form state
   const [newProduct, setNewProduct] = useState({
@@ -194,6 +196,23 @@ export default function AdminDashboard() {
         .select("*")
         .order("created_at", { ascending: false });
       setUsers(usersData || []);
+
+      // 6. Fetch Contact Inquiries
+      try {
+        const { data: inquiriesData, error: inqError } = await supabase
+          .from("contact_inquiries")
+          .select("*")
+          .order("created_at", { ascending: false });
+        
+        if (inqError) {
+          console.warn("Using mock inquiries fallback:", inqError.message);
+          setContactInquiries(MOCK_INQUIRIES);
+        } else {
+          setContactInquiries(inquiriesData || []);
+        }
+      } catch {
+        setContactInquiries(MOCK_INQUIRIES);
+      }
     } catch (err) {
       console.error("Error loading dashboard data:", err);
     }
@@ -584,19 +603,83 @@ export default function AdminDashboard() {
   };
 
   // Inquiries methods
-  const handleToggleInquiryStatus = (id) => {
-    setContactInquiries(prev => prev.map(inq => {
-      if (inq.id === id) {
-        return { ...inq, status: inq.status === "unread" ? "read" : "unread" };
+  const handleToggleInquiryStatus = async (id, currentStatus) => {
+    const nextStatus = currentStatus === "unread" ? "read" : "unread";
+    const isMock = String(id).startsWith("inq-");
+
+    if (isMock) {
+      setContactInquiries(prev => prev.map(inq => {
+        if (inq.id === id) {
+          return { ...inq, status: nextStatus };
+        }
+        return inq;
+      }));
+    } else {
+      const { error } = await supabase
+        .from("contact_inquiries")
+        .update({ status: nextStatus })
+        .eq("id", id);
+
+      if (error) {
+        alert("Error updating inquiry: " + error.message);
+      } else {
+        fetchData();
       }
-      return inq;
-    }));
+    }
   };
 
-  const handleDeleteInquiry = (id) => {
+  const handleDeleteInquiry = async (id) => {
     if (confirm("Are you sure you want to delete this inquiry?")) {
-      setContactInquiries(prev => prev.filter(inq => inq.id !== id));
+      const isMock = String(id).startsWith("inq-");
+      if (isMock) {
+        setContactInquiries(prev => prev.filter(inq => inq.id !== id));
+      } else {
+        const { error } = await supabase
+          .from("contact_inquiries")
+          .delete()
+          .eq("id", id);
+
+        if (error) {
+          alert("Error deleting inquiry: " + error.message);
+        } else {
+          fetchData();
+        }
+      }
     }
+  };
+
+  const handleSendReply = async (inq) => {
+    if (!replyText.trim()) return;
+
+    // 1. Open mail client pre-filled with reply
+    const mailtoUrl = `mailto:${inq.email}?subject=Re: ${encodeURIComponent(inq.subject || "Ayurelix Inquiry")}&body=${encodeURIComponent(replyText)}`;
+    window.open(mailtoUrl, "_blank");
+
+    // 2. Update status to replied
+    const isMock = String(inq.id).startsWith("inq-");
+    if (isMock) {
+      setContactInquiries(prev => prev.map(item => {
+        if (item.id === inq.id) {
+          return { ...item, status: "replied" };
+        }
+        return item;
+      }));
+    } else {
+      const { error } = await supabase
+        .from("contact_inquiries")
+        .update({ status: "replied" })
+        .eq("id", inq.id);
+
+      if (error) {
+        console.error("Error marking inquiry as replied:", error.message);
+      } else {
+        fetchData();
+      }
+    }
+
+    setActiveReplyId(null);
+    setReplyText("");
+    alert("Reply loaded into mail client. Inquiry marked as 'Replied'!");
   };
 
   // --- Dynamic Dashboard & Analytics Computations ---
@@ -2092,7 +2175,7 @@ export default function AdminDashboard() {
                       >
                         <div className="absolute right-6 top-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition duration-150">
                           <button
-                            onClick={() => handleToggleInquiryStatus(inq.id)}
+                            onClick={() => handleToggleInquiryStatus(inq.id, inq.status)}
                             className="px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-slate-600 transition"
                           >
                             Mark as {inq.status === "unread" ? "Read" : "Unread"}
@@ -2109,9 +2192,15 @@ export default function AdminDashboard() {
                           <div>
                             <div className="flex items-center gap-2">
                               <h4 className="font-bold text-sm text-[#1A2B49]">{inq.name}</h4>
-                              {inq.status === "unread" && (
-                                <span className="bg-amber-50 border border-amber-200 text-amber-700 text-[8px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded">Unread</span>
-                              )}
+                              <span className={`px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase border ${
+                                inq.status === "unread"
+                                  ? "bg-amber-50 text-amber-700 border-amber-200"
+                                  : inq.status === "replied"
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                  : "bg-slate-50 text-slate-500 border-slate-200"
+                              }`}>
+                                {inq.status}
+                              </span>
                             </div>
                             <p className="text-[10px] text-slate-400 mt-0.5 font-medium">{inq.email} • {inq.phone}</p>
                           </div>
@@ -2125,20 +2214,56 @@ export default function AdminDashboard() {
                           <p className="text-xs text-slate-600 leading-relaxed font-medium bg-white/40 p-4 rounded-2xl border border-[#B89355]/5">{inq.message}</p>
                         </div>
 
-                        <div className="flex justify-end pt-2">
-                          <a
-                            href={`mailto:${inq.email}?subject=Re: ${encodeURIComponent(inq.subject)}&body=Dear ${encodeURIComponent(inq.name)},%0D%0A%0D%0AThank you for reaching out to Ayurelix.%0D%0A%0D%0ABest regards,%0D%0AAyurelix Team`}
-                            className="px-4 py-2 bg-[#123920] hover:bg-[#B89355] text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition duration-200 flex items-center gap-2 shadow-sm"
-                          >
-                            <FiMail size={12} />
-                            <span>Reply via Email</span>
-                          </a>
-                        </div>
+                        {activeReplyId === inq.id ? (
+                          <div className="mt-4 p-5 bg-[#FAF7F0] border border-[#B89355]/20 rounded-2xl space-y-3">
+                            <label className="block text-[9px] uppercase font-bold text-slate-500 tracking-wider">
+                              Type email reply text directly:
+                            </label>
+                            <textarea
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              placeholder={`Dear ${inq.name},\n\nThank you for contacting us...`}
+                              rows={5}
+                              className="w-full bg-white border border-[#B89355]/20 rounded-xl p-3 text-xs text-[#1A2B49] focus:outline-none focus:border-[#123920] transition font-medium"
+                            />
+                            <div className="flex gap-2 justify-end">
+                              <button
+                                onClick={() => {
+                                  setActiveReplyId(null);
+                                  setReplyText("");
+                                }}
+                                className="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold uppercase rounded-lg text-[9px] tracking-wider transition"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                onClick={() => handleSendReply(inq)}
+                                className="px-3.5 py-1.5 bg-[#123920] hover:bg-[#B89355] text-white font-black uppercase rounded-lg text-[9px] tracking-wider transition flex items-center gap-1.5 shadow-sm"
+                              >
+                                <FiMail size={10} />
+                                <span>Launch Mail Client & Mark Replied</span>
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex justify-end pt-2">
+                            <button
+                              onClick={() => {
+                                setActiveReplyId(inq.id);
+                                setReplyText(`Dear ${inq.name},\n\nThank you for contacting Ayurelix regarding "${inq.subject}".\n\n[Write your reply here]\n\nBest regards,\nAyurelix Team`);
+                              }}
+                              className="px-4 py-2 bg-[#123920] hover:bg-[#B89355] text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition duration-200 flex items-center gap-2 shadow-sm"
+                            >
+                              <FiMail size={12} />
+                              <span>Compose Reply</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                     {contactInquiries.length === 0 && (
                       <div className="py-12 bg-white border border-[#B89355]/15 rounded-3xl text-center text-slate-400 italic text-xs">
-                        No contact inquiries found in folder.
+                        No contact inquiries found in database.
                       </div>
                     )}
                   </div>

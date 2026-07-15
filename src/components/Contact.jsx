@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { supabase } from "../supabaseClient";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -25,6 +26,23 @@ export default function Contact() {
     setError(null);
 
     try {
+      // Save to Supabase database
+      const { error: dbError } = await supabase
+        .from("contact_inquiries")
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || null,
+            subject: formData.subject || "General Inquiry",
+            message: formData.message
+          }
+        ]);
+
+      if (dbError) {
+        console.error("Supabase insert error (proceeding to email):", dbError.message);
+      }
+
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
