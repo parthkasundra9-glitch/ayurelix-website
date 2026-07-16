@@ -184,6 +184,13 @@ export default function Signup() {
                 </svg>
                 <span className="text-xs uppercase tracking-wider">Continue with Google</span>
               </button>
+
+              <p className="text-[10px] text-gray-500 text-center leading-relaxed mt-4">
+                By registering, you agree to our{" "}
+                <Link to="/terms" className="text-[#B89355] underline hover:text-[#1A2B49] transition">Terms of Service</Link>
+                {" "}and{" "}
+                <Link to="/privacy" className="text-[#B89355] underline hover:text-[#1A2B49] transition">Privacy Policy</Link>.
+              </p>
             </form>
           )}
 

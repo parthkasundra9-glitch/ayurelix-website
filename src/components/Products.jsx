@@ -10,7 +10,7 @@ import { supabase } from "../supabaseClient";
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState(fallbackProducts);
   const [categoryName, setCategoryName] = useState("");
   const [searchParams] = useSearchParams();
   const searchVal = (searchParams.get("search") || "").toLowerCase();
@@ -84,7 +84,7 @@ export default function Products() {
             Pure apothecary
           </span>
           <h1 className="text-[#1A2B49] text-5xl md:text-6xl font-black font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
-            {categoryName ? `Our ${categoryName}` : "Our Formulations"}
+            {categoryName ? categoryName : "Products"}
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Discover our carefully crafted range of premium Ayurvedic wellness formulations designed for modern life.
