@@ -24,15 +24,7 @@ export default function BestSellers() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-white py-20 text-center">
-        <p className="text-[#1A2B49] font-semibold">Loading best sellers...</p>
-      </div>
-    );
-  }
-
-  if (bestsellers.length === 0) {
+  if (!loadingProducts && bestsellers.length === 0) {
     return null;
   }
 
