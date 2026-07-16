@@ -74,10 +74,12 @@ export default async function handler(req, res) {
       orderDateFormatted = new Date().toISOString().slice(0, 16).replace('T', ' ');
     }
 
-    // Clean customer details to prevent Shiprocket API validation failures
     const phoneClean = shippingDetails.phone ? shippingDetails.phone.replace(/\D/g, "").slice(-10) : "";
     const pincodeClean = shippingDetails.postalCode ? shippingDetails.postalCode.replace(/\D/g, "") : "";
     const addressClean = shippingDetails.address ? shippingDetails.address.trim() : "";
+    // Calculate subtotal and shipping charges
+    const subTotalAmount = items.reduce((acc, item) => acc + (Number(item.price) * Number(item.quantity)), 0);
+    const shippingFee = Number(total) - subTotalAmount > 0 ? Number(total) - subTotalAmount : 0;
 
     const shiprocketOrderPayload = {
       order_id: orderId,
@@ -103,10 +105,10 @@ export default async function handler(req, res) {
         hsn: 0
       })),
       payment_method: "Prepaid",
-      shipping_charges: 0,
+      shipping_charges: shippingFee,
       giftwrap_charges: 0,
       transaction_delay: 0,
-      sub_total: Number(total) || 0,
+      sub_total: subTotalAmount,
       length: 15,     // 15 cm
       breadth: 8,      // 8 cm
       height: 8,      // 8 cm

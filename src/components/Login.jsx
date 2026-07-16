@@ -42,7 +42,7 @@ export default function Login() {
           await supabase.auth.signOut();
         } else {
           // Direct admin user to Admin Dashboard, others to home page
-          if (email === "admin@ayurelix.com") {
+          if (email === "kruti6405@gmail.com") {
             navigate("/admin");
           } else {
             navigate("/");

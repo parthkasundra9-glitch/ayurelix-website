@@ -56,7 +56,7 @@ export default function Navbar() {
     }
   };
 
-  const isAdmin = user?.email === "admin@ayurelix.com";
+  const isAdmin = user?.email === "kruti6405@gmail.com";
 
   return (
     <motion.nav

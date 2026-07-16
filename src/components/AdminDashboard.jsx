@@ -139,7 +139,7 @@ export default function AdminDashboard() {
   const checkAdminAccess = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user || user.email !== "admin@ayurelix.com") {
+      if (!user || user.email !== "kruti6405@gmail.com") {
         setIsAdmin(false);
         setLoading(false);
         setTimeout(() => navigate("/login"), 2000);
@@ -910,7 +910,7 @@ export default function AdminDashboard() {
             </div>
             <div>
               <p className="text-white text-xs font-black">Admin Accounts</p>
-              <p className="text-slate-400 text-[10px] truncate max-w-[120px]">admin@ayurelix.com</p>
+              <p className="text-slate-400 text-[10px] truncate max-w-[120px]">kruti6405@gmail.com</p>
             </div>
           </div>
           <button 

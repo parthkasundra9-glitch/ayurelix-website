@@ -24,9 +24,9 @@ export default function CartDrawer() {
   const navigate = useNavigate();
 
   const SHIPPING_THRESHOLD = 0;
-  const SHIPPING_COST = 0;
-  const shippingFee = 0;
-  const grandTotal = cartTotal > 0 ? cartTotal : 0;
+  const SHIPPING_COST = 60;
+  const shippingFee = cartTotal > 0 ? (SHIPPING_THRESHOLD > 0 && cartTotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST) : 0;
+  const grandTotal = cartTotal > 0 ? cartTotal + shippingFee : 0;
 
   // Shipping details state
   const [shippingDetails, setShippingDetails] = useState({
@@ -328,7 +328,7 @@ export default function CartDrawer() {
               {checkoutStep === "cart" && (
                 <div className="space-y-4">
                   {/* Free Shipping Progress Indicator */}
-                  {cartItems.length > 0 && (
+                  {cartItems.length > 0 && SHIPPING_THRESHOLD > 0 && (
                     <div className="bg-[#B89355]/5 border border-[#B89355]/15 rounded-2xl p-4 mb-2">
                       {SHIPPING_THRESHOLD - cartTotal > 0 ? (
                         <p className="text-xs text-[#1A2B49] font-medium mb-2">
