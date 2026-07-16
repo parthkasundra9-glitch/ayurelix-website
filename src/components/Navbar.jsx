@@ -56,7 +56,7 @@ export default function Navbar() {
     }
   };
 
-  const isAdmin = user?.email === "kruti6405@gmail.com";
+  const isAdmin = user?.email?.toLowerCase() === "kruti6405@gmail.com";
 
   return (
     <motion.nav
