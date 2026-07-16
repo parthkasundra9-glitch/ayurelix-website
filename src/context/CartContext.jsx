@@ -15,6 +15,27 @@ export function CartProvider({ children }) {
     }
   });
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
+  useEffect(() => {
+    async function fetchAllProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: true });
+        if (!error && data) {
+          setProducts(data);
+        }
+      } catch (err) {
+        console.error("Error pre-fetching products:", err);
+      } finally {
+        setLoadingProducts(false);
+      }
+    }
+    fetchAllProducts();
+  }, []);
 
   useEffect(() => {
     try {
@@ -139,7 +160,10 @@ export function CartProvider({ children }) {
         wishlistItems,
         wishlistCount,
         toggleWishlist,
-        isInWishlist
+        isInWishlist,
+        products,
+        setProducts,
+        loadingProducts
       }}
     >
       {children}

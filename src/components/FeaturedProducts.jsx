@@ -5,30 +5,14 @@ import { supabase } from "../supabaseClient";
 import ProductDetailsModal from "./ProductDetailsModal";
 import ProductCard from "./ProductCard";
 
+import { useCart } from "../context/CartContext";
+
 export default function FeaturedProducts() {
-  const [productsList, setProductsList] = useState(fallbackProducts);
+  const { products, loadingProducts } = useCart();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollRef = useRef(null);
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (error) {
-          console.error("Error fetching products from database:", error.message);
-        } else if (data) {
-          setProductsList(data);
-        }
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
-    }
-    fetchProducts();
-  }, []);
+  const productsList = products.length > 0 ? products : [];
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -78,21 +62,28 @@ export default function FeaturedProducts() {
           </button>
 
           {/* Cards Container */}
-          <div
-            ref={scrollRef}
-            className={`flex gap-3 sm:gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
-              productsList.length <= 2 ? "md:justify-center" : "md:justify-start"
-            }`}
-          >
-            {productsList.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onView={(p) => setSelectedProduct(p)}
-                isGrid={false}
-              />
-            ))}
-          </div>
+          {loadingProducts && productsList.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-10 space-y-3">
+              <div className="w-10 h-10 rounded-full border-2 border-[#B89355]/20 border-t-[#1A2B49] animate-spin" />
+              <p className="text-gray-500 font-serif italic text-xs">Purity in transit...</p>
+            </div>
+          ) : (
+            <div
+              ref={scrollRef}
+              className={`flex gap-3 sm:gap-8 overflow-x-auto scrollbar-none scroll-smooth py-4 px-2 justify-start ${
+                productsList.length <= 2 ? "md:justify-center" : "md:justify-start"
+              }`}
+            >
+              {productsList.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onView={(p) => setSelectedProduct(p)}
+                  isGrid={false}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

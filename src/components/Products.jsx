@@ -4,13 +4,13 @@ import Navbar from "./Navbar";
 import ProductCard from "./ProductCard";
 import Footer from "./Footer";
 import ProductDetailsModal from "./ProductDetailsModal";
-import { products as fallbackProducts } from "../data/products";
+import { useCart } from "../context/CartContext";
 import { motion } from "framer-motion";
 import { supabase } from "../supabaseClient";
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productsList, setProductsList] = useState(fallbackProducts);
+  const { products, loadingProducts } = useCart();
   const [categoryName, setCategoryName] = useState("");
   const [searchParams] = useSearchParams();
   const searchVal = (searchParams.get("search") || "").toLowerCase();
@@ -18,26 +18,6 @@ export default function Products() {
 
   useEffect(() => {
     document.title = "Shop Ayurvedic Skincare Formulations | Ayurelix";
-  }, []);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (error) {
-          console.error("Error fetching products from database:", error.message);
-        } else if (data) {
-          setProductsList(data);
-        }
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
-    }
-    fetchProducts();
   }, []);
 
   useEffect(() => {
@@ -64,9 +44,9 @@ export default function Products() {
     fetchCategoryName();
   }, [categoryIdParam]);
 
-  const displayedProducts = productsList.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchVal) ||
-                          product.description.toLowerCase().includes(searchVal);
+  const displayedProducts = products.filter(product => {
+    const matchesSearch = (product.name || "").toLowerCase().includes(searchVal) ||
+                          (product.description || "").toLowerCase().includes(searchVal);
     const matchesCategory = categoryIdParam ? String(product.category_id) === categoryIdParam : true;
     return matchesSearch && matchesCategory;
   });
@@ -92,18 +72,25 @@ export default function Products() {
         </div>
 
         {/* Products Grid */}
-        <div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 z-10 relative justify-center max-w-7xl mx-auto"
-        >
-          {displayedProducts.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onView={(p) => setSelectedProduct(p)}
-              isGrid={true}
-            />
-          ))}
-        </div>
+        {loadingProducts && displayedProducts.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <div className="w-12 h-12 rounded-full border-2 border-[#B89355]/20 border-t-[#1A2B49] animate-spin" />
+            <p className="text-gray-500 font-serif italic text-sm">Harmonizing wellness formulations...</p>
+          </div>
+        ) : (
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 z-10 relative justify-center max-w-7xl mx-auto"
+          >
+            {displayedProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onView={(p) => setSelectedProduct(p)}
+                isGrid={true}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Brand Footer */}
