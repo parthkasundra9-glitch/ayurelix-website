@@ -108,6 +108,8 @@ export default function AdminDashboard() {
   const [chartHoverIndex, setChartHoverIndex] = useState(null);
   const [activeReplyId, setActiveReplyId] = useState(null);
   const [replyText, setReplyText] = useState("");
+  const [activeReviewReplyId, setActiveReviewReplyId] = useState(null);
+  const [reviewReplyText, setReviewReplyText] = useState("");
 
   // New product form state
   const [newProduct, setNewProduct] = useState({
@@ -251,7 +253,7 @@ export default function AdminDashboard() {
     try {
       const { data: order } = await supabase
         .from("orders")
-        .select("shipping_address")
+        .select("shipping_address, email")
         .eq("id", orderId)
         .single();
 
@@ -267,7 +269,26 @@ export default function AdminDashboard() {
           .eq("id", orderId);
 
         if (error) throw error;
-        alert("Tracking AWB code saved successfully!");
+
+        // Trigger email notification
+        try {
+          await fetch("/api/send-tracking", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              orderId: orderId,
+              email: order.email || "",
+              customerName: updatedAddress.fullName || "Customer",
+              awbCode: awb.trim()
+            })
+          });
+        } catch (emailErr) {
+          console.error("Failed to send tracking email:", emailErr);
+        }
+
+        alert("Tracking AWB code saved successfully and email notification sent!");
         fetchData();
         if (selectedOrder && selectedOrder.id === orderId) {
           setSelectedOrder(prev => ({
@@ -593,6 +614,23 @@ export default function AdminDashboard() {
       } else {
         fetchData();
       }
+    }
+  };
+
+  // Save review reply
+  const handleSaveReviewReply = async (reviewId) => {
+    const { error } = await supabase
+      .from("reviews")
+      .update({ admin_reply: reviewReplyText.trim() })
+      .eq("id", reviewId);
+
+    if (error) {
+      alert("Error saving review reply: " + error.message);
+    } else {
+      alert("Review reply saved successfully!");
+      setActiveReviewReplyId(null);
+      setReviewReplyText("");
+      fetchData();
     }
   };
 
@@ -1917,6 +1955,54 @@ export default function AdminDashboard() {
                           </div>
                           
                           <p className="text-xs text-slate-600 leading-relaxed font-sans font-medium">{rev.comment}</p>
+
+                          {/* Admin Reply Display */}
+                          {rev.admin_reply && (
+                            <div className="bg-white/60 border-l-2 border-[#B89355] pl-3 py-2 mt-2 space-y-1 rounded-r-xl">
+                              <p className="text-[9px] font-black uppercase tracking-wider text-[#B89355]">Admin Reply</p>
+                              <p className="text-xs text-slate-600 italic font-sans">{rev.admin_reply}</p>
+                            </div>
+                          )}
+
+                          {/* Reply Actions */}
+                          {activeReviewReplyId === rev.id ? (
+                            <div className="mt-3 space-y-2">
+                              <textarea
+                                value={reviewReplyText}
+                                onChange={(e) => setReviewReplyText(e.target.value)}
+                                placeholder="Type your reply to this review..."
+                                className="w-full bg-white border border-[#B89355]/20 rounded-xl p-3 text-xs text-[#1A2B49] focus:outline-none focus:border-[#123920] font-sans"
+                                rows={2}
+                              />
+                              <div className="flex gap-2 justify-end">
+                                <button
+                                  onClick={() => {
+                                    setActiveReviewReplyId(null);
+                                    setReviewReplyText("");
+                                  }}
+                                  className="px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300 transition text-[9px] font-bold uppercase tracking-wider"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  onClick={() => handleSaveReviewReply(rev.id)}
+                                  className="px-2.5 py-1 rounded-lg bg-[#123920] hover:bg-[#B89355] text-white transition text-[9px] font-bold uppercase tracking-wider"
+                                >
+                                  Save Reply
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setActiveReviewReplyId(rev.id);
+                                setReviewReplyText(rev.admin_reply || "");
+                              }}
+                              className="mt-3 px-3 py-1.5 rounded-lg border border-[#B89355]/30 text-[#123920] hover:bg-[#123920] hover:text-white transition text-[9px] font-bold uppercase tracking-wider"
+                            >
+                              {rev.admin_reply ? "Edit Reply" : "Reply to Review"}
+                            </button>
+                          )}
                         </div>
                       ))}
                     </div>

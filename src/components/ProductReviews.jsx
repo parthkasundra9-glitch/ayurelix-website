@@ -190,6 +190,14 @@ export default function ProductReviews({ productId }) {
                 ))}
               </div>
               <p className="text-xs text-gray-600 leading-relaxed font-sans mt-2">{rev.comment}</p>
+              
+              {/* Admin Reply */}
+              {rev.admin_reply && (
+                <div className="bg-[#FAF8F5]/80 border-l-2 border-[#B89355] pl-4 py-2 mt-3 rounded-r-xl space-y-1">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#B89355] block">Official Response from Ayurelix</span>
+                  <p className="text-xs text-gray-600 italic leading-relaxed font-sans">{rev.admin_reply}</p>
+                </div>
+              )}
             </div>
           ))
         )}
