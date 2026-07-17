@@ -266,7 +266,10 @@ export default function AdminDashboard() {
 
         const { error } = await supabase
           .from("orders")
-          .update({ shipping_address: updatedAddress })
+          .update({ 
+            shipping_address: updatedAddress,
+            status: "shipped"
+          })
           .eq("id", orderId);
 
         if (error) throw error;
@@ -289,12 +292,13 @@ export default function AdminDashboard() {
           console.error("Failed to send tracking email:", emailErr);
         }
 
-        alert("Tracking AWB code saved successfully and email notification sent!");
+        alert("Tracking AWB code saved successfully, status updated to SHIPPED, and customer email sent!");
         fetchData();
         if (selectedOrder && selectedOrder.id === orderId) {
           setSelectedOrder(prev => ({
             ...prev,
-            shipping_address: updatedAddress
+            shipping_address: updatedAddress,
+            status: "shipped"
           }));
         }
       }
