@@ -122,7 +122,8 @@ export default function AdminDashboard() {
     image_url_1: "",
     image_url_2: "",
     image_url_3: "",
-    is_bestseller: false
+    is_bestseller: false,
+    is_limited_stock: false
   });
 
   // New category form state
@@ -435,7 +436,8 @@ export default function AdminDashboard() {
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
         image_url: finalImageUrl,
-        is_bestseller: newProduct.is_bestseller
+        is_bestseller: newProduct.is_bestseller,
+        category: newProduct.is_limited_stock ? "limited" : ""
       }
     ]);
 
@@ -452,7 +454,8 @@ export default function AdminDashboard() {
         image_url_1: "",
         image_url_2: "",
         image_url_3: "",
-        is_bestseller: false
+        is_bestseller: false,
+        is_limited_stock: false
       });
       alert("Product added successfully!");
       fetchData();
@@ -481,7 +484,8 @@ export default function AdminDashboard() {
         category_id: newProduct.category_id ? parseInt(newProduct.category_id) : null,
         stock: parseInt(newProduct.stock),
         image_url: finalImageUrl,
-        is_bestseller: newProduct.is_bestseller
+        is_bestseller: newProduct.is_bestseller,
+        category: newProduct.is_limited_stock ? "limited" : ""
       })
       .eq("id", editingProduct.id);
 
@@ -498,7 +502,8 @@ export default function AdminDashboard() {
         image_url_1: "",
         image_url_2: "",
         image_url_3: "",
-        is_bestseller: false
+        is_bestseller: false,
+        is_limited_stock: false
       });
       setEditingProduct(null);
       alert("Product updated successfully!");
@@ -1602,7 +1607,8 @@ export default function AdminDashboard() {
                                           image_url_1: urls[0],
                                           image_url_2: urls[1],
                                           image_url_3: urls[2],
-                                          is_bestseller: prod.is_bestseller || false
+                                          is_bestseller: prod.is_bestseller || false,
+                                          is_limited_stock: prod.category === "limited"
                                         });
                                       }}
                                       className="text-[#1A2B49] hover:text-[#B89355] p-2 rounded-xl hover:bg-[#FAF7F0] border border-transparent hover:border-[#B89355]/15 transition"
@@ -1701,17 +1707,31 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        <div className="flex items-center pt-1">
-                          <input
-                            type="checkbox"
-                            id="is_bestseller"
-                            checked={newProduct.is_bestseller}
-                            onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
-                            className="w-4 h-4 text-[#123920] border-[#B89355]/30 rounded focus:ring-[#123920]"
-                          />
-                          <label htmlFor="is_bestseller" className="ml-2 block text-[9px] font-bold text-slate-500 uppercase tracking-widest">
-                            Bestseller Formulation
-                          </label>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id="is_bestseller"
+                              checked={newProduct.is_bestseller}
+                              onChange={(e) => setNewProduct({ ...newProduct, is_bestseller: e.target.checked })}
+                              className="w-4 h-4 text-[#123920] border-[#B89355]/30 rounded focus:ring-[#123920] cursor-pointer"
+                            />
+                            <label htmlFor="is_bestseller" className="ml-2 block text-[9px] font-bold text-slate-500 uppercase tracking-widest cursor-pointer select-none">
+                              Bestseller Formulation
+                            </label>
+                          </div>
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id="is_limited_stock"
+                              checked={newProduct.is_limited_stock}
+                              onChange={(e) => setNewProduct({ ...newProduct, is_limited_stock: e.target.checked })}
+                              className="w-4 h-4 text-[#123920] border-[#B89355]/30 rounded focus:ring-[#123920] cursor-pointer"
+                            />
+                            <label htmlFor="is_limited_stock" className="ml-2 block text-[9px] font-bold text-slate-500 uppercase tracking-widest cursor-pointer select-none">
+                              Limited Stock Badge
+                            </label>
+                          </div>
                         </div>
 
                         <div>
@@ -1784,13 +1804,15 @@ export default function AdminDashboard() {
                                 setNewProduct({
                                   name: "",
                                   price: "",
+                                  original_price: "",
                                   description: "",
                                   category_id: "",
                                   stock: "100",
                                   image_url_1: "",
                                   image_url_2: "",
                                   image_url_3: "",
-                                  is_bestseller: false
+                                  is_bestseller: false,
+                                  is_limited_stock: false
                                 });
                               }}
                               className="py-3 px-4 bg-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-300 transition uppercase tracking-wider text-[9px]"

@@ -51,6 +51,14 @@ export default function ProductCard({ product, onView, isGrid = false }) {
                 Out of Stock
               </div>
             )}
+            {(product.category === "limited" || (product.stock > 0 && product.stock <= 5)) && product.stock > 0 && (
+              <motion.div
+                whileHover={{ scale: 1.08 }}
+                className="bg-amber-600 text-white text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded shadow-sm tracking-wider uppercase"
+              >
+                Limited Stock
+              </motion.div>
+            )}
             {hasDiscount && product.stock > 0 && (
               <motion.div
                 whileHover={{ scale: 1.08 }}

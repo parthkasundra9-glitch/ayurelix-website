@@ -162,6 +162,14 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                           {discountPercent}% OFF
                         </motion.span>
                       )}
+                      {(product.category === "limited" || (product.stock > 0 && product.stock <= 5)) && product.stock > 0 && (
+                        <motion.span 
+                          whileHover={{ scale: 1.08 }}
+                          className="bg-amber-600 text-white text-[9px] md:text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm tracking-wider uppercase cursor-default"
+                        >
+                          Limited Stock
+                        </motion.span>
+                      )}
                     </div>
                     {hasDiscount && (
                       <p className="text-xs text-emerald-600 font-bold">
