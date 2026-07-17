@@ -197,11 +197,7 @@ export default function HeroSlider() {
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className={`text-[10px] sm:text-sm md:text-base leading-relaxed font-sans max-w-[260px] sm:max-w-md ${
-                        slides[current].id === 1
-                          ? "text-white font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]"
-                          : "text-gray-600"
-                      }`}
+                      className="text-[10px] sm:text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
                     >
                       {slides[current].description}
                     </motion.p>
