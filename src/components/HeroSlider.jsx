@@ -194,15 +194,15 @@ export default function HeroSlider() {
                     >
                       {slides[current].title}
                     </motion.h1>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className={`text-[10px] sm:text-sm md:text-base leading-relaxed font-sans max-w-[260px] sm:max-w-md ${
-                        slides[current].id === 1 ? "text-gray-800 font-medium" : "text-gray-600"
-                      }`}
-                    >
-                      {slides[current].description}
-                    </motion.p>
+                    {slides[current].id !== 1 && (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-[10px] sm:text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-[260px] sm:max-w-md"
+                      >
+                        {slides[current].description}
+                      </motion.p>
+                    )}
                     <motion.div
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
