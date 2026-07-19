@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getProductImage } from "../data/products";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from "./Logo";
 
 // Beautiful mock inquiries for contact dashboard since they aren't stored in DB
 const MOCK_INQUIRIES = [
@@ -643,6 +644,53 @@ export default function AdminDashboard() {
     }
   };
 
+  // Delete user profile
+  const handleDeleteUser = async (userId) => {
+    if (confirm("Are you sure you want to delete this user profile? This action cannot be undone.")) {
+      // First, check if there are active orders for this user in public.orders
+      const { data: userOrders, error: orderCheckError } = await supabase
+        .from("orders")
+        .select("id")
+        .eq("user_id", userId);
+
+      if (orderCheckError) {
+        alert("Error checking user orders: " + orderCheckError.message);
+        return;
+      }
+
+      if (userOrders && userOrders.length > 0) {
+        alert(`Cannot delete this user. They have placed ${userOrders.length} order(s). Please delete or transfer their orders first.`);
+        return;
+      }
+
+      // If no orders, delete reviews first to prevent foreign key constraint violations
+      const { error: reviewDelError } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("user_id", userId);
+
+      if (reviewDelError) {
+        console.warn("Could not delete user reviews:", reviewDelError.message);
+      }
+
+      // Delete the profile row from public.profiles
+      const { error } = await supabase
+        .from("profiles")
+        .delete()
+        .eq("id", userId);
+
+      if (error) {
+        alert("Error deleting user profile: " + error.message);
+      } else {
+        alert("User profile deleted successfully!");
+        fetchData();
+        if (selectedUser && selectedUser.id === userId) {
+          setSelectedUser(null);
+        }
+      }
+    }
+  };
+
   // Log out
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -896,12 +944,10 @@ export default function AdminDashboard() {
         {/* Brand Header */}
         <div className="p-6 border-b border-[#B89355]/15 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#B89355] to-[#8F6E35] flex items-center justify-center text-white font-serif font-black shadow-md">
-              A
-            </div>
+            <Logo size="sm" variant="gold" showText={false} className="h-9 w-9" />
             <div>
               <span className="text-white text-lg font-black font-serif tracking-wider uppercase block" style={{ fontFamily: "'Cinzel', serif" }}>
-                Ayur Elixir
+                Ayurelix
               </span>
               <span className="text-[#B89355] text-[9px] font-bold tracking-widest uppercase block mt-0.5">
                 Admin Panel
@@ -2113,6 +2159,13 @@ export default function AdminDashboard() {
                                   >
                                     {u.is_active !== false ? <FiX size={14} /> : <FiCheck size={14} />}
                                   </button>
+                                  <button
+                                    onClick={() => handleDeleteUser(u.id)}
+                                    className="p-1.5 text-red-600 hover:bg-red-500 hover:text-white rounded-lg border border-red-200 transition"
+                                    title="Delete User"
+                                  >
+                                    <FiTrash2 size={14} />
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -2701,6 +2754,12 @@ export default function AdminDashboard() {
                     }`}
                   >
                     {selectedUser.is_active !== false ? "Block Account" : "Activate Account"}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(selectedUser.id)}
+                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border text-red-600 bg-red-50 hover:bg-red-600 hover:text-white border-red-200 transition"
+                  >
+                    Delete Account
                   </button>
                   <button
                     onClick={() => setSelectedUser(null)}

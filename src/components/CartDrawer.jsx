@@ -23,8 +23,8 @@ export default function CartDrawer() {
   const [createdOrderInfo, setCreatedOrderInfo] = useState(null);
   const navigate = useNavigate();
 
-  const SHIPPING_THRESHOLD = 0;
-  const SHIPPING_COST = 60;
+  const SHIPPING_THRESHOLD = 2000;
+  const SHIPPING_COST = 65;
   const shippingFee = cartTotal > 0 ? (SHIPPING_THRESHOLD > 0 && cartTotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST) : 0;
   const grandTotal = cartTotal > 0 ? cartTotal + shippingFee : 0;
 
