@@ -1,9 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(req, res) {
-  // Only accept POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed. Use POST." });
+  // Set CORS headers for Shiprocket verification
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-api-key, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
 
   try {
@@ -23,8 +27,12 @@ export default async function handler(req, res) {
       payload.order_id || payload.channel_order_id || ""
     ).trim();
 
+    // If empty payload / Shiprocket test ping, return 200 OK so test connection succeeds!
     if (!rawStatus && !awbCode && !orderIdRaw) {
-      return res.status(400).json({ error: "Invalid payload: missing status, AWB, or order_id." });
+      return res.status(200).json({
+        success: true,
+        message: "Ayurelix Tracking Webhook is active and reachable."
+      });
     }
 
     // Map status to Supabase order status
@@ -45,7 +53,7 @@ export default async function handler(req, res) {
     if (!targetStatus) {
       return res.status(200).json({
         success: true,
-        message: `Status '${rawStatus}' received but no update required.`
+        message: `Status '${rawStatus}' received but no database update required.`
       });
     }
 
@@ -117,6 +125,9 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("Error processing tracking webhook:", error);
-    return res.status(500).json({ error: "Internal Server Error: " + error.message });
+    return res.status(200).json({
+      success: false,
+      message: "Internal Server Error handled: " + error.message
+    });
   }
 }

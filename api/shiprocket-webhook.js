@@ -1,16 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(req, res) {
-  // Only accept POST requests from Shiprocket
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed. Use POST." });
+  // Set CORS headers for Shiprocket verification
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-api-key, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
 
   try {
     const payload = req.body || {};
-    console.log("Received Shiprocket Webhook payload:", JSON.stringify(payload));
+    console.log("Received Webhook payload:", JSON.stringify(payload));
 
-    // Extract fields from Shiprocket webhook payload
+    // Extract fields from webhook payload
     const rawStatus = String(
       payload.current_status || payload.status || payload.shipment_status || ""
     ).trim().toUpperCase();
@@ -23,11 +27,15 @@ export default async function handler(req, res) {
       payload.order_id || payload.channel_order_id || ""
     ).trim();
 
+    // If empty payload / Shiprocket test ping, return 200 OK so test connection succeeds!
     if (!rawStatus && !awbCode && !orderIdRaw) {
-      return res.status(400).json({ error: "Invalid payload: missing status, AWB, or order_id." });
+      return res.status(200).json({
+        success: true,
+        message: "Ayurelix Tracking Webhook is active and reachable."
+      });
     }
 
-    // Map Shiprocket status to Supabase order status
+    // Map status to Supabase order status
     let targetStatus = null;
     if (rawStatus.includes("DELIVERED") && !rawStatus.includes("RTO")) {
       targetStatus = "delivered";
@@ -45,7 +53,7 @@ export default async function handler(req, res) {
     if (!targetStatus) {
       return res.status(200).json({
         success: true,
-        message: `Status '${rawStatus}' received but no update required.`
+        message: `Status '${rawStatus}' received but no database update required.`
       });
     }
 
@@ -106,7 +114,7 @@ export default async function handler(req, res) {
         throw updateError;
       }
 
-      console.log(`Successfully updated Order #${matchedOrder.id} status to '${targetStatus}' via Shiprocket Webhook.`);
+      console.log(`Successfully updated Order #${matchedOrder.id} status to '${targetStatus}' via Webhook.`);
     }
 
     return res.status(200).json({
@@ -116,7 +124,10 @@ export default async function handler(req, res) {
       message: `Order #${matchedOrder.id} status updated to ${targetStatus}`
     });
   } catch (error) {
-    console.error("Error processing Shiprocket webhook:", error);
-    return res.status(500).json({ error: "Internal Server Error: " + error.message });
+    console.error("Error processing webhook:", error);
+    return res.status(200).json({
+      success: false,
+      message: "Internal Server Error handled: " + error.message
+    });
   }
 }
