@@ -63,7 +63,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-4xl bg-white border border-[#1A2B49]/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] md:max-h-[88vh]"
+          className="relative w-full max-w-4xl bg-white border border-[#1A2B49]/10 rounded-3xl overflow-y-auto shadow-2xl flex flex-col md:flex-row max-h-[92vh] md:max-h-[88vh] font-sans scrollbar-thin"
         >
           {/* Close Icon Button */}
           <button
@@ -139,11 +139,11 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Right Side: Product Specs, Pricing, Trust Signals & Sticky Action */}
-          <div className="w-full md:w-1/2 flex flex-col max-h-[calc(92vh-16rem)] md:max-h-[88vh] overflow-hidden bg-white">
+          {/* Right Side: Product Specs, Pricing, Trust Signals & Action */}
+          <div className="w-full md:w-1/2 flex flex-col bg-white h-auto">
             
-            {/* Scrollable Content Area */}
-            <div className="flex-grow overflow-y-auto p-6 md:p-8 space-y-6">
+            {/* Content Area */}
+            <div className="p-6 md:p-8 space-y-6 flex-grow">
               
               {/* Category & Title */}
               <div>
@@ -199,8 +199,8 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Fixed Bottom Action Bar */}
-            <div className="border-t border-[#1A2B49]/10 p-5 md:p-6 bg-[#FAF8F5] flex items-center justify-between gap-4 shrink-0 shadow-inner">
+            {/* Sticky Bottom Action Bar */}
+            <div className="sticky bottom-0 z-20 border-t border-[#1A2B49]/10 p-4 md:p-6 bg-[#FAF8F5] flex items-center justify-between gap-4 shrink-0 shadow-[0_-4px_15px_rgba(0,0,0,0.05)]">
               {product.stock > 0 && (
                 <div className="flex items-center bg-white border border-[#1A2B49]/10 rounded-xl p-1 shrink-0 shadow-sm">
                   <button

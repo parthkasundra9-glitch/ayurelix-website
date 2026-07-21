@@ -183,11 +183,19 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-8 text-center text-xs text-gray-500 font-semibold">
-            Don't have an account yet?{" "}
-            <Link to="/signup" className="text-[#B89355] font-bold hover:underline">
-              Create Account
-            </Link>
+          <div className="mt-8 text-center text-xs text-gray-500 font-semibold space-y-2">
+            <div>
+              Don't have an account yet?{" "}
+              <Link to="/signup" className="text-[#B89355] font-bold hover:underline">
+                Create Account
+              </Link>
+            </div>
+            <div className="text-[11px] text-gray-400 font-normal pt-1 border-t border-gray-100 mt-3">
+              By logging in, you agree to our{" "}
+              <Link to="/terms" className="text-[#B89355] font-semibold hover:underline">Terms of Service</Link>
+              {" "}and{" "}
+              <Link to="/privacy" className="text-[#B89355] font-semibold hover:underline">Privacy Policy</Link>.
+            </div>
           </div>
         </motion.div>
 
