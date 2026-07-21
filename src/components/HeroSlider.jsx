@@ -225,27 +225,27 @@ export default function HeroSlider() {
       {/* Navigation Arrow Controls */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition border border-white/10 hover:scale-105 active:scale-95 cursor-pointer"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-[#1A2B49]/85 hover:bg-[#B89355] text-white shadow-xl backdrop-blur-md transition-all duration-300 border border-white/20 hover:scale-105 active:scale-95 cursor-pointer"
         aria-label="Previous Slide"
       >
         <FiChevronLeft size={20} className="md:w-6 md:h-6" />
       </button>
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition border border-white/10 hover:scale-105 active:scale-95 cursor-pointer"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-[#1A2B49]/85 hover:bg-[#B89355] text-white shadow-xl backdrop-blur-md transition-all duration-300 border border-white/20 hover:scale-105 active:scale-95 cursor-pointer"
         aria-label="Next Slide"
       >
         <FiChevronRight size={20} className="md:w-6 md:h-6" />
       </button>
 
       {/* Dots Indicator Navigation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5 bg-[#1A2B49]/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
             className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              index === current ? "w-8 bg-[#B89355]" : "w-2 bg-white/50 hover:bg-white"
+              index === current ? "w-8 bg-[#B89355]" : "w-2 bg-white/60 hover:bg-white"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

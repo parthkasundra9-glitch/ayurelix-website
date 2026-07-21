@@ -350,19 +350,24 @@ export default function CartDrawer() {
                   )}
 
                   {cartItems.length === 0 ? (
-                    <div className="h-full py-20 flex flex-col items-center justify-center text-center space-y-4">
-                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 mb-2">
+                    <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
+                      <div className="w-16 h-16 rounded-full bg-[#FAF8F5] border border-[#1A2B49]/10 flex items-center justify-center text-[#B89355]">
                         <FiShoppingBag size={28} />
                       </div>
-                      <h4 className="text-lg font-bold text-[#1A2B49]">Your cart is empty</h4>
-                      <p className="text-sm text-gray-600 max-w-[250px]">
-                        Looks like you haven't added any Ayurvedic formulations yet.
+                      <h4 className="text-lg font-bold text-[#1A2B49] font-serif" style={{ fontFamily: "'Cinzel', serif" }}>
+                        Your cart is empty
+                      </h4>
+                      <p className="text-xs text-gray-500 max-w-[260px] leading-relaxed">
+                        Start your wellness ritual by exploring our pure botanical formulations.
                       </p>
                       <button
-                        onClick={handleClose}
-                        className="px-6 py-2 border border-[#1A2B49] text-[#1A2B49] font-bold rounded-full hover:bg-[#1A2B49] hover:text-white transition duration-300"
+                        onClick={() => {
+                          handleClose();
+                          navigate("/products");
+                        }}
+                        className="px-6 py-2.5 bg-[#1A2B49] text-white font-bold rounded-xl hover:bg-[#B89355] transition duration-300 text-xs uppercase tracking-wider shadow-md cursor-pointer"
                       >
-                        Start Shopping
+                        Explore Catalog
                       </button>
                     </div>
                   ) : (
@@ -563,7 +568,7 @@ export default function CartDrawer() {
                 {checkoutStep === "cart" ? (
                   <button
                     onClick={handleProceedToCheckout}
-                    className="w-full py-3.5 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 shadow-md cursor-pointer"
+                    className="w-full py-3.5 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 shadow-md cursor-pointer text-xs uppercase tracking-wider"
                   >
                     Proceed to Checkout
                   </button>
@@ -571,12 +576,21 @@ export default function CartDrawer() {
                   <button
                     onClick={handleRazorpayPayment}
                     disabled={loading || !shippingDetails.fullName || !shippingDetails.address || !shippingDetails.phone}
-                    className="w-full py-3.5 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                    className="w-full py-3.5 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md cursor-pointer text-xs uppercase tracking-wider"
                   >
                     <FiCreditCard size={18} />
                     <span>{loading ? "Processing..." : "Pay Online (Razorpay)"}</span>
                   </button>
                 )}
+
+                <div className="flex items-center justify-center gap-4 text-[9px] text-gray-500 font-bold uppercase tracking-wider pt-1">
+                  <span className="flex items-center gap-1 text-emerald-700">
+                    <FiCheck className="text-emerald-700" />
+                    <span>256-Bit SSL Encrypted</span>
+                  </span>
+                  <span>•</span>
+                  <span>100% Organic Guarantee</span>
+                </div>
               </div>
             )}
           </motion.div>
