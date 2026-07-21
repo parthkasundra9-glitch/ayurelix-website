@@ -263,76 +263,7 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* METRICS SUMMARY CARDS (Apple Store / Wallet Style) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
-          
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-white border border-[#1A2B49]/5 p-5 rounded-2xl shadow-[0_4px_20px_rgba(26,43,73,0.03)] flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center text-[#B89355] mb-3">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-gray-600">Total Orders</span>
-              <div className="p-2 rounded-xl bg-[#B89355]/10">
-                <FiPackage size={18} />
-              </div>
-            </div>
-            <div>
-              <span className="text-2xl sm:text-3xl font-black text-[#1A2B49] font-serif">{orders.length}</span>
-              <p className="text-[10px] text-gray-600 mt-1">Formulations ordered</p>
-            </div>
-          </motion.div>
 
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-white border border-[#1A2B49]/5 p-5 rounded-2xl shadow-[0_4px_20px_rgba(26,43,73,0.03)] flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center text-blue-600 mb-3">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-gray-600">Active Shipments</span>
-              <div className="p-2 rounded-xl bg-blue-50">
-                <FiTruck size={18} />
-              </div>
-            </div>
-            <div>
-              <span className="text-2xl sm:text-3xl font-black text-[#1A2B49] font-serif">{activeOrdersCount}</span>
-              <p className="text-[10px] text-gray-600 mt-1">{activeOrdersCount > 0 ? "On the way to you" : "All orders delivered"}</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-white border border-[#1A2B49]/5 p-5 rounded-2xl shadow-[0_4px_20px_rgba(26,43,73,0.03)] flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center text-emerald-600 mb-3">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-gray-600">Total Investments</span>
-              <div className="p-2 rounded-xl bg-emerald-50">
-                <FiShoppingBag size={18} />
-              </div>
-            </div>
-            <div>
-              <span className="text-2xl sm:text-3xl font-black text-[#1A2B49] font-serif">₹{totalSpent.toLocaleString()}</span>
-              <p className="text-[10px] text-gray-600 mt-1">Invested in wellness</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-gradient-to-br from-[#1A2B49] to-[#0E1B33] text-white p-5 rounded-2xl shadow-md flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center text-[#D3B685] mb-3">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-[#D3B685]">Sanctuary Tier</span>
-              <div className="p-2 rounded-xl bg-white/10">
-                <FiAward size={18} />
-              </div>
-            </div>
-            <div>
-              <span className="text-xl sm:text-2xl font-black font-serif text-[#D3B685]" style={{ fontFamily: "'Cinzel', serif" }}>
-                {totalSpent > 5000 ? "Royal Patron" : "Golden Member"}
-              </span>
-              <p className="text-[10px] text-white/70 mt-1">Free Delivery Privileges</p>
-            </div>
-          </motion.div>
-
-        </div>
 
         {/* MAIN DASHBOARD CONTENT GRID */}
         <div className="grid lg:grid-cols-12 gap-8 items-start relative z-10">
@@ -517,20 +448,12 @@ export default function UserProfile() {
                   All ({orders.length})
                 </button>
                 <button
-                  onClick={() => setOrderFilter("active")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                    orderFilter === "active" ? "bg-[#1A2B49] text-white shadow-sm" : "text-gray-500 hover:text-[#1A2B49]"
-                  }`}
-                >
-                  In Transit ({activeOrdersCount})
-                </button>
-                <button
                   onClick={() => setOrderFilter("delivered")}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
                     orderFilter === "delivered" ? "bg-[#1A2B49] text-white shadow-sm" : "text-gray-500 hover:text-[#1A2B49]"
                   }`}
                 >
-                  Delivered ({orders.length - activeOrdersCount})
+                  Delivered ({orders.filter(o => o.status === "delivered").length})
                 </button>
               </div>
             </div>
