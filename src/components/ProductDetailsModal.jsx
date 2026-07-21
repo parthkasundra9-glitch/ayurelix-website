@@ -130,7 +130,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
             <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-[#1A2B49]/5 text-[10px] text-gray-500 font-semibold">
               <div className="flex items-center gap-1.5">
                 <FiAward className="text-[#B89355] text-sm shrink-0" />
-                <span>100% Ayush Certified</span>
+                <span>100% Ayurvedic</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <FiTruck className="text-[#B89355] text-sm shrink-0" />
