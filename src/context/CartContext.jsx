@@ -145,27 +145,36 @@ export function CartProvider({ children }) {
     return wishlistItems.some((item) => item.id === productId);
   };
 
+  const contextValue = useMemo(() => ({
+    cartItems,
+    isCartOpen,
+    setIsCartOpen,
+    cartCount,
+    cartTotal,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    wishlistItems,
+    wishlistCount,
+    toggleWishlist,
+    isInWishlist,
+    products,
+    setProducts,
+    loadingProducts
+  }), [
+    cartItems,
+    isCartOpen,
+    cartCount,
+    cartTotal,
+    wishlistItems,
+    wishlistCount,
+    products,
+    loadingProducts
+  ]);
+
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        isCartOpen,
-        setIsCartOpen,
-        cartCount,
-        cartTotal,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        wishlistItems,
-        wishlistCount,
-        toggleWishlist,
-        isInWishlist,
-        products,
-        setProducts,
-        loadingProducts
-      }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );
