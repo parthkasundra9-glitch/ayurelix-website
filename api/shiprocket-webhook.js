@@ -10,6 +10,15 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Token signature validation for webhook security
+  const webhookToken = process.env.SHIPROCKET_WEBHOOK_TOKEN;
+  const incomingToken = req.headers["x-api-key"] || req.headers["authorization"] || "";
+
+  if (webhookToken && incomingToken !== webhookToken) {
+    console.warn("Unauthorized webhook attempt blocked.");
+    return res.status(401).json({ error: "Access denied. Invalid webhook credentials." });
+  }
+
   try {
     const payload = req.body || {};
     console.log("Received Webhook payload:", JSON.stringify(payload));
