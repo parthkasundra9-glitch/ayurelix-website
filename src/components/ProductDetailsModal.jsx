@@ -120,7 +120,7 @@ export default function ProductDetailsModal({ product, isOpen, onClose }) {
                         : "border-gray-200 hover:border-gray-400 opacity-70 hover:opacity-100"
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img src={img} alt={`${product.name} gallery image ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
