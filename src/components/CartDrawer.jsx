@@ -96,44 +96,36 @@ export default function CartDrawer() {
     });
   };
 
-  // Save order to Supabase database
-  const saveOrder = async (paymentId) => {
+  // Verify and create order securely on the server
+  const verifyAndCreateOrder = async (paymentId, orderId = "", signature = "", isSimulated = false) => {
     setLoading(true);
     try {
-      // 1. Insert order metadata
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert([
-          {
-            user_id: user.id,
-            total_amount: grandTotal,
-            status: "paid",
-            payment_id: paymentId,
-            shipping_address: shippingDetails
-          }
-        ])
-        .select()
-        .single();
-
-      if (orderError) throw orderError;
-
-      // 2. Insert order items
-      const orderItemsData = cartItems.map(item => ({
-        order_id: order.id,
-        product_id: item.id,
-        quantity: item.quantity,
-        price: item.price
-      }));
-
-      const { error: itemsError } = await supabase
-        .from("order_items")
-        .insert(orderItemsData);
-
-      if (itemsError) throw itemsError;
-
-      // Get auth session token for secure backend verification
       const { data: { session } } = await supabase.auth.getSession();
       const authToken = session?.access_token || "";
+
+      const verifyRes = await fetch("/api/verify-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          razorpayPaymentId: paymentId,
+          razorpayOrderId: orderId,
+          razorpaySignature: signature,
+          total: grandTotal,
+          shippingDetails: shippingDetails,
+          items: cartItems,
+          isSimulated: isSimulated
+        })
+      });
+
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok) {
+        throw new Error(verifyData.error || "Fulfillment verification failed");
+      }
+
+      const verifiedOrderId = verifyData.orderId;
 
       // 3. Trigger Shiprocket shipment creation (asynchronous, does not block customer UI)
       try {
@@ -144,7 +136,7 @@ export default function CartDrawer() {
             "Authorization": `Bearer ${authToken}`
           },
           body: JSON.stringify({
-            orderId: order.id,
+            orderId: verifiedOrderId,
             total: grandTotal,
             shippingDetails: shippingDetails,
             items: cartItems,
@@ -172,7 +164,7 @@ export default function CartDrawer() {
             "Authorization": `Bearer ${authToken}`
           },
           body: JSON.stringify({
-            orderId: order.id,
+            orderId: verifiedOrderId,
             total: grandTotal,
             shippingDetails: shippingDetails,
             items: cartItems,
@@ -191,15 +183,16 @@ export default function CartDrawer() {
         console.error("Error initiating invoice email delivery:", invoiceErr);
       }
 
-      // 6. Clear cart and show success
+      // 5. Clear cart and show success
       clearCart();
       setCreatedOrderInfo({
-        orderId: order.id,
+        orderId: verifiedOrderId,
         paymentId: paymentId
       });
       setCheckoutStep("success");
     } catch (err) {
-      alert("Error saving your order: " + err.message);
+      console.error("Payment validation failed:", err);
+      alert(err.message || "Failed to process order confirmation. Please contact support.");
     } finally {
       setLoading(false);
     }
@@ -215,18 +208,47 @@ export default function CartDrawer() {
 
     const keyId = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_fallback_key";
 
-    if (keyId === "rzp_test_fallback_key") {
-      console.warn("Using Razorpay fallback key. Simulating payment.");
-      await saveOrder("simulated_" + Math.random().toString(36).substr(2, 9));
+    let razorpayOrderId = "";
+    let isSimulatedOrder = false;
+
+    try {
+      setLoading(true);
+      const orderGenRes = await fetch("/api/create-razorpay-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ amount: grandTotal })
+      });
+
+      const orderGenData = await orderGenRes.json();
+      if (!orderGenRes.ok) {
+        throw new Error(orderGenData.error || "Failed to create payment order");
+      }
+
+      razorpayOrderId = orderGenData.orderId;
+      isSimulatedOrder = orderGenData.isSimulated;
+    } catch (orderErr) {
+      console.warn("Order generation failed, fallback to simulation:", orderErr);
+      await verifyAndCreateOrder("simulated_" + Math.random().toString(36).substr(2, 9), "", "", true);
+      return;
+    } finally {
+      setLoading(false);
+    }
+
+    if (isSimulatedOrder) {
+      console.warn("Using simulated fallback key. Simulating payment.");
+      await verifyAndCreateOrder("simulated_" + Math.random().toString(36).substr(2, 9), razorpayOrderId, "", true);
       return;
     }
 
     const options = {
       key: keyId,
-      amount: grandTotal * 100, // in paisa (₹100 = 10000 paisa)
+      amount: grandTotal * 100, // in paisa
       currency: "INR",
       name: "Ayurelix Ltd.",
       description: "Ancient Ayurveda. Modern Wellness.",
+      order_id: razorpayOrderId,
       config: {
         display: {
           hide: [
@@ -236,7 +258,12 @@ export default function CartDrawer() {
         }
       },
       handler: async function (response) {
-        await saveOrder(response.razorpay_payment_id);
+        await verifyAndCreateOrder(
+          response.razorpay_payment_id,
+          response.razorpay_order_id,
+          response.razorpay_signature,
+          false
+        );
       },
       prefill: {
         name: shippingDetails.fullName,
@@ -251,10 +278,9 @@ export default function CartDrawer() {
     try {
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-    } catch {
-      // If Razorpay initialization fails (e.g. invalid key format in test), fallback to simulation
-      console.warn("Razorpay failed, running simulated payment.");
-      await saveOrder("simulated_" + Math.random().toString(36).substr(2, 9));
+    } catch (initErr) {
+      console.warn("Razorpay failed to initialize, running simulated payment:", initErr);
+      await verifyAndCreateOrder("simulated_" + Math.random().toString(36).substr(2, 9), razorpayOrderId, "", true);
     }
   };
 
