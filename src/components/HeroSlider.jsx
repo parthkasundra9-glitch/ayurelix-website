@@ -225,14 +225,14 @@ export default function HeroSlider() {
       {/* Navigation Arrow Controls */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-[#1A2B49]/85 hover:bg-[#B89355] text-white shadow-xl backdrop-blur-md transition-all duration-300 border border-white/20 hover:scale-105 active:scale-95 cursor-pointer"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-white/10 hover:bg-[#B89355] text-white shadow-lg backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-[#B89355] hover:scale-105 active:scale-95 cursor-pointer"
         aria-label="Previous Slide"
       >
         <FiChevronLeft size={20} className="md:w-6 md:h-6" />
       </button>
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-[#1A2B49]/85 hover:bg-[#B89355] text-white shadow-xl backdrop-blur-md transition-all duration-300 border border-white/20 hover:scale-105 active:scale-95 cursor-pointer"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2.5 md:p-3.5 rounded-full bg-white/10 hover:bg-[#B89355] text-white shadow-lg backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-[#B89355] hover:scale-105 active:scale-95 cursor-pointer"
         aria-label="Next Slide"
       >
         <FiChevronRight size={20} className="md:w-6 md:h-6" />
