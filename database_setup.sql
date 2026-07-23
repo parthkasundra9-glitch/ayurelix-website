@@ -92,7 +92,7 @@ create policy "Allow public read access to products" on public.products
   for select using (true);
 
 create policy "Allow admin write access to products" on public.products
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 -- Insert Default Products if they don't exist
 insert into public.products (id, name, price, description, category, stock, image_url)
@@ -137,7 +137,7 @@ create policy "Users can create their own orders" on public.orders
   for insert with check (auth.uid() = user_id);
 
 create policy "Admins can manage all orders" on public.orders
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 
 -- 4. Create Order Items Table
@@ -178,7 +178,7 @@ create policy "Users can insert their own order items" on public.order_items
   );
 
 create policy "Admins can manage all order items" on public.order_items
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 
 -- 5. Create Reviews Table
@@ -216,7 +216,7 @@ create policy "Users can delete their own reviews" on public.reviews
   for delete using (auth.uid() = user_id);
 
 create policy "Admins can manage all reviews" on public.reviews
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 
 -- ==========================================
@@ -241,7 +241,7 @@ create policy "Allow public read access to categories" on public.categories
   for select using (true);
 
 create policy "Allow admin write access to categories" on public.categories
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 -- 7. Add columns to Products Table
 alter table public.products add column if not exists is_bestseller boolean default false;
@@ -268,10 +268,8 @@ update public.products set category_id = 2, is_bestseller = true where id = 2;
 
 
 -- 10. Stock and Inventory Policies/Triggers
--- A. Update policy to allow authenticated users to update products (specifically for stock decrement client-side fallback)
+-- A. Drop legacy client-side stock update policy (stock decrements securely via database trigger)
 drop policy if exists "Allow authenticated users to update product stock" on public.products;
-create policy "Allow authenticated users to update product stock" on public.products
-  for update using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
 -- B. Automate stock decrement using database trigger (Recommended, running as security definer)
 create or replace function public.decrement_product_stock()
@@ -317,11 +315,11 @@ create trigger on_auth_user_login
 -- D. Add RLS policies allowing admins to view and edit all user profiles
 drop policy if exists "Admins can view all profiles" on public.profiles;
 create policy "Admins can view all profiles" on public.profiles
-  for select using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for select using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 drop policy if exists "Admins can update all profiles" on public.profiles;
 create policy "Admins can update all profiles" on public.profiles
-  for update using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for update using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 
 -- 12. Create Contact Inquiries Table
@@ -344,7 +342,7 @@ create policy "Allow public to submit inquiries" on public.contact_inquiries
   for insert with check (true);
 
 create policy "Allow admin to manage inquiries" on public.contact_inquiries
-  for all using (auth.jwt()->>'email' = 'admin@ayurelix.com');
+  for all using (auth.jwt()->>'email' = 'kruti6405@gmail.com');
 
 
 

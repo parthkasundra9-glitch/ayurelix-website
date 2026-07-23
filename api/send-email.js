@@ -1,7 +1,28 @@
+function escapeHtml(string) {
+  if (!string) return "";
+  return String(string)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export default async function handler(req, res) {
-  // Enable CORS
+  // Set dynamic CORS headers based on allowed origins list
+  const allowedOrigins = [
+    "https://www.ayurelix.com",
+    "https://ayurelix.in",
+    "https://ayurelix-website.vercel.app"
+  ];
+  const origin = req.headers.origin;
+
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === "development" && origin?.startsWith("http://localhost"))) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "https://www.ayurelix.com");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -21,6 +42,13 @@ export default async function handler(req, res) {
   if (!name || !email || !message) {
     return res.status(400).json({ error: "Required fields (name, email, message) are missing." });
   }
+
+  // Escape inputs to prevent HTML injection / XSS in email client
+  const escapedName = escapeHtml(name);
+  const escapedEmail = escapeHtml(email);
+  const escapedPhone = escapeHtml(phone);
+  const escapedSubject = escapeHtml(subject);
+  const escapedMessage = escapeHtml(message);
 
   const resendApiKey = process.env.RESEND_API_KEY;
 
@@ -160,19 +188,19 @@ export default async function handler(req, res) {
         <table class="inquiry-table">
           <tr>
             <td class="label">Full Name</td>
-            <td class="value"><strong>${name}</strong></td>
+            <td class="value"><strong>${escapedName}</strong></td>
           </tr>
           <tr>
             <td class="label">Email Address</td>
-            <td class="value"><a href="mailto:${email}" style="color: #1A2B49; font-weight: 600;">${email}</a></td>
+            <td class="value"><a href="mailto:${escapedEmail}" style="color: #1A2B49; font-weight: 600;">${escapedEmail}</a></td>
           </tr>
           <tr>
             <td class="label">Phone Number</td>
-            <td class="value">${phone || "Not Provided"}</td>
+            <td class="value">${escapedPhone || "Not Provided"}</td>
           </tr>
           <tr>
             <td class="label">Subject</td>
-            <td class="value">${subject || "General Inquiry"}</td>
+            <td class="value">${escapedSubject || "General Inquiry"}</td>
           </tr>
           <tr>
             <td class="label">Submitted On</td>
@@ -182,7 +210,7 @@ export default async function handler(req, res) {
         
         <div class="message-title">Message Details</div>
         <div class="message-box">
-          <p class="message-text">${message}</p>
+          <p class="message-text">${escapedMessage}</p>
         </div>
       </div>
       <div class="footer">
@@ -204,8 +232,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         from: process.env.FROM_EMAIL || "Ayurelix Contact <onboarding@resend.dev>",
         to: [process.env.TO_EMAIL || "ayurelix512@gmail.com"],
-        reply_to: email,
-        subject: `New Ayurelix Inquiry: ${subject || "General Consultation"}`,
+        reply_to: escapedEmail,
+        subject: `New Ayurelix Inquiry: ${escapedSubject || "General Consultation"}`,
         html: emailHtml
       })
     });

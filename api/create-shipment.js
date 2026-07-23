@@ -1,13 +1,24 @@
 import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(req, res) {
-  // Enable CORS
+  // Set dynamic CORS headers based on allowed origins list
+  const allowedOrigins = [
+    "https://www.ayurelix.com",
+    "https://ayurelix.in",
+    "https://ayurelix-website.vercel.app"
+  ];
+  const origin = req.headers.origin;
+
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === "development" && origin?.startsWith("http://localhost"))) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "https://www.ayurelix.com");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
   );
 
   if (req.method === "OPTIONS") {
@@ -18,13 +29,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { orderId, total, shippingDetails, items, email } = req.body;
+  // 1. Verify User JWT Token authorization
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.replace(/^bearer\s+/i, "").trim();
 
-  if (!orderId || !total || !shippingDetails || !items || !email) {
-    return res.status(400).json({ error: "Required order details are missing." });
+  if (!token) {
+    return res.status(401).json({ error: "Authorization credentials are required." });
   }
 
-  // Retrieve API Keys from Vercel Secure Production Environment Variables
+  // Retrieve API Keys from environment
   const shiprocketEmail = process.env.SHIPROCKET_EMAIL;
   const shiprocketPassword = process.env.SHIPROCKET_PASSWORD;
   const supabaseUrl = process.env.VITE_SUPABASE_URL || "https://bxoiqighjsdwjltqmeci.supabase.co";
@@ -40,8 +53,34 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Database authentication is not configured on server." });
   }
 
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+  // Authenticate user session with Supabase
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+  if (authError || !user) {
+    return res.status(401).json({ error: "Access denied. Invalid session token." });
+  }
+
+  const { orderId, total, shippingDetails, items, email } = req.body;
+
+  if (!orderId || !total || !shippingDetails || !items || !email) {
+    return res.status(400).json({ error: "Required order details are missing." });
+  }
+
   try {
-    // 1. Authenticate with Shiprocket API
+    // 2. Verify that the requested order exists and belongs to the authenticated user
+    const { data: matchedOrder, error: orderLookupError } = await supabase
+      .from("orders")
+      .select("user_id")
+      .eq("id", orderId)
+      .single();
+
+    if (orderLookupError || !matchedOrder || matchedOrder.user_id !== user.id) {
+      return res.status(403).json({ error: "Access Forbidden. Order does not match user account." });
+    }
+
+    // 3. Authenticate with Shiprocket API
     const authRes = await fetch("https://apiv2.shiprocket.in/v1/external/auth/login", {
       method: "POST",
       headers: {
@@ -58,9 +97,9 @@ export default async function handler(req, res) {
       throw new Error(`Shiprocket auth failed: ${authErr.message || authRes.statusText}`);
     }
 
-    const { token } = await authRes.json();
+    const { token: shiprocketToken } = await authRes.json();
 
-    // 2. Format Order Date in Asia/Kolkata timezone: YYYY-MM-DD HH:mm
+    // 4. Format Order Date in Asia/Kolkata timezone: YYYY-MM-DD HH:mm
     let orderDateFormatted = "";
     try {
       const dateOpts = { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false };
@@ -87,7 +126,7 @@ export default async function handler(req, res) {
       pickup_location: process.env.SHIPROCKET_PICKUP_LOCATION || "Primary",
       billing_customer_name: shippingDetails.fullName || "Customer",
       billing_last_name: "",
-      billing_address: addressClean.length < 6 ? `${addressClean} Street Address` : addressClean, // Pad if too short
+      billing_address: addressClean.length < 6 ? `${addressClean} Street Address` : addressClean,
       billing_city: shippingDetails.city || "Ahmedabad",
       billing_pincode: pincodeClean,
       billing_state: shippingDetails.state || "Gujarat",
@@ -112,14 +151,14 @@ export default async function handler(req, res) {
       length: 15,     // 15 cm
       breadth: 8,      // 8 cm
       height: 8,      // 8 cm
-      weight: 0.05    // 0.05 kg (50 grams dead weight)
+      weight: 0.05    // 0.05 kg
     };
 
     const orderRes = await fetch("https://apiv2.shiprocket.in/v1/external/orders/create/adhoc", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${shiprocketToken}`
       },
       body: JSON.stringify(shiprocketOrderPayload)
     });
@@ -131,9 +170,6 @@ export default async function handler(req, res) {
 
     const orderResult = await orderRes.json();
     const { order_id: shiprocketOrderId, shipment_id: shipmentId } = orderResult;
-
-    // 3. Initialize Supabase Admin client and save details back
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Fetch existing order shipping details to merge
     const { data: currentOrder, error: fetchErr } = await supabase
@@ -148,7 +184,7 @@ export default async function handler(req, res) {
       ...currentOrder.shipping_address,
       shipment_id: shipmentId,
       shiprocket_order_id: shiprocketOrderId,
-      awb_code: "" // Initializing as empty string; tracking can be updated later or checked in panel
+      awb_code: ""
     };
 
     const { error: updateErr } = await supabase

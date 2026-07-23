@@ -277,10 +277,14 @@ export default function AdminDashboard() {
 
         // Trigger email notification
         try {
+          const { data: { session } } = await supabase.auth.getSession();
+          const authToken = session?.access_token || "";
+
           await fetch("/api/send-tracking", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${authToken}`
             },
             body: JSON.stringify({
               orderId: orderId,

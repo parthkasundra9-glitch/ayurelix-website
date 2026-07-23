@@ -1,11 +1,34 @@
+import { createClient } from "@supabase/supabase-js";
+
+function escapeHtml(string) {
+  if (!string) return "";
+  return String(string)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export default async function handler(req, res) {
-  // Enable CORS
+  // Set dynamic CORS headers based on allowed origins list
+  const allowedOrigins = [
+    "https://www.ayurelix.com",
+    "https://ayurelix.in",
+    "https://ayurelix-website.vercel.app"
+  ];
+  const origin = req.headers.origin;
+
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === "development" && origin?.startsWith("http://localhost"))) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "https://www.ayurelix.com");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
   );
 
   if (req.method === "OPTIONS") {
@@ -16,10 +39,46 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  // 1. Verify User JWT Token authorization
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.replace(/^bearer\s+/i, "").trim();
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization credentials are required." });
+  }
+
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || "https://bxoiqighjsdwjltqmeci.supabase.co";
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseServiceKey) {
+    console.error("Missing SUPABASE_SERVICE_ROLE_KEY.");
+    return res.status(500).json({ error: "Database authentication configuration is missing." });
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+  // Authenticate user token with Supabase
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+  if (authError || !user) {
+    return res.status(401).json({ error: "Access denied. Invalid session token." });
+  }
+
   const { orderId, total, shippingDetails, items, email } = req.body;
 
   if (!orderId || !total || !shippingDetails || !items || !email) {
     return res.status(400).json({ error: "Required order details are missing." });
+  }
+
+  // Verify that the requested order belongs to the authenticated user
+  const { data: matchedOrder, error: orderLookupError } = await supabase
+    .from("orders")
+    .select("user_id")
+    .eq("id", orderId)
+    .single();
+
+  if (orderLookupError || !matchedOrder || matchedOrder.user_id !== user.id) {
+    return res.status(403).json({ error: "Access Forbidden. Order does not match user account." });
   }
 
   const resendApiKey = process.env.RESEND_API_KEY;
@@ -43,8 +102,8 @@ export default async function handler(req, res) {
   const itemsRowsHtml = items.map(item => `
     <tr>
       <td style="padding: 12px 0; border-bottom: 1px solid rgba(26, 43, 73, 0.05); color: #1A2B49; font-weight: 600;">
-        ${item.name || "Premium Ayurvedic Product"}
-        <span style="display: block; font-size: 11px; color: #6b7280; font-weight: 500; margin-top: 2px;">Qty: ${item.quantity}</span>
+        ${escapeHtml(item.name) || "Premium Ayurvedic Product"}
+        <span style="display: block; font-size: 11px; color: #6b7280; font-weight: 500; margin-top: 2px;">Qty: ${Number(item.quantity)}</span>
       </td>
       <td style="padding: 12px 0; border-bottom: 1px solid rgba(26, 43, 73, 0.05); text-align: right; color: #1A2B49; font-weight: 700;">
         ₹${Number(item.price) * Number(item.quantity)}
@@ -221,7 +280,7 @@ export default async function handler(req, res) {
         <p class="subtitle">Thank you for your order!</p>
         
         <p style="font-size: 13px; line-height: 1.6; margin-bottom: 25px;">
-          Hello <strong>${shippingDetails.fullName || "Valued Customer"}</strong>,<br/><br/>
+          Hello <strong>${escapeHtml(shippingDetails.fullName) || "Valued Customer"}</strong>,<br/><br/>
           We are pleased to confirm that your payment has been received successfully. Your order is currently being processed at our Ahmedabad facility and will be dispatched via our shipping partner shortly.
         </p>
         
@@ -229,7 +288,7 @@ export default async function handler(req, res) {
           <table class="meta-table">
             <tr>
               <td class="meta-label">Order ID:</td>
-              <td class="meta-value">${orderId}</td>
+              <td class="meta-value">${escapeHtml(orderId)}</td>
             </tr>
             <tr>
               <td class="meta-label">Date Placed:</td>
@@ -272,10 +331,10 @@ export default async function handler(req, res) {
         <div class="address-box">
           <h3 class="address-title">Delivery Destination</h3>
           <div class="address-details">
-            <strong>${shippingDetails.fullName}</strong><br/>
-            ${shippingDetails.address}<br/>
-            ${shippingDetails.city}, ${shippingDetails.state} - ${shippingDetails.postalCode}<br/>
-            Phone: ${shippingDetails.phone}
+            <strong>${escapeHtml(shippingDetails.fullName)}</strong><br/>
+            ${escapeHtml(shippingDetails.address)}<br/>
+            ${escapeHtml(shippingDetails.city)}, ${escapeHtml(shippingDetails.state)} - ${escapeHtml(shippingDetails.postalCode)}<br/>
+            Phone: ${escapeHtml(shippingDetails.phone)}
           </div>
         </div>
       </div>

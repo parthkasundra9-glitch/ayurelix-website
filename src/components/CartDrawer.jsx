@@ -131,38 +131,17 @@ export default function CartDrawer() {
 
       if (itemsError) throw itemsError;
 
-      // 3. Decrement stock counts in the products table
-      for (const item of cartItems) {
-        try {
-          const { data: prodData, error: fetchError } = await supabase
-            .from("products")
-            .select("stock")
-            .eq("id", item.id)
-            .single();
+      // Get auth session token for secure backend verification
+      const { data: { session } } = await supabase.auth.getSession();
+      const authToken = session?.access_token || "";
 
-          if (fetchError) throw fetchError;
-
-          if (prodData) {
-            const currentStock = prodData.stock !== null && prodData.stock !== undefined ? prodData.stock : 100;
-            const newStock = Math.max(0, currentStock - item.quantity);
-            const { error: updateError } = await supabase
-              .from("products")
-              .update({ stock: newStock })
-              .eq("id", item.id);
-
-            if (updateError) throw updateError;
-          }
-        } catch (stockErr) {
-          console.error(`Failed to decrement stock for product ${item.id}:`, stockErr);
-        }
-      }
-
-      // 4. Trigger Shiprocket shipment creation (asynchronous, does not block customer UI)
+      // 3. Trigger Shiprocket shipment creation (asynchronous, does not block customer UI)
       try {
         fetch("/api/create-shipment", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${authToken}`
           },
           body: JSON.stringify({
             orderId: order.id,
@@ -184,12 +163,13 @@ export default function CartDrawer() {
         console.error("Error initiating Shiprocket shipment:", shiprocketErr);
       }
 
-      // 5. Trigger automated email invoice/bill delivery (asynchronous, does not block customer UI)
+      // 4. Trigger automated email invoice/bill delivery (asynchronous, does not block customer UI)
       try {
         fetch("/api/send-invoice", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${authToken}`
           },
           body: JSON.stringify({
             orderId: order.id,

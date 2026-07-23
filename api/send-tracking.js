@@ -1,13 +1,35 @@
 import { Resend } from 'resend';
+import { createClient } from '@supabase/supabase-js';
+
+function escapeHtml(string) {
+  if (!string) return "";
+  return String(string)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 export default async function handler(req, res) {
-  // Enable CORS
+  // Set dynamic CORS headers based on allowed origins list
+  const allowedOrigins = [
+    "https://www.ayurelix.com",
+    "https://ayurelix.in",
+    "https://ayurelix-website.vercel.app"
+  ];
+  const origin = req.headers.origin;
+
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  if (allowedOrigins.includes(origin) || (process.env.NODE_ENV === "development" && origin?.startsWith("http://localhost"))) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "https://www.ayurelix.com");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
   );
 
   if (req.method === "OPTIONS") {
@@ -16,6 +38,36 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // 1. Verify User JWT Token authorization
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.replace(/^bearer\s+/i, "").trim();
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization credentials are required." });
+  }
+
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || "https://bxoiqighjsdwjltqmeci.supabase.co";
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseServiceKey) {
+    console.error("Missing SUPABASE_SERVICE_ROLE_KEY.");
+    return res.status(500).json({ error: "Database authentication is not configured." });
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+  // Authenticate user session with Supabase
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+  if (authError || !user) {
+    return res.status(401).json({ error: "Access denied. Invalid session token." });
+  }
+
+  // Verify that the user is the administrator
+  if (user.email !== "kruti6405@gmail.com") {
+    return res.status(403).json({ error: "Access Forbidden. Administrator access is required." });
   }
 
   const { orderId, email, customerName, awbCode } = req.body;
@@ -34,7 +86,12 @@ export default async function handler(req, res) {
   }
 
   const resend = new Resend(resendApiKey);
-  const trackingUrl = `https://shiprocket.co/tracking/${awbCode}`;
+  const trackingUrl = `https://shiprocket.co/tracking/${encodeURIComponent(awbCode.trim())}`;
+
+  // Escape inputs to prevent HTML injection / XSS in email client
+  const escapedCustomerName = escapeHtml(customerName);
+  const escapedAwbCode = escapeHtml(awbCode);
+  const escapedOrderId = escapeHtml(orderId);
 
   const emailHtml = `
   <!DOCTYPE html>
@@ -147,12 +204,12 @@ export default async function handler(req, res) {
       </div>
       <div class="content">
         <h2 class="title">Your Order Has Shipped! 📦</h2>
-        <p>Dear ${customerName},</p>
+        <p>Dear ${escapedCustomerName},</p>
         <p>Exciting news! Your wellness formulations have been hand-packaged and handed over to our shipping partner. Your order is officially on its way to you.</p>
         
         <div class="awb-box">
           <span class="awb-label">Tracking AWB Code</span>
-          <div class="awb-code">${awbCode}</div>
+          <div class="awb-code">${escapedAwbCode}</div>
           <a href="${trackingUrl}" class="btn" target="_blank">Track Your Shipment</a>
         </div>
 
@@ -170,9 +227,9 @@ export default async function handler(req, res) {
 
   try {
     const data = await resend.emails.send({
-      from: 'Ayurelix <onboarding@resend.dev>', // Change to verified domain if configured
+      from: 'Ayurelix <onboarding@resend.dev>',
       to: [email],
-      subject: `Your Ayurelix Order #${orderId.slice(0, 8).toUpperCase()} has been Shipped!`,
+      subject: `Your Ayurelix Order #${escapedOrderId.slice(0, 8).toUpperCase()} has been Shipped!`,
       html: emailHtml,
     });
 
