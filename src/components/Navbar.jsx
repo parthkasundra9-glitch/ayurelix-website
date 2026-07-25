@@ -63,7 +63,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className="
-      fixed top-0 left-0 right-0 z-40
+      fixed lg:absolute top-0 left-0 right-0 z-40
       bg-white/95 shadow-sm backdrop-blur-md
       border-b border-[#1A2B49]/5
       "
