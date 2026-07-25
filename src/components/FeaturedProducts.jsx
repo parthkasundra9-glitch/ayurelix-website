@@ -65,7 +65,7 @@ export default function FeaturedProducts() {
           {loadingProducts && productsList.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 space-y-3">
               <div className="w-10 h-10 rounded-full border-2 border-[#B89355]/20 border-t-[#1A2B49] animate-spin" />
-              <p className="text-gray-500 font-serif italic text-xs">Purity in transit...</p>
+              <p className="text-gray-500 font-serif italic text-xs">Loading...</p>
             </div>
           ) : (
             <div
