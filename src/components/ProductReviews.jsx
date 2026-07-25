@@ -10,6 +10,7 @@ export default function ProductReviews({ productId }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -168,40 +169,86 @@ export default function ProductReviews({ productId }) {
       )}
 
       {/* Reviews List */}
-      <div className="space-y-4">
+      <div className="divide-y divide-gray-100">
         {reviews.length === 0 ? (
-          <p className="text-gray-500 text-sm italic py-4">No reviews yet for this product. Be the first to review!</p>
+          <p className="text-gray-500 text-sm italic py-6">No reviews yet for this product. Be the first to review!</p>
         ) : (
-          reviews.map((rev) => (
-            <div key={rev.id} className="bg-[#fbf9f4] border border-[#1A2B49]/5 p-5 rounded-2xl space-y-2 shadow-sm">
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-sm text-[#1A2B49]">{rev.user_name}</span>
-                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+          (showAllReviews ? reviews : reviews.slice(0, 3)).map((rev) => (
+            <div key={rev.id} className="flex gap-4 sm:gap-6 py-6 items-start">
+              {/* Left Column: User Profile Badge */}
+              <div className="flex flex-col items-center text-center w-20 sm:w-28 shrink-0">
+                {/* Avatar with dynamic initial and verified check icon */}
+                <div className="relative inline-block shrink-0 mb-1.5">
+                  <div className="w-10 h-10 rounded-full bg-[#B89355]/10 flex items-center justify-center text-sm font-bold text-[#B89355] uppercase">
+                    {rev.user_name ? rev.user_name.charAt(0) : "A"}
+                  </div>
+                  <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 rounded-full border border-white flex items-center justify-center text-[8px] text-white" title="Verified Buyer">
+                    ✓
+                  </span>
+                </div>
+                
+                <span className="font-bold text-xs sm:text-sm text-[#1A2B49] truncate w-full" title={rev.user_name}>
+                  {rev.user_name}
+                </span>
+                <span className="text-[8px] sm:text-[9px] text-[#B89355] font-bold uppercase tracking-wider mt-0.5">
+                  Verified Buyer
+                </span>
+                <span className="text-[8px] sm:text-[9px] text-gray-400 font-medium mt-1">
                   {new Date(rev.created_at).toLocaleDateString()}
                 </span>
               </div>
-              <div className="flex text-[#B89355]">
-                {[...Array(5)].map((_, i) => (
-                  <FiStar
-                    key={i}
-                    size={12}
-                    className={i < rev.rating ? "fill-[#B89355]" : ""}
-                  />
-                ))}
-              </div>
-              <p className="text-xs text-gray-600 leading-relaxed font-sans mt-2">{rev.comment}</p>
-              
-              {/* Admin Reply */}
-              {rev.admin_reply && (
-                <div className="bg-[#FAF8F5]/80 border-l-2 border-[#B89355] pl-4 py-2 mt-3 rounded-r-xl space-y-1">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#B89355] block">Official Response from Ayurelix</span>
-                  <p className="text-xs text-gray-600 italic leading-relaxed font-sans">{rev.admin_reply}</p>
+
+              {/* Right Column: Review comment and inline reply */}
+              <div className="flex-1 space-y-1.5">
+                {/* Rating stars */}
+                <div className="flex text-[#B89355]">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar
+                      key={i}
+                      size={10}
+                      className={i < rev.rating ? "fill-[#B89355]" : ""}
+                    />
+                  ))}
                 </div>
-              )}
+                
+                {/* Comment body */}
+                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed font-sans font-medium">
+                  {rev.comment}
+                </p>
+
+                {/* Subtly Indented Admin Reply (Thread style instead of heavy box) */}
+                {rev.admin_reply && (
+                  <div className="mt-3 bg-[#FAF8F5]/80 border-l-2 border-[#B89355] pl-3 py-1.5 rounded-r-lg">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-[#B89355] block">
+                      Reply from Ayurelix:
+                    </span>
+                    <p className="text-xs text-gray-600 italic leading-relaxed font-sans mt-0.5">
+                      {rev.admin_reply}
+                    </p>
+                  </div>
+                )}
+
+                {/* Share Link (Aesthetic matching screenshot 1) */}
+                <button className="text-[9px] text-gray-400 hover:text-gray-600 font-bold block pt-1 cursor-pointer">
+                  Share
+                </button>
+              </div>
             </div>
           ))
         )}
       </div>
+
+      {/* See All / Show Less Toggle Buttons */}
+      {reviews.length > 3 && (
+        <div className="text-center mt-6 pt-4 border-t border-gray-100">
+          <button
+            onClick={() => setShowAllReviews(!showAllReviews)}
+            className="px-6 py-2 border border-[#B89355]/30 rounded-full text-[10px] uppercase tracking-[0.2em] font-black text-[#B89355] hover:bg-[#B89355] hover:text-white transition duration-300 cursor-pointer shadow-sm"
+          >
+            {showAllReviews ? "Show Less" : `See All Reviews (${reviews.length})`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
