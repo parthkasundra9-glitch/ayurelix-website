@@ -124,7 +124,9 @@ export default function ProductCard({ product, onView, isGrid = false }) {
           {product.name}
         </h3>
         <p className="text-gray-500 text-[10px] sm:text-xs mt-1 leading-relaxed line-clamp-2 hidden sm:block">
-          {product.description}
+          {product.description && product.description.length > 100
+            ? product.description.substring(0, 100) + "..."
+            : product.description}
         </p>
       </div>
 

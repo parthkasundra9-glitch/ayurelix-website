@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import premiumSkincare from "../assets/premium_skincare.png";
 import ancientBeauty from "../assets/ancient_beauty.png";
 import glowingSkin from "../assets/glowing_skin.jpg";
 import kumkumadiSerum from "../assets/kumkumadi_serum.jpg";
@@ -13,19 +12,9 @@ const slides = [
     subtitle: "Pure Botanical Formulations",
     description: "Discover our handcrafted range of face pack remedies and serums derived from ancient scriptures and modern science.",
     cta: "Explore Shop",
-    image: premiumSkincare,
+    image: kumkumadiSerum,
     align: "right",
     layout: "full"
-  },
-  {
-    id: 2,
-    title: "Natural Skin Rejuvenation",
-    subtitle: "Authentic Kumkumadi Oil",
-    description: "Infused with pure Saffron and Sandalwood to reduce fine lines, erase blemishes, and reveal your skin's inner radiance.",
-    cta: "View Serum",
-    image: kumkumadiSerum,
-    align: "left",
-    layout: "split"
   },
   {
     id: 3,
