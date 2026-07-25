@@ -13,7 +13,7 @@ const slides = [
     subtitle: "Pure Botanical Formulations",
     description: "Discover our handcrafted range of face pack remedies and serums derived from ancient scriptures and modern science.",
     cta: "Explore Shop",
-    image: kumkumadiSerum,
+    image: premiumSkincare,
     align: "right",
     layout: "full"
   },
@@ -23,7 +23,7 @@ const slides = [
     subtitle: "Authentic Kumkumadi Oil",
     description: "Infused with pure Saffron and Sandalwood to reduce fine lines, erase blemishes, and reveal your skin's inner radiance.",
     cta: "View Serum",
-    image: premiumSkincare,
+    image: kumkumadiSerum,
     align: "left",
     layout: "split"
   },
