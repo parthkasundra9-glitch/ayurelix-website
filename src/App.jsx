@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import CartDrawer from "./components/CartDrawer";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy-loaded routes
 const Home = lazy(() => import("./components/Home"));
@@ -25,6 +26,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
+        <ScrollToTop />
         <Suspense fallback={
           <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#FAF8F5] text-[#1A2B49]">
             <div className="w-10 h-10 border-4 border-[#B89355] border-t-transparent rounded-full animate-spin mb-4"></div>

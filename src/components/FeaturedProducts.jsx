@@ -26,7 +26,7 @@ export default function FeaturedProducts() {
   };
 
   return (
-    <section id="featured-products-section" className="bg-[#FAF8F5] py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden relative">
+    <section id="featured-products-section" className="bg-[#FAF8F5] pt-20 pb-8 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden relative">
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full bg-[#B89355]/3 blur-[150px] pointer-events-none" />
 

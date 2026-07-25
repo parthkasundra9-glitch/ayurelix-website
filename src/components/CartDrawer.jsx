@@ -585,7 +585,7 @@ export default function CartDrawer() {
                     className="w-full py-3.5 bg-[#1A2B49] text-white font-black rounded-xl hover:bg-[#B89355] active:scale-[0.98] transition duration-200 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md cursor-pointer text-xs uppercase tracking-wider"
                   >
                     <FiCreditCard size={18} />
-                    <span>{loading ? "Processing..." : "Pay Online (Razorpay)"}</span>
+                    <span>{loading ? "Processing..." : "Pay Online"}</span>
                   </button>
                 )}
 

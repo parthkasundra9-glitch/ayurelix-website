@@ -239,13 +239,13 @@ export default function HeroSlider() {
       </button>
 
       {/* Dots Indicator Navigation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5 bg-[#1A2B49]/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              index === current ? "w-8 bg-[#B89355]" : "w-2 bg-white/60 hover:bg-white"
+            className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
+              index === current ? "bg-[#B89355]" : "bg-white/50 hover:bg-white"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
