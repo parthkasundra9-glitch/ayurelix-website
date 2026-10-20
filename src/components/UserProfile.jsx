@@ -61,6 +61,32 @@ export default function UserProfile() {
         };
         setProfile(loadedProfile);
         setEditForm(loadedProfile);
+      } else {
+        // Auto-create initial profile row if missing
+        const defaultName = currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email?.split("@")[0] || "";
+        const initialProfile = {
+          id: currentUser.id,
+          full_name: defaultName,
+          email: currentUser.email,
+          created_at: currentUser.created_at || new Date().toISOString(),
+          last_login_at: new Date().toISOString(),
+          is_active: true
+        };
+        try {
+          await supabase.from("profiles").upsert(initialProfile, { onConflict: "id" });
+        } catch (e) {
+          console.warn("Could not auto-insert initial profile:", e);
+        }
+        const loadedProfile = {
+          fullName: defaultName,
+          phone: "",
+          address: "",
+          city: "",
+          state: "",
+          postalCode: ""
+        };
+        setProfile(loadedProfile);
+        setEditForm(loadedProfile);
       }
 
       // 2. Fetch Orders
@@ -113,7 +139,8 @@ export default function UserProfile() {
     try {
       const { error } = await supabase
         .from("profiles")
-        .update({
+        .upsert({
+          id: user.id,
           full_name: editForm.fullName,
           phone: editForm.phone,
           address: editForm.address,
@@ -121,9 +148,9 @@ export default function UserProfile() {
           state: editForm.state,
           postal_code: editForm.postalCode,
           email: user.email,
-          updated_at: new Date().toISOString()
-        })
-        .eq("id", user.id);
+          updated_at: new Date().toISOString(),
+          is_active: true
+        }, { onConflict: "id" });
 
       if (error) throw error;
 

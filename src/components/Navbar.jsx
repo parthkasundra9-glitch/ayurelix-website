@@ -18,12 +18,40 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
+    const syncUser = async (sessionUser) => {
+      if (!sessionUser?.id) return;
+      try {
+        const { data: existingProf } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", sessionUser.id)
+          .maybeSingle();
+
+        if (!existingProf) {
+          await supabase.from("profiles").upsert({
+            id: sessionUser.id,
+            full_name: sessionUser.user_metadata?.full_name || sessionUser.user_metadata?.name || sessionUser.email?.split("@")[0] || "User",
+            email: sessionUser.email,
+            created_at: sessionUser.created_at || new Date().toISOString(),
+            last_login_at: new Date().toISOString(),
+            is_active: true
+          }, { onConflict: "id" });
+        }
+      } catch (err) {
+        console.warn("Navbar background profile sync note:", err);
+      }
+    };
+
     supabase.auth.getUser().then(({ data: { user: currentUser } }) => {
       setUser(currentUser);
+      if (currentUser) syncUser(currentUser);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);
+      if (session?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+        syncUser(session.user);
+      }
     });
 
     return () => {

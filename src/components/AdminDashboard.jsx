@@ -5,7 +5,7 @@ import {
   FiCheckCircle, FiGrid, FiEdit2, FiUser, FiSearch, FiFilter, 
   FiChevronLeft, FiChevronRight, FiActivity, FiX, FiCheck, 
   FiEye, FiTrendingUp, FiCreditCard, FiMail, FiSettings, 
-  FiMenu, FiLogOut, FiPhone, FiAlertCircle
+  FiMenu, FiLogOut, FiPhone, FiAlertCircle, FiRefreshCw
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { getProductImage } from "../data/products";
@@ -101,6 +101,7 @@ export default function AdminDashboard() {
   const [userSearch, setUserSearch] = useState("");
   const [userPage, setUserPage] = useState(1);
   const USERS_PER_PAGE = 8;
+  const [refreshingUsers, setRefreshingUsers] = useState(false);
 
   // Selected details (modals)
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -194,12 +195,52 @@ export default function AdminDashboard() {
         .order("created_at", { ascending: false });
       setReviews(reviewsData || []);
 
-      // 5. Fetch Users
-      const { data: usersData } = await supabase
+      // 5. Fetch Users (With resilient fallback and orders cross-reference)
+      let allUsers = [];
+      const { data: usersData, error: usersError } = await supabase
         .from("profiles")
         .select("*")
         .order("created_at", { ascending: false });
-      setUsers(usersData || []);
+
+      if (usersError) {
+        console.warn("Profiles query order error, falling back to basic select:", usersError.message);
+        const { data: fallbackProfiles } = await supabase.from("profiles").select("*");
+        allUsers = fallbackProfiles || [];
+      } else {
+        allUsers = usersData || [];
+      }
+
+      // Also cross-reference customer accounts from orders so no customer is lost
+      const profileIds = new Set(allUsers.map(u => u.id));
+      const discoveredFromOrders = [];
+      (ordersData || []).forEach(order => {
+        if (order.user_id && !profileIds.has(order.user_id)) {
+          profileIds.add(order.user_id);
+          const addr = order.shipping_address || {};
+          discoveredFromOrders.push({
+            id: order.user_id,
+            full_name: addr.fullName || addr.name || "Customer",
+            email: addr.email || "N/A",
+            phone: addr.phone || "N/A",
+            address: addr.address || "",
+            city: addr.city || "",
+            state: addr.state || "",
+            postal_code: addr.postalCode || addr.pincode || "",
+            created_at: order.created_at,
+            last_login_at: null,
+            is_active: true,
+            is_from_orders: true
+          });
+        }
+      });
+
+      const combinedUsers = [...allUsers, ...discoveredFromOrders].sort((a, b) => {
+        const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return dateB - dateA;
+      });
+
+      setUsers(combinedUsers);
 
       // 6. Fetch Contact Inquiries
       try {
@@ -231,6 +272,25 @@ export default function AdminDashboard() {
     if (isAdmin) {
       fetchData();
     }
+  }, [isAdmin, fetchData]);
+
+  // Realtime subscription: Auto-update user list and orders when any changes occur in database
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const channel = supabase
+      .channel("admin-realtime-users")
+      .on("postgres_changes", { event: "*", schema: "public", table: "profiles" }, () => {
+        fetchData();
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => {
+        fetchData();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [isAdmin, fetchData]);
 
   // Order status update (dropdown triggered)
@@ -2092,22 +2152,39 @@ export default function AdminDashboard() {
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#FAF7F0] border border-[#B89355]/20 p-5 rounded-3xl shadow-sm">
                     <div>
                       <h3 className="text-xl font-bold font-serif text-[#123920]">Registered Users ({filteredUsers.length})</h3>
-                      <p className="text-xs text-slate-500 mt-1">Review register metadata, statuses, and login triggers.</p>
+                      <p className="text-xs text-slate-500 mt-1">Review register metadata, statuses, and live user accounts.</p>
                     </div>
 
-                    {/* User search */}
-                    <div className="relative w-full sm:w-64">
-                      <input
-                        type="text"
-                        placeholder="Search name, email, ID..."
-                        value={userSearch}
-                        onChange={(e) => {
-                          setUserSearch(e.target.value);
-                          setUserPage(1);
+                    <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                      {/* Refresh button */}
+                      <button
+                        onClick={async () => {
+                          setRefreshingUsers(true);
+                          await fetchData();
+                          setRefreshingUsers(false);
                         }}
-                        className="w-full bg-white border border-[#B89355]/20 rounded-xl pl-9 pr-4 py-2 text-xs text-[#1A2B49] focus:outline-none focus:border-[#123920] transition font-medium"
-                      />
-                      <FiSearch className="absolute left-3 top-2.5 text-slate-400" size={14} />
+                        disabled={refreshingUsers}
+                        className="px-3.5 py-2 bg-white border border-[#B89355]/25 hover:bg-[#123920] hover:text-white text-[#123920] rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm disabled:opacity-50 cursor-pointer"
+                        title="Refresh registered users list"
+                      >
+                        <FiRefreshCw size={13} className={refreshingUsers ? "animate-spin" : ""} />
+                        <span className="hidden sm:inline">Refresh</span>
+                      </button>
+
+                      {/* User search */}
+                      <div className="relative w-full sm:w-64">
+                        <input
+                          type="text"
+                          placeholder="Search name, email, ID..."
+                          value={userSearch}
+                          onChange={(e) => {
+                            setUserSearch(e.target.value);
+                            setUserPage(1);
+                          }}
+                          className="w-full bg-white border border-[#B89355]/20 rounded-xl pl-9 pr-4 py-2 text-xs text-[#1A2B49] focus:outline-none focus:border-[#123920] transition font-medium"
+                        />
+                        <FiSearch className="absolute left-3 top-2.5 text-slate-400" size={14} />
+                      </div>
                     </div>
                   </div>
 
@@ -2128,7 +2205,14 @@ export default function AdminDashboard() {
                           {paginatedUsers.map((u) => (
                             <tr key={u.id} className="border-b border-[#B89355]/10 hover:bg-[#FAF7F0]/40 transition">
                               <td className="p-4">
-                                <p className="font-semibold text-[#1A2B49]">{u.full_name || "Guest Account"}</p>
+                                <div className="flex items-center gap-2">
+                                  <p className="font-semibold text-[#1A2B49]">{u.full_name || "Guest Account"}</p>
+                                  {u.is_from_orders && (
+                                    <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-50 text-amber-700 border border-amber-200 uppercase">
+                                      Order
+                                    </span>
+                                  )}
+                                </div>
                                 <p className="text-[9px] text-slate-400 font-mono mt-0.5 truncate max-w-[130px]">{u.id}</p>
                               </td>
                               <td className="p-4 text-slate-600 font-medium">{u.email}</td>
@@ -2147,14 +2231,14 @@ export default function AdminDashboard() {
                                 <div className="flex justify-end gap-1.5">
                                   <button
                                     onClick={() => setSelectedUser(u)}
-                                    className="p-1.5 text-slate-600 hover:text-[#B89355] rounded-lg hover:bg-slate-100 transition"
+                                    className="p-1.5 text-slate-600 hover:text-[#B89355] rounded-lg hover:bg-slate-100 transition cursor-pointer"
                                     title="View Profile Details"
                                   >
                                     <FiEye size={14} />
                                   </button>
                                   <button
                                     onClick={() => handleToggleUserStatus(u)}
-                                    className={`p-1.5 rounded-lg border transition ${
+                                    className={`p-1.5 rounded-lg border transition cursor-pointer ${
                                       u.is_active !== false
                                         ? "text-red-600 bg-red-50 hover:bg-red-500 hover:text-white border-red-200"
                                         : "text-emerald-600 bg-emerald-50 hover:bg-emerald-500 hover:text-white border-emerald-200"
@@ -2165,7 +2249,7 @@ export default function AdminDashboard() {
                                   </button>
                                   <button
                                     onClick={() => handleDeleteUser(u.id)}
-                                    className="p-1.5 text-red-600 hover:bg-red-500 hover:text-white rounded-lg border border-red-200 transition"
+                                    className="p-1.5 text-red-600 hover:bg-red-500 hover:text-white rounded-lg border border-red-200 transition cursor-pointer"
                                     title="Delete User"
                                   >
                                     <FiTrash2 size={14} />
@@ -2174,10 +2258,40 @@ export default function AdminDashboard() {
                               </td>
                             </tr>
                           ))}
+                          {filteredUsers.length === 0 && (
+                            <tr>
+                              <td colSpan={6} className="p-12 text-center text-slate-400 italic">
+                                No registered users found matching the search criteria.
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>
                   </div>
+
+                  {/* Users Pagination */}
+                  {Math.ceil(filteredUsers.length / USERS_PER_PAGE) > 1 && (
+                    <div className="flex justify-center items-center gap-3 mt-4">
+                      <button
+                        onClick={() => setUserPage(prev => Math.max(1, prev - 1))}
+                        disabled={userPage === 1}
+                        className="p-2 border border-[#B89355]/20 rounded-xl hover:bg-[#FAF7F0] disabled:opacity-30 disabled:cursor-not-allowed transition text-[#1A2B49] cursor-pointer"
+                      >
+                        <FiChevronLeft size={16} />
+                      </button>
+                      <span className="text-xs text-slate-500 font-bold">
+                        Page {userPage} of {Math.ceil(filteredUsers.length / USERS_PER_PAGE)}
+                      </span>
+                      <button
+                        onClick={() => setUserPage(prev => Math.min(Math.ceil(filteredUsers.length / USERS_PER_PAGE), prev + 1))}
+                        disabled={userPage === Math.ceil(filteredUsers.length / USERS_PER_PAGE)}
+                        className="p-2 border border-[#B89355]/20 rounded-xl hover:bg-[#FAF7F0] disabled:opacity-30 disabled:cursor-not-allowed transition text-[#1A2B49] cursor-pointer"
+                      >
+                        <FiChevronRight size={16} />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 

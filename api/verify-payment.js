@@ -113,6 +113,26 @@ export default async function handler(req, res) {
 
     if (orderError) throw orderError;
 
+    // 3b. Keep user profile in sync with verified customer contact info
+    try {
+      await supabase
+        .from("profiles")
+        .upsert({
+          id: user.id,
+          full_name: shippingDetails.fullName || user.user_metadata?.full_name || user.user_metadata?.name,
+          email: shippingDetails.email || user.email,
+          phone: shippingDetails.phone,
+          address: shippingDetails.address,
+          city: shippingDetails.city,
+          state: shippingDetails.state,
+          postal_code: shippingDetails.postalCode || shippingDetails.pincode,
+          updated_at: new Date().toISOString(),
+          is_active: true
+        }, { onConflict: "id" });
+    } catch (profSyncErr) {
+      console.warn("Notice: Order profile upsert exception:", profSyncErr.message);
+    }
+
     // 4. Insert order items
     const orderItemsData = items.map(item => ({
       order_id: order.id,

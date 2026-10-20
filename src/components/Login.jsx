@@ -32,22 +32,46 @@ export default function Login() {
 
       if (authError) {
         setError(authError.message);
-      } else if (session) {
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("is_active")
-          .eq("id", session.user.id)
-          .maybeSingle();
+      } else if (session?.user) {
+        try {
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("id, is_active, full_name, email")
+            .eq("id", session.user.id)
+            .maybeSingle();
 
-        if (profileData && profileData.is_active === false) {
-          setError("Your account is deactivated. Please contact customer support.");
-          await supabase.auth.signOut();
-        } else {
-          if (email?.toLowerCase().trim() === "kruti6405@gmail.com") {
-            navigate("/admin");
+          if (!profileData) {
+            // Missing profile! Create it so user is immediately registered in admin panel
+            await supabase.from("profiles").upsert({
+              id: session.user.id,
+              full_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split("@")[0] || "User",
+              email: session.user.email,
+              created_at: session.user.created_at || new Date().toISOString(),
+              last_login_at: new Date().toISOString(),
+              is_active: true
+            }, { onConflict: "id" });
           } else {
-            navigate("/");
+            // Update last_login_at and ensure email is populated
+            await supabase.from("profiles").update({
+              last_login_at: new Date().toISOString(),
+              email: session.user.email || profileData.email
+            }).eq("id", session.user.id);
+
+            if (profileData.is_active === false) {
+              setError("Your account is deactivated. Please contact customer support.");
+              await supabase.auth.signOut();
+              setLoading(false);
+              return;
+            }
           }
+        } catch (profileErr) {
+          console.warn("Profile sync error on login:", profileErr);
+        }
+
+        if (email?.toLowerCase().trim() === "kruti6405@gmail.com") {
+          navigate("/admin");
+        } else {
+          navigate("/");
         }
       }
     } catch {

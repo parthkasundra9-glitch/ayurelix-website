@@ -12,43 +12,75 @@ create table if not exists public.profiles (
   city text,
   state text,
   postal_code text,
-  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+  is_active boolean default true not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  last_login_at timestamp with time zone
 );
 
 -- Enable RLS on Profiles
 alter table public.profiles enable row level security;
 
 -- Alter profiles table to add missing columns if they don't exist
+alter table public.profiles add column if not exists full_name text;
 alter table public.profiles add column if not exists email text;
 alter table public.profiles add column if not exists phone text;
 alter table public.profiles add column if not exists address text;
 alter table public.profiles add column if not exists city text;
 alter table public.profiles add column if not exists state text;
 alter table public.profiles add column if not exists postal_code text;
+alter table public.profiles add column if not exists is_active boolean default true not null;
+alter table public.profiles add column if not exists created_at timestamp with time zone default timezone('utc'::text, now()) not null;
+alter table public.profiles add column if not exists updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
+alter table public.profiles add column if not exists last_login_at timestamp with time zone;
 
 -- Drop existing policies first to prevent conflicts
 drop policy if exists "Users can view their own profile" on public.profiles;
+drop policy if exists "Users can insert their own profile" on public.profiles;
 drop policy if exists "Users can update their own profile" on public.profiles;
+drop policy if exists "Admins can view all profiles" on public.profiles;
+drop policy if exists "Admins can insert all profiles" on public.profiles;
+drop policy if exists "Admins can update all profiles" on public.profiles;
+drop policy if exists "Admins can delete all profiles" on public.profiles;
 
 -- Profiles Policies
 create policy "Users can view their own profile" on public.profiles
   for select using (auth.uid() = id);
 
+create policy "Users can insert their own profile" on public.profiles
+  for insert with check (auth.uid() = id);
+
 create policy "Users can update their own profile" on public.profiles
   for update using (auth.uid() = id);
+
+create policy "Admins can view all profiles" on public.profiles
+  for select using (lower(coalesce(auth.jwt()->>'email', '')) = 'kruti6405@gmail.com');
+
+create policy "Admins can insert all profiles" on public.profiles
+  for insert with check (lower(coalesce(auth.jwt()->>'email', '')) = 'kruti6405@gmail.com');
+
+create policy "Admins can update all profiles" on public.profiles
+  for update using (lower(coalesce(auth.jwt()->>'email', '')) = 'kruti6405@gmail.com');
+
+create policy "Admins can delete all profiles" on public.profiles
+  for delete using (lower(coalesce(auth.jwt()->>'email', '')) = 'kruti6405@gmail.com');
 
 -- Trigger to create profile on signup
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, full_name, email, created_at)
+  insert into public.profiles (id, full_name, email, created_at, is_active, updated_at)
   values (
     new.id,
-    coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
+    coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', split_part(new.email, '@', 1), 'User'),
     new.email,
-    new.created_at
+    coalesce(new.created_at, timezone('utc'::text, now())),
+    true,
+    timezone('utc'::text, now())
   )
-  on conflict (id) do nothing;
+  on conflict (id) do update set
+    email = excluded.email,
+    full_name = coalesce(public.profiles.full_name, excluded.full_name);
   return new;
 exception
   when others then
@@ -61,6 +93,38 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- Trigger to update last_login_at on auth sign-in
+create or replace function public.handle_user_login()
+returns trigger as $$
+begin
+  update public.profiles
+  set last_login_at = new.last_sign_in_at
+  where id = new.id;
+  return new;
+exception
+  when others then
+    return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+drop trigger if exists on_auth_user_login on auth.users;
+create trigger on_auth_user_login
+  after update of last_sign_in_at on auth.users
+  for each row execute procedure public.handle_user_login();
+
+-- Backfill all existing registered users from auth.users into public.profiles
+insert into public.profiles (id, full_name, email, created_at, is_active)
+select 
+  id,
+  coalesce(raw_user_meta_data->>'full_name', raw_user_meta_data->>'name', split_part(email, '@', 1), 'User'),
+  email,
+  coalesce(created_at, timezone('utc'::text, now())),
+  true
+from auth.users
+on conflict (id) do update set
+  email = excluded.email,
+  full_name = coalesce(public.profiles.full_name, excluded.full_name);
 
 
 -- 2. Create Products Table

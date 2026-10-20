@@ -34,12 +34,12 @@ export default function Signup() {
     }
 
     try {
-      const { error: authError } = await supabase.auth.signUp({
-        email,
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: email.trim(),
         password,
         options: {
           data: {
-            full_name: fullName
+            full_name: fullName.trim()
           }
         }
       });
@@ -47,6 +47,21 @@ export default function Signup() {
       if (authError) {
         setError(authError.message);
       } else {
+        // Self-healing direct profile creation guarantee
+        if (authData?.user) {
+          try {
+            await supabase.from("profiles").upsert({
+              id: authData.user.id,
+              full_name: fullName.trim(),
+              email: email.trim().toLowerCase(),
+              created_at: authData.user.created_at || new Date().toISOString(),
+              last_login_at: new Date().toISOString(),
+              is_active: true
+            }, { onConflict: "id" });
+          } catch (profileErr) {
+            console.warn("Direct profile upsert on signup note:", profileErr);
+          }
+        }
         setSuccess(true);
         setTimeout(() => {
           navigate("/login");
